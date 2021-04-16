@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Observers\TicketCommentObserver;
+use App\Observers\TicketObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        \App\Models\Comment::observe(TicketCommentObserver::class);
+        \App\Models\Ticket::observe(TicketObserver::class);
+
     }
 }

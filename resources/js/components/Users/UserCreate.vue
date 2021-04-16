@@ -1,0 +1,41 @@
+<template>
+  <div class="card shadow">
+    <div class="card-header">
+      <div class="d-flex flex-wrap justify-content-between">
+        <div class="mr-auto"></div>
+        <div class="ml-auto">
+          <a href="/user" class="btn btn-sm btn-info text-white"
+            >Volver al listado</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <user-form
+        :cardTemplate="false"
+        :editable="true"
+        :user="user"
+        type="new"
+      />
+    </div>
+  </div>
+</template>
+
+<script>
+import UserForm from "./UserForm.vue";
+export default {
+  components: { UserForm },
+  data() {
+    return {
+      user: {
+        roles: { 0: { id: null } },
+        customer: {},
+      },
+    };
+  },
+};
+</script>
+
+<style>
+</style>
