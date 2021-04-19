@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TicketStatusRequest;
+use App\Models\Ticket;
 use App\Models\TicketStatus;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -120,5 +121,14 @@ class TicketStatusController extends Controller
     public function get_all_ticket_statuses(): JsonResponse
     {
         return response()->json([ 'ticket_statuses' => TicketStatus::get()->toArray() ]);
+    }
+
+    public function change_status(Ticket $ticket, TicketStatus $ticketStatus): JsonResponse
+    {
+        $ticket->ticket_status()->associate($ticketStatus);
+        $update = $ticket->save();
+        return $update
+            ? response()->json([ "msg" => "Estado actualizado correctamente."])
+            : response()->json([ "msg" => "No se ha podido actualizar el estado, por favor contacte con su administrador"]);
     }
 }

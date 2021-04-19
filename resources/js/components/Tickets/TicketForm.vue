@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb-5">
     <div
       class="alert alert-success alert-dismissible fade show"
       role="alert"
@@ -30,7 +30,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text d-none d-lg-block py-1">Cliente</div>
             <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
+              <i class="fa fa-building"></i>
             </div>
           </div>
           <vue-select
@@ -57,7 +57,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text d-none d-lg-block py-1">Usuarios</div>
             <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
+              <i class="fa fa-user"></i>
             </div>
           </div>
           <select v-model="ticket.user_id" class="form-control">
@@ -79,7 +79,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text d-none d-lg-block py-1">Asignar a</div>
             <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
+              <i class="fa fa-user-tie"></i>
             </div>
           </div>
           <vue-select
@@ -126,7 +126,7 @@
               Departamento
             </div>
             <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
+              <i class="fa fa-door-open"></i><span class="ml-2">Dep</span>
             </div>
           </div>
           <select
@@ -153,7 +153,7 @@
               Subdepartamento
             </div>
             <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
+              <i class="fa fa-couch"></i><span class="ml-2">Sub. Dep.</span>
             </div>
           </div>
           <select
@@ -177,7 +177,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text d-none d-lg-block py-1">Prioridad</div>
             <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
+              <i class="fa fa-exclamation-circle"></i>
             </div>
           </div>
           <select
@@ -203,7 +203,7 @@
               Originado De
             </div>
             <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
+              <i class="fa fa-ticket-alt"></i>
             </div>
           </div>
           <select
@@ -251,7 +251,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text d-none d-lg-block py-1">Título</div>
             <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
+              <i class="fa fa-heading"></i><span class="ml-2">Título</span>
             </div>
           </div>
           <input
@@ -271,7 +271,7 @@
               Descripción
             </div>
             <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
+              <i class="fa fa-audio-description"></i><span class="ml-2">Desc.</span>
             </div>
           </div>
           <ejs-richtexteditor

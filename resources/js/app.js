@@ -3,6 +3,7 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+import Vue from "vue";
 import vSelect from "vue-select";
 import 'vue-select/dist/vue-select.css';
 import { RichTextEditorPlugin } from "@syncfusion/ej2-vue-richtexteditor";
@@ -15,7 +16,7 @@ import "../../node_modules/@syncfusion/ej2-buttons/styles/material.css";
 import "../../node_modules/@syncfusion/ej2-navigations/styles/material.css";
 import "../../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css";
 import "../../node_modules/@syncfusion/ej2-vue-richtexteditor/styles/material.css";
-import Vue from "vue";
+import VueScreen from 'vue-screen';
 
 require('./bootstrap');
 const moment = require('moment')
@@ -27,6 +28,7 @@ Vue.use(require('vue-moment'), {
     moment
 });
 Vue.use(RichTextEditorPlugin);
+Vue.use(VueScreen, 'bootstrap');
 
 Vue.component("vue-select", vSelect);
 
@@ -47,6 +49,7 @@ Vue.component('delete-modal', require('./components/DeleteModal').default);
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('spinner', require('./components/Spinner').default);
 Vue.component('navbar', require('./components/NavbarComponent').default);
+Vue.component('navbar-mobile', require('./components/NavbarMobile').default);
 
 // ? TICKETS
 Vue.component('tickets', require('./components/Tickets/Tickets').default);

@@ -28,14 +28,24 @@
     <transition
       name="fade"
       mode="out-in"
-      v-else-if="tickets.data && Object.keys(tickets.data).length > 0"
+      v-else-if="(tickets.data && Object.keys(tickets.data).length > 0) || Object.keys(tickets).length > 0"
     >
-      <tickets-table
-        class="d-none d-lg-block"
-        :tickets="tickets"
-        @page="setPage"
-        @ticketDeleted="ticketDeleted = true"
-      />
+      <div>
+        <tickets-table
+          v-if="tickets.data && Object.keys(tickets.data).length > 0"
+          class="d-none d-lg-block"
+          :tickets="tickets"
+          @page="setPage"
+          @ticketDeleted="ticketDeleted = true"
+        ></tickets-table>
+        <tickets-mobile-cards
+        v-else
+          class="d-block d-lg-none"
+          :tickets="tickets"
+          @page="setPage"
+          @ticketDeleted="ticketDeleted = true"
+        ></tickets-mobile-cards>
+      </div>
     </transition>
     <transition
       name="fade"
@@ -57,12 +67,19 @@
 
 <script>
 import Counter from "../Counter.vue";
-import Spinner from '../Spinner.vue';
+import Spinner from "../Spinner.vue";
 import TicketSearchForm from "./TicketSearchForm.vue";
+import TicketsMobileCards from "./TicketsMobileCards.vue";
 import TicketsTable from "./TicketsTable.vue";
 
 export default {
-  components: { TicketSearchForm, TicketsTable, Counter, Spinner },
+  components: {
+    TicketSearchForm,
+    TicketsTable,
+    Counter,
+    Spinner,
+    TicketsMobileCards,
+  },
   props: ["statuses"],
   data() {
     return {
@@ -81,7 +98,11 @@ export default {
     },
     searched(data) {
       this.ticketDeleted = false;
-      this.tickets = data;
+      if(this.$screen.breakpoint == "xs") {
+        this.tickets.push(...data)
+      } else {
+        this.tickets = data;
+      }
     },
   },
 };

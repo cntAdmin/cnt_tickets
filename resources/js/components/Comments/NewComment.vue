@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-content-center flex-wrap align-items-center mt-4">
+  <div class="d-flex justify-content-center flex-wrap align-items-center my-4">
     <transition name="fade" mode="out-in" v-if="success.status">
       <div class="alert alert-success alert-dismissible fade show" role="alert">
         <span>{{ success.msg }}</span>

@@ -143,7 +143,13 @@
               </div>
               <select v-model="search.priority_id" class="form-control">
                 <option value="" selected>-- TODOS --</option>
-                <option :value="priority.id" v-for="priority in priorities" :key="priority.id">{{ priority.name }}</option>
+                <option
+                  :value="priority.id"
+                  v-for="priority in priorities"
+                  :key="priority.id"
+                >
+                  {{ priority.name }}
+                </option>
               </select>
             </div>
           </div>
@@ -153,12 +159,22 @@
               <div class="input-group-prepend">
                 <div class="input-group-text d-none d-lg-block">Estado</div>
                 <div class="input-group-text d-block d-lg-none">
-                  <i :class="`fa fa-${ticket_status.icon}`" v-for="ticket_status in ticket_statuses" :key="ticket_status.id"></i>
+                  <i
+                    :class="`fa fa-${ticket_status.icon}`"
+                    v-for="ticket_status in ticket_statuses"
+                    :key="ticket_status.id"
+                  ></i>
                 </div>
               </div>
               <select v-model="search.ticket_status_id" class="form-control">
                 <option value="" selected>-- TODOS --</option>
-                <option :value="ticket_status.id" v-for="ticket_status in ticket_statuses" :key="ticket_status.id">{{ ticket_status.name }}</option>
+                <option
+                  :value="ticket_status.id"
+                  v-for="ticket_status in ticket_statuses"
+                  :key="ticket_status.id"
+                >
+                  {{ ticket_status.name }}
+                </option>
               </select>
             </div>
           </div>
@@ -182,6 +198,7 @@ export default {
       customers: [],
       priorities: [],
       ticket_statuses: [],
+      stopLoading: false,
       search: {
         page: 1,
         ticket_id: null,
@@ -190,6 +207,7 @@ export default {
         ticket_status_id: "",
         priority_id: "",
         text: null,
+        offset: 0,
         dateFrom: this.$moment().subtract(30, "days").format("YYYY-MM-DD"),
         dateTo: this.$moment().format("YYYY-MM-DD"),
       },
@@ -198,12 +216,12 @@ export default {
   mounted() {
     // RECOGEMOS PARAMETROS DE LA URL
     const urlParams = new URLSearchParams(window.location.search);
-    const urlTicketStatus = urlParams.get('ticket-status');
+    const urlTicketStatus = urlParams.get("ticket-status");
     // SI EXISTE TICKET STATUS LO SETEAMOS PARA SU BÚSQUEDA
-    if(typeof urlTicketStatus !== 'undefined') {
+    if (typeof urlTicketStatus !== "undefined") {
       this.search.ticket_status_id = urlTicketStatus;
     }
-    
+
     this.handleSubmit();
     this.getCustomers();
     this.getAgents();
@@ -211,17 +229,15 @@ export default {
     this.get_all_ticket_statuses();
   },
   methods: {
-    get_all_ticket_statuses(){
-      axios.get('/api/get_all_ticket_statuses')
-        .then( res => {
-          this.ticket_statuses = res.data.ticket_statuses;
-        })
+    get_all_ticket_statuses() {
+      axios.get("/api/get_all_ticket_statuses").then((res) => {
+        this.ticket_statuses = res.data.ticket_statuses;
+      });
     },
     get_all_priorities() {
-      axios.get('/api/get_all_priorities')
-        .then( res => {
-          this.priorities = res.data.priorities;
-        })
+      axios.get("/api/get_all_priorities").then((res) => {
+        this.priorities = res.data.priorities;
+      });
     },
     setAgent(value) {
       this.search.agent_id = value ? value.id : null;
@@ -240,7 +256,10 @@ export default {
       });
     },
     handleSubmit(e) {
-      this.$emit('searching', true);
+      if (this.stopLoading) return;
+      if (this.$screen.breakpoint !== "xs") {
+        this.$emit("searching", true);
+      }
       if (e == undefined) {
         this.search.page = this.page;
       } else {
@@ -250,6 +269,7 @@ export default {
       axios
         .get("/api/ticket", {
           params: {
+            type: this.$screen.breakpoint == "xs" ? "infinite" : "paginate",
             page: this.search.page,
             customer_id: this.search.customer_id,
             ticket_status_id: this.search.ticket_status_id,
@@ -259,13 +279,21 @@ export default {
             text: this.search.text,
             dateFrom: this.search.dateFrom,
             dateTo: this.search.dateTo,
+            offset: this.search.offset,
           },
         })
         .then((res) => {
+          console.log(res.data.tickets.length);
+          if (res.data.tickets.length == 0) {
+            return (this.stopLoading = true);
+          }
           //   console.log(res.data);
           setTimeout(() => {
-            this.$emit('searching', false);
+            if (this.$screen.breakpoint !== "xs") {
+              this.$emit("searching", false);
+            }
             this.$emit("searched", res.data.tickets);
+            this.search.offset += 10;
           }, 1000);
         })
         .catch((err) => console.log(err));
@@ -277,7 +305,7 @@ export default {
     },
     ticketDeleted() {
       this.handleSubmit();
-    }
+    },
   },
 };
 </script>

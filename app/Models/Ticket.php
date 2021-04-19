@@ -26,7 +26,7 @@ class Ticket extends Model
         'deleted_by', 'department_type_id', 'ticket_status_id'
     ];
     protected $with = [
-        'customer', 'user', 'agent', 'department_type', 'priority', 'ticket_status', 'origin_type', 'createdBy'
+        'customer', 'user', 'agent', 'department_type', 'priority', 'ticket_status', 'origin_type', 'createdBy', 'attachments'
     ];
     
     protected $appends = ['description_short'];
@@ -177,7 +177,8 @@ class Ticket extends Model
                 switch ($ticket_status_id) {
                     case 1:
                         return $q->where(function(Builder $q2) use ($ticket_status_id) {
-                            $q2->where('ticket_status_id', $ticket_status_id)->orWhere('read_by_admin', in_array(auth()->user()->roles[0]->id, [1, 2]) ? false : true);
+                            $q2->where('ticket_status_id', $ticket_status_id)
+                                ->orWhere('read_by_admin', in_array(auth()->user()->roles[0]->id, [1, 2]) ? false : true);
                         });
                         break;
                     

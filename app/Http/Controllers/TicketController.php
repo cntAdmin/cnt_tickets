@@ -26,11 +26,18 @@ class TicketController extends Controller
                 'ticket_statuses' => $ticket_statuses
             ]);
         }
-
-        $tickets = Ticket::filterTickets()->orderBy('updated_at', 'DESC')->paginate();
+// return $req->offset;
+        $tickets = Ticket::filterTickets()->orderBy('updated_at', 'DESC');
+        if($req->type == "infinite") {
+            $tickets = $tickets->skip($req->offset)->take(10)->get();
+        } else {
+            $tickets = $tickets->paginate();
+        }
+        
 
         return response()->json([
             'tickets' => $tickets,
+            'req->offset' => $req->offset,
         ], 200);
     }
 

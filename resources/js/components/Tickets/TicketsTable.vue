@@ -48,7 +48,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="ticket in tickets.data" :key="ticket.id" :class="!ticket.read_by_admin ? 'border-left border-danger font-weight-bold' : 'border-left border-success'">
+            <tr v-for="ticket in tickets.data" :key="ticket.id" :class="!ticket.read_by_admin ? 'border-left border-danger text-danger font-weight-bold' : 'border-left border-success'">
               <th scope="row" class="text-center">
                 <a :href="`/ticket/${ticket.id}`" class="btn btn-sm btn-link text-dark font-weight-bold">{{ ticket.custom_id }}</a>
               </th>
