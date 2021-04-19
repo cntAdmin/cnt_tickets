@@ -26,6 +26,8 @@ Route::middleware(['auth:web'])->group(function () {
     Route::get('/get_all_ticket_types', 'TicketTypeController@get_all_ticket_types')->name('get_all_ticket_types');
     Route::get('/get_all_ticket_statuses', 'TicketStatusController@get_all_ticket_statuses')->name('get_all_ticket_statuses');
     
+    Route::get('/get_user', 'UserController@get_user')->name('get_user');
+
     Route::get('/department/{department}/department_types', 'DepartmentTypeController@get_department_department_types')
         ->name('get_department_department_types');
     

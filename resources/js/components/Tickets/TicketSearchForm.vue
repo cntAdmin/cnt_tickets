@@ -196,6 +196,14 @@ export default {
     };
   },
   mounted() {
+    // RECOGEMOS PARAMETROS DE LA URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlTicketStatus = urlParams.get('ticket-status');
+    // SI EXISTE TICKET STATUS LO SETEAMOS PARA SU BÚSQUEDA
+    if(typeof urlTicketStatus !== 'undefined') {
+      this.search.ticket_status_id = urlTicketStatus;
+    }
+    
     this.handleSubmit();
     this.getCustomers();
     this.getAgents();

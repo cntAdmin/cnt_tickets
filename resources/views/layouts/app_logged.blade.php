@@ -22,7 +22,8 @@
 </head>
 <body>
     <div id="app">
-        @include('layouts.navbar')
+        {{-- @include('layouts.navbar') --}}
+        <navbar :user="{{ auth()->user() }}"></navbar>
         <div class="container-fluid mt-3 mb-5">
             @yield('content')
         </div>

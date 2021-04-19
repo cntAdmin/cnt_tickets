@@ -174,13 +174,21 @@ class Ticket extends Model
             })->when(request()->input('ticket_type_id'), function(Builder $q, $ticket_type_id) {
                 return $q->where('ticket_type_id', $ticket_type_id);
             })->when(request()->input('ticket_status_id'), function(Builder $q, $ticket_status_id) {
-                return $q->where('ticket_status_id', $ticket_status_id);
+                switch ($ticket_status_id) {
+                    case 1:
+                        return $q->where(function(Builder $q2) use ($ticket_status_id) {
+                            $q2->where('ticket_status_id', $ticket_status_id)->orWhere('read_by_admin', in_array(auth()->user()->roles[0]->id, [1, 2]) ? false : true);
+                        });
+                        break;
+                    
+                    default:
+                        return $q->where('ticket_status_id', $ticket_status_id);
+                        break;
+                }
             })->when(request()->input('dateFrom'), function(Builder $q, $dateFrom) {
                 return $q->whereDate('created_at', '>=', $dateFrom);
             })->when(request()->input('dateTo'), function(Builder $q, $dateTo) {
                 return $q->whereDate('created_at', '<=', $dateTo);
-            })->when(request()->input('ticket_status_id'), function(Builder $q, $ticket_status_id) {
-                return $q->where('ticket_status_id', $ticket_status_id);
             })->when(request()->input('text'), function(Builder $q, $description) {
                 return $q->where(function(Builder $q2) use ($description) {
                     $q2->where('title', 'LIKE', '%' . $description . '%')

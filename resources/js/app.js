@@ -15,15 +15,13 @@ import "../../node_modules/@syncfusion/ej2-buttons/styles/material.css";
 import "../../node_modules/@syncfusion/ej2-navigations/styles/material.css";
 import "../../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css";
 import "../../node_modules/@syncfusion/ej2-vue-richtexteditor/styles/material.css";
-
 import Vue from "vue";
 
 require('./bootstrap');
-
-window.Vue = require('vue');
-
 const moment = require('moment')
 require('moment/locale/es')
+
+window.Vue = require('vue');
 
 Vue.use(require('vue-moment'), {
     moment
@@ -47,7 +45,8 @@ Vue.component("vue-select", vSelect);
 Vue.component('counter', require('./components/Counter.vue').default);
 Vue.component('delete-modal', require('./components/DeleteModal').default);
 Vue.component('pagination', require('laravel-vue-pagination'));
-Vue.component('spinner', require('./components/Spinner'));
+Vue.component('spinner', require('./components/Spinner').default);
+Vue.component('navbar', require('./components/NavbarComponent').default);
 
 // ? TICKETS
 Vue.component('tickets', require('./components/Tickets/Tickets').default);

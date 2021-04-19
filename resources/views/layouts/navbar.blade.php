@@ -80,13 +80,35 @@
                 </div>
             </li>
             @endhasrole
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('ticket.index') }}">
-                    <button class="btn btn-dark border border-light rounded">
-                        <i class="fa faw fa-clipboard-list"></i>
-                        <span class="font-weight-bold ml-2 text-uppercase">{{ __('Tickets') }}</span>
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="!#" id="ticketsDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <button
+                        class="btn btn-dark border border-light rounded font-weight-bold text-uppercase dropdown-toggle">
+                        <i class="fa fa-user-cog"></i>
+                        <span class="ml-2">{{ __('Tickets') }}</span>
                     </button>
                 </a>
+                <div class="dropdown-menu" aria-labelledby="ticketsDropdown">
+                    <div class="col-12 align-items-center">
+                        <a class="dropdown-item d-inline-flex" href="/ticket">
+                            <div class="col-2 text-right">
+                                <i class="fa fa-building"></i>
+                            </div>
+                            <div class="col-10 text-left">
+                                {{ __('Todos los tickets') }}
+                            </div>
+                        </a>
+                        <a class="dropdown-item d-inline-flex" href="/ticket">
+                            <div class="col-2 text-right">
+                                <i class="fa fa-building"></i>
+                            </div>
+                            <div class="col-10 text-left">
+                                {{ __('Nuevos / No Leídos') }}
+                            </div>
+                        </a>
+                    </div>
+                </div>
             </li>
         </ul>
         {{-- RIGHT PART --}}
