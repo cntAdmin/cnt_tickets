@@ -50,7 +50,7 @@
           <tbody>
             <tr v-for="ticket in tickets.data" :key="ticket.id" :class="!ticket.read_by_admin ? 'border-left border-danger font-weight-bold' : 'border-left border-success'">
               <th scope="row" class="text-center">
-                <a :href="`/ticket/${ticket.id}`" class="btn btn-sm btn-link text-dark font-weight-bold">{{ ticket.custom_id }} -- {{ticket.read_by_admin}}</a>
+                <a :href="`/ticket/${ticket.id}`" class="btn btn-sm btn-link text-dark font-weight-bold">{{ ticket.custom_id }}</a>
               </th>
               <td>{{ ticket.agent ? ticket.agent.name : ticket.createdBy.name }}</td>
               <td>{{ ticket.customer.alias !== '' ? ticket.customer.alias : ticket.customer.name }}</td>
