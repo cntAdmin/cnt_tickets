@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\ByRoleOnCustomerIDGlobalScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,14 +16,6 @@ class Customer extends Model
         'cif', 'name', 'alias', 'email', 'address', 'town', 'postcode', 'phone', 'fax', 'is_active', 'deleted_by', 'deleted_at'
     ];
 
-    // protected $appends = [
-    //     'is_active_text'
-    // ];
-
-    // public function getIsActiveTextAttribute()
-    // {
-    //     return $this->attributes['is_active'] ? 'Activo' : 'Inactivo';
-    // }
     /**
      * Get all of the users for the Customer
      *

@@ -13,6 +13,12 @@ use Illuminate\View\View;
 
 class TicketController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Ticket::class, 'ticket');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +32,7 @@ class TicketController extends Controller
                 'ticket_statuses' => $ticket_statuses
             ]);
         }
-// return $req->offset;
+
         $tickets = Ticket::filterTickets()->orderBy('updated_at', 'DESC');
         if($req->type == "infinite") {
             $tickets = $tickets->skip($req->offset)->take(10)->get();

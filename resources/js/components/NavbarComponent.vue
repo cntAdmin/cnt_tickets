@@ -3,7 +3,6 @@
     <a class="navbar-brand" href="/dashboard">
       <img src="/cnt_logo.png" width="150" height="48" />
     </a>
-
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <!-- {{-- LEFT PART --}} -->
       <ul class="navbar-nav mr-auto align-items-center">
@@ -26,7 +25,10 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="adminDropdown">
             <div class="col-12 align-items-center">
-              <a class="dropdown-item d-inline-flex" href="/customer">
+              <a
+                class="dropdown-item d-inline-flex"
+                href="/customer"
+                v-if="permissions.find((permission) => permission.name == 'customer.show')">
                 <div class="col-2 text-right">
                   <i class="fa fa-building"></i>
                 </div>
@@ -34,7 +36,15 @@
               </a>
             </div>
             <div class="col-12 align-items-center">
-              <a class="dropdown-item d-inline-flex" href="/user">
+              <a
+                class="dropdown-item d-inline-flex"
+                href="/user"
+                v-if="
+                  permissions.find(
+                    (permission) => permission.name == 'user.show'
+                  )
+                "
+              >
                 <div class="col-2 text-right">
                   <i class="fa fa-users"></i>
                 </div>
@@ -42,7 +52,15 @@
               </a>
             </div>
             <div class="col-12 align-items-center">
-              <a class="dropdown-item d-inline-flex" href="/ticket-status">
+              <a
+                class="dropdown-item d-inline-flex"
+                href="/ticket-status"
+                v-if="
+                  permissions.find(
+                    (permission) => permission.name == 'ticket_status.show'
+                  )
+                "
+              >
                 <div class="col-2 text-right">
                   <i class="fa fa-check"></i>
                 </div>
@@ -50,7 +68,15 @@
               </a>
             </div>
             <div class="col-12 align-items-center">
-              <a class="dropdown-item d-inline-flex" href="/department">
+              <a
+                class="dropdown-item d-inline-flex"
+                href="/department"
+                v-if="
+                  permissions.find(
+                    (permission) => permission.name == 'department.show'
+                  )
+                "
+              >
                 <div class="col-2 text-right">
                   <i class="fa fa-plus-circle"></i>
                 </div>
@@ -58,7 +84,15 @@
               </a>
             </div>
             <div class="col-12 align-items-center">
-              <a class="dropdown-item d-inline-flex" href="/department-type">
+              <a
+                class="dropdown-item d-inline-flex"
+                href="/department-type"
+                v-if="
+                  permissions.find(
+                    (permission) => permission.name == 'department_type.show'
+                  )
+                "
+              >
                 <div class="col-2 text-right">
                   <i class="fa fa-plus"></i>
                 </div>
@@ -66,7 +100,15 @@
               </a>
             </div>
             <div class="col-12 align-items-center">
-              <a class="dropdown-item d-inline-flex" href="/origin-type">
+              <a
+                class="dropdown-item d-inline-flex"
+                href="/origin-type"
+                v-if="
+                  permissions.find(
+                    (permission) => permission.name == 'origin_type.show'
+                  )
+                "
+              >
                 <div class="col-2 text-right">
                   <i class="fa fa-ticket-alt"></i>
                 </div>
@@ -95,7 +137,15 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="ticketsDropdown">
             <div class="col-12 align-items-center">
-              <a class="dropdown-item d-inline-flex" href="/ticket">
+              <a
+                class="dropdown-item d-inline-flex"
+                href="/ticket"
+                v-if="
+                  permissions.find(
+                    (permission) => permission.name == 'ticket.show'
+                  )
+                "
+              >
                 <div class="col-2 text-right">
                   <i class="fa fa-ticket-alt"></i>
                 </div>
@@ -110,8 +160,12 @@
                 <div class="col-2 text-right">
                   <i :class="`fa fa-${ticketStatus.icon}`"></i>
                 </div>
-                <div class="col-10 text-left" v-if="ticketStatus.id === 1">{{ ticketStatus.name }} / No leído</div>
-                <div class="col-10 text-left" v-else>{{ ticketStatus.name }}</div>
+                <div class="col-10 text-left" v-if="ticketStatus.id === 1">
+                  {{ ticketStatus.name }} / No leído
+                </div>
+                <div class="col-10 text-left" v-else>
+                  {{ ticketStatus.name }}
+                </div>
               </a>
             </div>
           </div>
@@ -137,6 +191,15 @@
             class="dropdown-menu dropdown-menu-right"
             aria-labelledby="usernameDropdown"
           >
+            <a
+              class="dropdown-item d-inline-flex"
+              :href="`/profile/${user.id}`"
+              v-if="permissions.find((permission) => permission.name == 'user.show')">
+              <div class="col-2 text-right">
+                <i class="fa fa-user"></i>
+              </div>
+              <div class="col-10 text-left">Mi Perfil</div>
+            </a>
             <button
               class="dropdown-item btn-link"
               onclick="event.preventDefault();  
@@ -162,7 +225,7 @@
 
 <script>
 export default {
-  props: ["user"],
+  props: ["user", "permissions"],
   data() {
     return {
       ticketStatuses: [],

@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 col-md-6 col-lg-3 mt-2">
+  <div class="col-12 col-md-6 col-lg-4 mt-2">
     <div class="card shadow">
       <div class="card-header">
         <span class="font-weight-bold text-uppercase"># {{ user.id }}</span>

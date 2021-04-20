@@ -74,12 +74,14 @@
                   style="gap: 1rem"
                 >
                   <a
+                    v-if="permissions.find((permission) => permission.name == 'ticket_status.update')"
                     :href="`/ticket-status/${ticketStatus.id}/editar`"
                     class="btn btn-sm btn-info text-white"
                   >
                     <i class="fa fa-edit"></i>
                   </a>
                   <button
+                    v-if="permissions.find((permission) => permission.name == 'ticket_status.destroy')"
                     type="button"
                     class="btn btn-sm btn-danger"
                     title="Borrar Usuario"
@@ -119,7 +121,7 @@
 
 <script>
 export default {
-  props: ["ticketStatuses"],
+  props: ["ticketStatuses", "permissions"],
   data() {
     return {
       ticketStatus: {},

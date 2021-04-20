@@ -31,6 +31,7 @@
       <origin-types-table
         class="d-none d-lg-block"
         :origin-types="originTypes"
+        :permissions="permissions"
         @page="setPage"
         @deleted="deleted = true"
       />
@@ -53,9 +54,10 @@
 import Spinner from '../Spinner.vue'
 import OriginTypesSearchForm from './OriginTypesSearchForm.vue';
 import OriginTypesTable from './OriginTypesTable.vue';
+
 export default {
   components: { Spinner, OriginTypesSearchForm, OriginTypesTable },
-    props:["originTypesCount"],
+    props:["originTypesCount", "permissions"],
   data() {
     return {
       originTypes: [],

@@ -56,10 +56,13 @@
               <td>{{ departmentType.tickets_count }}</td>
               <td>
                 <div class="d-flex flex-wrap justify-content-around">
-                  <a :href="`/department-type/${departmentType.id}/editar`" class="btn btn-sm btn-info text-white"
-                    ><i class="fa fa-edit"></i>
+                  <a 
+                    v-if="permissions.find(permission => permission.name =='department_type.update')"
+                    :href="`/department-type/${departmentType.id}/editar`" class="btn btn-sm btn-info text-white">
+                    <i class="fa fa-edit"></i>
                 </a>
                   <button
+                    v-if="permissions.find(permission => permission.name =='department_type.destroy')"
                     type="button"
                     class="btn btn-sm btn-danger"
                     title="Borrar Usuario"
@@ -89,7 +92,7 @@
 
 <script>
 export default {
-  props: ["departmentTypes"],
+  props: ["departmentTypes", "permissions"],
   data() {
     return {
       departmentType: {},

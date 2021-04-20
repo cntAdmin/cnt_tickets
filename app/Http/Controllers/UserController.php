@@ -13,6 +13,11 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, 'user');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -114,7 +119,7 @@ class UserController extends Controller
         if(isset($validated['role_id'])) {
             $user->syncRoles(Role::find($validated['role_id']));
         }
-
+        $user->save();
 
         return response()->json([ "msg" => "Usuario actualizado correctamente"], 200);
     }
@@ -146,5 +151,10 @@ class UserController extends Controller
     public function get_customer_users(Customer $customer): JsonResponse
     {
         return response()->json(['users' => $customer->users()->get()->toArray() ], 200);
+    }
+
+    public function profile(User $user): View
+    {
+        return view('profiles.index')->with([ 'user' => $user->load('customer.users') ]);
     }
 }

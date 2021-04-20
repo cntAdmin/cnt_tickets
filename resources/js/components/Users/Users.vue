@@ -31,6 +31,7 @@
       <users-table
         class="d-none d-lg-block"
         :users="users"
+        :permissions="permissions"
         @page="setPage"
         @deleted="deleted = true"
       />
@@ -55,7 +56,7 @@ import UserSearchForm from "./UserSearchForm.vue";
 import UsersTable from "./UsersTable.vue";
 export default {
   components: { UserSearchForm, Spinner, UsersTable },
-  props: ["users_count"],
+  props: ["users_count", "permissions"],
   data() {
     return {
       users: [],

@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             // CLIENTES REALES DE DOLIBARR
             CustomerSeeder::class,
             RoleSeeder::class,
+            PermissionsSeeder::class,
             // SON USUARIOS DE TEST
             UserSeeder::class,
             // DATOS REALES

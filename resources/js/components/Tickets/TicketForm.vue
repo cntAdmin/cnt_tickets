@@ -60,7 +60,11 @@
               <i class="fa fa-user"></i>
             </div>
           </div>
-          <select v-model="ticket.user_id" class="form-control">
+          <select
+            v-model="ticket.user_id"
+            class="form-control"
+            :disabled="!editable ? true : false"
+          >
             <option
               :value="ticket.user_id"
               v-if="Object.keys(users).length === 0"
@@ -271,7 +275,8 @@
               Descripción
             </div>
             <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-audio-description"></i><span class="ml-2">Desc.</span>
+              <i class="fa fa-audio-description"></i
+              ><span class="ml-2">Desc.</span>
             </div>
           </div>
           <ejs-richtexteditor
@@ -401,10 +406,10 @@ export default {
     this.get_all_priorities();
     this.get_all_origins();
     this.get_all_ticket_types();
-    if(this.customer) {
+    if (this.customer) {
       this.ticket.customer.alias = this.customer.alias;
       this.ticket.customer_id = this.customer.id;
-      this.get_customer_users()
+      this.get_customer_users();
     }
   },
   methods: {

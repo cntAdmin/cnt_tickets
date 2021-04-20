@@ -17,13 +17,13 @@ class Ticket extends Model
     
     protected static function booted()
     {
-        static::addGlobalScope(new ByRoleOnCustomerIDGlobalScope('custom_id'));
+        static::addGlobalScope(new ByRoleOnCustomerIDGlobalScope('customer_id'));
     }
 
     protected $fillable = [
         'title', 'description', 'deleted_at', 'read_by_admin', 'custom_id',
         // ASSOCIATIONS
-        'deleted_by', 'department_type_id', 'ticket_status_id'
+        'customer_id', 'user_id', 'deleted_by', 'department_type_id', 'ticket_status_id'
     ];
     protected $with = [
         'customer', 'user', 'agent', 'department_type', 'priority', 'ticket_status', 'origin_type', 'createdBy', 'attachments'
@@ -154,7 +154,7 @@ class Ticket extends Model
     public function scopeFilterTickets(Builder $query): Builder
     {
         return $query->when(request()->input('ticket_id'), function(Builder $q, $ticket_id) {
-                return $q->where('custom_id', '%' . $ticket_id . '%');
+                return $q->where('custom_id', 'LIKE', '%' . $ticket_id . '%');
             })->when(request()->input('user_id'), function(Builder $q, $user_id) {
                 return $q->whereHas('user', function($q2) use ($user_id) {
                     $q2->where('id', $user_id);

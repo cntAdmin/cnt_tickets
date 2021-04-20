@@ -25,6 +25,7 @@
     </div>
     <div
       :class="cardTemplate ? 'col-12 mt-2' : 'col-12 col-md-6 col-lg-3 mt-2'"
+      v-if="userrole === 1"
     >
       <label class="sr-only" for="customer">Cliente</label>
       <div class="input-group">
@@ -54,6 +55,7 @@
     </div>
     <div
       :class="cardTemplate ? 'col-12 mt-2' : 'col-12 col-md-6 col-lg-3 mt-2'"
+      v-if="userrole === 1"
     >
       <label class="sr-only" for="name">Rol</label>
       <div class="input-group">
@@ -81,7 +83,7 @@
             Departamento
           </div>
           <div class="input-group-text d-block d-lg-none py-1">
-            <i class="fa fa-text"></i>
+              <i class="fa fa-door-open"></i><span class="ml-2">Dep</span>
           </div>
         </div>
         <select v-model="user.department_id" class="form-control">
@@ -156,7 +158,7 @@
         <div class="input-group-prepend">
           <div class="input-group-text d-none d-lg-block py-1">Contraseña</div>
           <div class="input-group-text d-block d-lg-none py-1">
-            <i class="fa fa-at"></i>
+            <i class="fa fa-lock"></i>
           </div>
         </div>
         <input
@@ -182,7 +184,8 @@
         <div class="input-group-prepend">
           <div class="input-group-text d-none d-lg-block py-1">Confirmar</div>
           <div class="input-group-text d-block d-lg-none py-1">
-            <i class="fa fa-at"></i>
+            <i class="fa fa-lock"></i>
+            <i class="fa fa-redo-alt"></i>
           </div>
         </div>
         <input
@@ -212,7 +215,7 @@
 import FormErrors from "../FormErrors.vue";
 export default {
   components: { FormErrors },
-  props: ["user", "editable", "cardTemplate", "type"],
+  props: ["user", "editable", "cardTemplate", "type", "userrole"],
   data() {
     return {
       customers: [],
@@ -234,8 +237,9 @@ export default {
     this.get_all_customers();
     this.get_all_roles();
     this.get_all_departments();
-    if(this.type !== "new") {
-      this.user.role_id = user.roles[0].id
+    if(!this.type || this.type !== "new") {
+      this.user.role_id = this.user.roles[0].id
+      this.user.department_id = this.user.roles[0].id
     }
   },
   methods: {

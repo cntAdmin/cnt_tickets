@@ -34,6 +34,7 @@
       <ticket-statuses-table
         class="d-none d-lg-block"
         :ticketStatuses="ticketStatuses"
+        :permissions="permissions"
         @page="setPage"
         @deleted="deleted = true"
       />
@@ -58,7 +59,7 @@ import TicketStatusesTable from './TicketStatusesTable.vue';
 import TicketStatusSearchForm from "./TicketStatusSearchForm.vue";
 export default {
   components: { TicketStatusSearchForm, Spinner, TicketStatusesTable },
-  props: ["ticket_statuses_count"],
+  props: ["ticket_statuses_count", "permissions"],
   data() {
     return {
       ticketStatuses: [],

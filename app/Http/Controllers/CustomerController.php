@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CustomerRequest;
 use App\Models\Customer;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class CustomerController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Customer::class, 'customer');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -73,7 +79,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        //
+        return abort(404, __('Página no encontrada'));
     }
 
     /**

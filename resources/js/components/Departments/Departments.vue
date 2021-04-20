@@ -31,6 +31,7 @@
       <departments-table
         class="d-none d-lg-block"
         :departments="departments"
+        :permissions="permissions"
         @page="setPage"
         @deleted="deleted = true"
       />
@@ -55,7 +56,7 @@ import DepartmentSearchForm from "./DepartmentSearchForm.vue";
 import DepartmentsTable from './DepartmentsTable.vue';
 export default {
   components: { DepartmentSearchForm, Spinner, DepartmentsTable },
-  props: ["departmentsCount"],
+  props: ["departmentsCount", "permissions"],
   data() {
     return {
       departments: [],

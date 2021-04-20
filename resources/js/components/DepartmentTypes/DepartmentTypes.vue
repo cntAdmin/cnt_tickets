@@ -31,6 +31,7 @@
       <department-type-table
         class="d-none d-lg-block"
         :department-types="departmentTypes"
+        :permissions="permissions"
         @page="setPage"
         @deleted="deleted = true"
       />
@@ -55,7 +56,7 @@ import DepartmentTypeSearchForm from './DepartmentTypeSearchForm.vue';
 import DepartmentTypeTable from './DepartmentTypeTable.vue';
 export default {
   components: { DepartmentTypeSearchForm, DepartmentTypeTable, Spinner },
-  props: ["departmentTypesCount"],
+  props: ["departmentTypesCount", "permissions"],
   data() {
     return {
       departmentTypes: [],

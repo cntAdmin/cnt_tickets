@@ -70,12 +70,14 @@
                 <div class="d-flex flex-wrap justify-content-around">
                   <a
                     class="btn btn-sm btn-success"
+                    v-if="permissions.find((permission) => permission.name == 'ticket.create')"
                     :href="`/customer/${customer.id}/ticket/crear`"
                     >
                     <i class="fa fa-ticket"></i>
                     <i class="fa fa-plus"></i>
                   </a>
                   <a
+                    v-if="permissions.find((permission) => permission.name == 'customer.update')"
                     class="btn btn-sm btn-info text-white"
                     :href="`/customer/${customer.id}/editar`"
                     ><i class="fa fa-edit"></i
@@ -103,7 +105,7 @@
 
 <script>
 export default {
-  props: ["customers"],
+  props: ["customers", "permissions"],
   data() {
     return {
       showDelete: false,

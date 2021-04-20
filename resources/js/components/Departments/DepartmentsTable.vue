@@ -57,11 +57,13 @@
                   style="gap: 1rem"
                 >
                   <a
+                    v-if="permissions.find((permission) => permission.name == 'department.update')"
                     :href="`/department/${department.id}/editar`"
                     class="btn btn-sm btn-info text-white"
                     ><i class="fa fa-edit"></i>
                   </a>
                   <button
+                    v-if="permissions.find((permission) => permission.name == 'department.destroy')"
                     type="button"
                     class="btn btn-sm btn-danger"
                     title="Borrar Usuario"
@@ -91,7 +93,7 @@
 
 <script>
 export default {
-  props: ["departments"],
+  props: ["departments", "permissions"],
   data() {
     return {
       department: {},

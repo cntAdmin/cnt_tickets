@@ -119,10 +119,11 @@
 
 <script>
 export default {
-  props: ["tickets"],
+  props: ["tickets", "formsearch"],
   data() {
     return {
       ticketStatuses: [],
+      stopLoading: false,
       page: 0,
       success: {
         status: false,
@@ -135,14 +136,40 @@ export default {
     window.onscroll = () => {
       this.scroll();
     };
+      this.formsearch.offset = 10;
   },
   methods: {
+    get_mobile_tickets() {
+      axios
+        .get("/api/ticket", {
+          params: {
+            type: "infinite",
+            customer_id: this.formsearch.customer_id,
+            ticket_status_id: this.formsearch.ticket_status_id,
+            priority_id: this.formsearch.priority_id,
+            agent_id: this.formsearch.agent_id,
+            ticket_id: this.formsearch.ticket_id,
+            text: this.formsearch.text,
+            dateFrom: this.formsearch.dateFrom,
+            dateTo: this.formsearch.dateTo,
+            offset: this.formsearch.offset,
+          },
+        })
+        .then((res) => {
+          console.log('res.data.tickets.length', res.data.tickets.length)
+          if (res.data.tickets.length <= 10) {
+            return (this.stopLoading = true);
+          }
+
+          this.tickets.push(...res.data.tickets);
+          this.formsearch.offset += 10;
+        });
+    },
     setStatus(ticket, status_id) {
       axios
         .put(`/api/ticket/${ticket.id}/ticket-status/${status_id}`)
         .then((res) => {
-          console.log(this)
-        $("html, body").animate({ scrollTop: 0 }, "slow");
+          $("html, body").animate({ scrollTop: 0 }, "slow");
           this.success = {
             status: true,
             msg: res.data.msg,
@@ -152,7 +179,7 @@ export default {
               status: false,
               msg: "",
             };
-            window.location.reload()
+            window.location.reload();
           }, 2000);
         })
         .catch((err) => console.log(err.response.data));
@@ -170,7 +197,7 @@ export default {
         ) === document.documentElement.offsetHeight;
 
       if (bottomOfWindow) {
-        this.$emit("page", this.page++); // replace it with your code
+        this.get_mobile_tickets(); // replace it with your code
       }
     },
     get_ticket_statuses() {

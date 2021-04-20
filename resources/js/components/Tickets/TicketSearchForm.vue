@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-row justify-content-center container-fluid mt-3">
+  <div class="flex-row justify-content-center container-fluid mt-3">
     <div class="card w-100 shadow border-dark">
       <div class="card-body">
         <form @submit.prevent="handleSubmit" class="form-inline">
@@ -21,7 +21,7 @@
               />
             </div>
           </div>
-          <div class="col-12 col-md-6 col-lg-4 mt-2">
+          <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="user.roles[0].id === 1">
             <label class="sr-only" for="ticket_id">Cliente</label>
             <div class="input-group">
               <div class="input-group-prepend">
@@ -48,7 +48,7 @@
               </vue-select>
             </div>
           </div>
-          <div class="col-12 col-md-6 col-lg-4 mt-2">
+          <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="user.roles[0].id === 1">
             <label class="sr-only" for="ticket_id">Agente</label>
             <div class="input-group">
               <div class="input-group-prepend">
@@ -191,7 +191,7 @@
 
 <script>
 export default {
-  props: ["page", "ticketDeleted"],
+  props: ["page", "ticketDeleted", "user"],
   data() {
     return {
       agents: [],
@@ -256,47 +256,48 @@ export default {
       });
     },
     handleSubmit(e) {
-      if (this.stopLoading) return;
-      if (this.$screen.breakpoint !== "xs") {
-        this.$emit("searching", true);
-      }
-      if (e == undefined) {
-        this.search.page = this.page;
-      } else {
-        this.search.page = 1;
-      }
+      if (!this.stopLoading) {
+        if (this.$screen.breakpoint !== "xs") {
+          this.$emit("searching", true);
+        }
+        if (e == undefined) {
+          this.search.page = this.page;
+        } else {
+          this.search.page = 1;
+          this.search.offset = 0;
+        }
+        this.$emit('mobileSearch', this.search);
 
-      axios
-        .get("/api/ticket", {
-          params: {
-            type: this.$screen.breakpoint == "xs" ? "infinite" : "paginate",
-            page: this.search.page,
-            customer_id: this.search.customer_id,
-            ticket_status_id: this.search.ticket_status_id,
-            priority_id: this.search.priority_id,
-            agent_id: this.search.agent_id,
-            ticket_id: this.search.ticket_id,
-            text: this.search.text,
-            dateFrom: this.search.dateFrom,
-            dateTo: this.search.dateTo,
-            offset: this.search.offset,
-          },
-        })
-        .then((res) => {
-          console.log(res.data.tickets.length);
-          if (res.data.tickets.length == 0) {
-            return (this.stopLoading = true);
-          }
-          //   console.log(res.data);
-          setTimeout(() => {
-            if (this.$screen.breakpoint !== "xs") {
-              this.$emit("searching", false);
+        axios
+          .get("/api/ticket", {
+            params: {
+              type: this.$screen.breakpoint == "xs" ? "infinite" : "paginate",
+              page: this.search.page,
+              customer_id: this.search.customer_id,
+              ticket_status_id: this.search.ticket_status_id,
+              priority_id: this.search.priority_id,
+              agent_id: this.search.agent_id,
+              ticket_id: this.search.ticket_id,
+              text: this.search.text,
+              dateFrom: this.search.dateFrom,
+              dateTo: this.search.dateTo,
+              offset: this.search.offset,
+            },
+          })
+          .then((res) => {
+            if (res.data.tickets.length == 0) {
+              return (this.stopLoading = true);
             }
-            this.$emit("searched", res.data.tickets);
-            this.search.offset += 10;
-          }, 1000);
-        })
-        .catch((err) => console.log(err));
+            //   console.log(res.data);
+            setTimeout(() => {
+              if (this.$screen.breakpoint !== "xs") {
+                this.$emit("searching", false);
+              }
+              this.$emit("searched", res.data.tickets);
+            }, 1000);
+          })
+          .catch((err) => console.log(err));
+      }
     },
   },
   watch: {

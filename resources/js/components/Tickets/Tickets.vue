@@ -16,52 +16,105 @@
     >
       <i class="fa fa-plus"></i><span class="ml-2">Nuevo Ticket</span>
     </a>
-    <ticket-search-form
-      :page="page"
-      :ticketDeleted="ticketDeleted"
-      @searched="searched"
-      @searching="searching"
-    />
-    <transition name="fade" mode="out-in" v-if="is_searching">
-      <spinner />
-    </transition>
-    <transition
-      name="fade"
-      mode="out-in"
-      v-else-if="(tickets.data && Object.keys(tickets.data).length > 0) || Object.keys(tickets).length > 0"
+    <!-- PARTE MOBILE -->
+    <div
+      class="d-flex d-lg-none flex-wrap mt-3"
+      v-if="this.$screen.breakpoint == 'xs'"
     >
-      <div>
+      <button
+        class="btn btn-primary btn-block"
+        type="button"
+        data-toggle="collapse"
+        data-target="#searchform"
+        aria-expanded="false"
+        aria-controls="searchform"
+      >
+        Búsqueda
+      </button>
+      <div class="collapse col-12 w-100" id="searchform">
+        <ticket-search-form
+          :page="page"
+          :ticketDeleted="ticketDeleted"
+          :user="user"
+          @searched="searched"
+          @searching="searching"
+          @mobileSearch="mobileSearch"
+        />
+      </div>
+      <transition name="fade" mode="out-in" v-if="is_searching">
+        <spinner />
+      </transition>
+      <transition
+        name="fade"
+        mode="out-in"
+        v-else-if="Object.keys(tickets).length > 0"
+      >
+        <tickets-mobile-cards
+          class="col-12"
+          :tickets="tickets"
+          :formsearch="formsearch"
+          @page="setPage"
+          @ticketDeleted="ticketDeleted = true"
+        ></tickets-mobile-cards>
+      </transition>
+      <transition
+        name="fade"
+        mode="out-in"
+        v-else-if="tickets.data && Object.keys(tickets.data).length == 0"
+      >
+        <div
+          class="alert alert-warning fade show mt-3 mx-3 text-center"
+          role="alert"
+        >
+          <span class="font-weight-bold">
+            No se han encontrado resultados, por favor, haga una nueva búsqueda
+            <i class="fa fa-thumbs-up"></i>
+          </span>
+        </div>
+      </transition>
+    </div>
+    <!-- PARTE WEB -->
+    <div v-else>
+      <ticket-search-form
+        :page="page"
+        :ticketDeleted="ticketDeleted"
+        :user="user"
+        @searched="searched"
+        @searching="searching"
+      />
+      <transition name="fade" mode="out-in" v-if="is_searching">
+        <spinner />
+      </transition>
+      <transition
+        name="fade"
+        mode="out-in"
+        v-else-if="tickets.data && Object.keys(tickets.data).length > 0"
+      >
         <tickets-table
           v-if="tickets.data && Object.keys(tickets.data).length > 0"
           class="d-none d-lg-block"
           :tickets="tickets"
+          :permissions="permissions"
           @page="setPage"
           @ticketDeleted="ticketDeleted = true"
         ></tickets-table>
-        <tickets-mobile-cards
-        v-else
-          class="d-block d-lg-none"
-          :tickets="tickets"
-          @page="setPage"
-          @ticketDeleted="ticketDeleted = true"
-        ></tickets-mobile-cards>
-      </div>
-    </transition>
-    <transition
-      name="fade"
-      mode="out-in"
-      v-else-if="tickets.data && Object.keys(tickets.data).length == 0"
-    >
-      <div
-        class="alert alert-warning fade show mt-3 mx-3 text-center"
-        role="alert"
+      </transition>
+      <transition
+        name="fade"
+        mode="out-in"
+        v-else-if="tickets.data && Object.keys(tickets.data).length == 0"
       >
-        <span class="font-weight-bold">
-          No se han encontrado resultados, por favor, haga una nueva búsqueda
-          <i class="fa fa-thumbs-up"></i>
-        </span>
-      </div>
-    </transition>
+        <div
+          class="alert alert-warning fade show mt-3 mx-3 text-center"
+          role="alert"
+        >
+          <span class="font-weight-bold">
+            No se han encontrado resultados, por favor, haga una nueva búsqueda
+            <i class="fa fa-thumbs-up"></i>
+          </span>
+        </div>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -80,16 +133,21 @@ export default {
     Spinner,
     TicketsMobileCards,
   },
-  props: ["statuses"],
+  props: ["statuses", "permissions", "user"],
   data() {
     return {
       tickets: [],
+      formsearch: [],
       page: 1,
       is_searching: false,
       ticketDeleted: false,
     };
   },
   methods: {
+    mobileSearch(data) {
+      console.log('data', data)
+      this.formsearch = data;
+    },
     searching(data) {
       this.is_searching = data;
     },
@@ -98,11 +156,7 @@ export default {
     },
     searched(data) {
       this.ticketDeleted = false;
-      if(this.$screen.breakpoint == "xs") {
-        this.tickets.push(...data)
-      } else {
-        this.tickets = data;
-      }
+      this.tickets = data;
     },
   },
 };

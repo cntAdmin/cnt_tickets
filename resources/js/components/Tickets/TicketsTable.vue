@@ -68,6 +68,7 @@
               <td>
                 <div class="d-flex flex-wrap justify-content-around align-items-center">
                   <a
+                    v-if="permissions.find(permission => permission.name == 'ticket.show')"
                     type="button"
                     class="btn btn-sm btn-success"
                     :href="`/ticket/${ticket.id}`"
@@ -76,6 +77,7 @@
                     <i class="fa fa-eye"></i>
                   </a>
                   <a
+                    v-if="permissions.find(permission => permission.name == 'ticket.update')"
                     type="button"
                     class="btn btn-sm btn-info text-white"
                     title="Editar Ticket"
@@ -84,6 +86,7 @@
                     <i class="fa fa-edit"></i>
                   </a>
                   <button
+                    v-if="permissions.find(permission => permission.name == 'ticket.destroy')"
                     type="button"
                     class="btn btn-sm btn-danger"
                     title="Borrar Ticket"
@@ -123,7 +126,7 @@
 
 <script>
 export default {
-  props: ["tickets"],
+  props: ["tickets", "permissions"],
   data() {
     return {
       ticket: {},

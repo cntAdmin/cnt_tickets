@@ -7,8 +7,12 @@
             <span class="font-weight-bold text-uppercase">{{ ticket.custom_id }}</span>
           </div>
           <div class="ml-auto">
-            <a :href="`/ticket/${ticket.id}/editar`" class="btn btn-sm btn-warning">Editar</a>
-            <a href="/ticket" class="btn btn-sm btn-info text-white">Volver al listado</a>
+            <a 
+              v-if="permissions.find(permission => permission.name == 'ticket.update')"
+            :href="`/ticket/${ticket.id}/editar`" class="btn btn-sm btn-warning">Editar</a>
+            <a 
+              v-if="permissions.find(permission => permission.name == 'ticket.show')"
+              href="/ticket" class="btn btn-sm btn-info text-white">Volver al listado</a>
           </div>
         </div>
       </div>
@@ -32,7 +36,7 @@ import TicketForm from "./TicketForm.vue";
 
 export default {
   components: { TicketForm, Attachments, Comments, NewComment },
-  props: ["ticket"],
+  props: ["ticket", "permissions"],
   data() {
     return {
       comments: [],

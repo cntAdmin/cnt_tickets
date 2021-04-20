@@ -28,6 +28,7 @@
     <customers-table 
         class="d-none d-lg-block"
         :customers="customers"
+        :permissions="permissions"
         @page="setPage"
         @customerDelete="customerDelete = true"
       />
@@ -57,7 +58,7 @@ import CustomersSearchForm from "./CustomersSearchForm.vue";
 import CustomersTable from './CustomersTable.vue';
 export default {
   components: { Counter, CustomersSearchForm, CustomersTable, Spinner },
-  props: ["customer_count"],
+  props: ["customer_count", "permissions"],
   data() {
     return {
       customers: [],

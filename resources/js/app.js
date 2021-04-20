@@ -86,6 +86,8 @@ Vue.component('origin-types', require('./components/OriginTypes/OriginTypes').de
 Vue.component('origin-type-create', require('./components/OriginTypes/OriginTypeCreate').default);
 Vue.component('origin-type-edit', require('./components/OriginTypes/OriginTypeEdit').default);
 
+// ? ORIGIN TYPES
+Vue.component('profile', require('./components/Profiles/Profile').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -52,11 +52,13 @@
               <td>
                 <div class="d-flex flex-wrap justify-content-around">
                   <a
+                    v-if="permissions.find(permission => permission.name =='origin_type.update')"
                     :href="`/origin-type/${originType.id}/editar`"
                     class="btn btn-sm btn-info text-white"
                     ><i class="fa fa-edit"></i>
                   </a>
                   <button
+                    v-if="permissions.find(permission => permission.name =='origin_type.destroy')"
                     type="button"
                     class="btn btn-sm btn-danger"
                     title="Borrar Usuario"
@@ -86,7 +88,7 @@
 
 <script>
 export default {
-  props: ["originTypes"],
+  props: ["originTypes", "permissions"],
   data() {
     return {
       originType: {},
