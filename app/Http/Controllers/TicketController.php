@@ -6,6 +6,7 @@ use App\Http\Requests\TicketRequest;
 use App\Models\Attachment;
 use App\Models\Ticket;
 use App\Models\TicketStatus;
+use App\Models\TicketTimeslot;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -151,6 +152,7 @@ class TicketController extends Controller
         $ticket->user()->associate($validated['user_id']);
         $ticket->priority()->associate($validated['priority_id']);
         $ticket->origin_type()->associate($validated['origin_type_id']);
+        $ticket->warranty()->associate($validated['warranty_id']);
 
         // SAVE ALL THE RELATIONSHIPS
         $ticket->save();
@@ -165,6 +167,18 @@ class TicketController extends Controller
                 ]);
                 $ticket->attachments()->save($attachment);
             }
+        }
+        // IF HAS DATES
+        if ($validated['dates']) {
+            foreach ($validated['dates'] as $dateTime ) {
+                if($dateTime['start'] && $dateTime['end']) {
+                    $dates[] = [
+                        'start_date_time' =>  $dateTime['start'],
+                        'end_date_time' => $dateTime['end']
+                    ];
+                }
+            }
+            $ticket->ticket_timeslots()->createMany($dates);
         }
 
         return $ticket

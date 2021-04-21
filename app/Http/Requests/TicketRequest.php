@@ -31,8 +31,10 @@ class TicketRequest extends FormRequest
             'user_id' => ['required', 'exists:users,id'],
             'priority_id' => ['required', 'exists:priorities,id'],
             'origin_type_id' => ['required', 'exists:origin_types,id'],
+            'warranty_id' => ['required', 'exists:warranties,id'],
             'title' => ['required', 'string', 'max:100'],
             'description' => ['required', 'string'],
+            'dates' => ['nullable', 'array'],
             'files' => ['nullable', 'array'],
         ];
     }

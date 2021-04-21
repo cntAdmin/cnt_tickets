@@ -23,6 +23,7 @@ class CreateTicketsTable extends Migration
             $table->foreignId('origin_type_id')->nullable()->constrained()->cascadeOnUpdate()->onDelete('no action');
             $table->foreignId('ticket_type_id')->nullable()->constrained()->cascadeOnUpdate()->onDelete('no action');
             $table->foreignId('ticket_status_id')->nullable()->constrained()->cascadeOnUpdate()->onDelete('no action');
+            $table->foreignId('warranty_id')->nullable()->constrained()->cascadeOnUpdate()->onDelete('no action');
             
             $table->string('custom_id', 100)->nullable();
             $table->string('title', 100)->nullable();

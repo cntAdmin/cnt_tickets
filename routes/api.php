@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +24,7 @@ Route::middleware(['auth:web'])->group(function () {
     Route::get('/get_all_origins', 'OriginTypeController@get_all_origins')->name('get_all_origins');
     Route::get('/get_all_ticket_types', 'TicketTypeController@get_all_ticket_types')->name('get_all_ticket_types');
     Route::get('/get_all_ticket_statuses', 'TicketStatusController@get_all_ticket_statuses')->name('get_all_ticket_statuses');
+    Route::get('/get_all_warranties', 'WarrantyController@get_all_warranties')->name('get_all_warranties');
     
     Route::get('/get_user', 'UserController@get_user')->name('get_user');
     Route::put('/ticket/{ticket}/ticket-status/{ticketStatus}', 'TicketStatusController@change_status')->name('change_status');
@@ -49,6 +49,7 @@ Route::middleware(['auth:web'])->group(function () {
         'origin-type' => OriginTypeController::class,
         'ticket-type' => TicketTypeController::class,
         'ticket-status' => TicketStatusController::class,
+        'ticket-timeslot' => TicketTimeslotController::class,
         'user' => UserController::class
         ]);
 });

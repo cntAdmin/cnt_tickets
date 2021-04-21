@@ -32,6 +32,7 @@ export default {
       ticket: {
         customer: {},
         department_type: {},
+        ticket_timeslots: {},
       },
     };
   },

@@ -249,6 +249,70 @@
           </select>
         </div>
       </div>
+      <div class="col-12 col-md-6 col-lg-4 mt-2">
+        <label class="sr-only" for="ticket_id">Garantia</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text d-none d-lg-block py-1">Garantia</div>
+            <div class="input-group-text d-block d-lg-none py-1">
+              <i class="fa fa-hashtag"></i>
+            </div>
+          </div>
+          <select
+            v-model="ticket.warranty_id"
+            class="form-control"
+            :disabled="!editable ? true : false"
+          >
+            <option
+              :value="warranty.id"
+              v-for="warranty in warranties"
+              :key="warranty.id"
+            >
+              {{ warranty.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="d-flex flex-wrap justify-content-start mt-2">
+        <div
+          class="col-12 col-md-6 col-lg-4 mt-2"
+          v-for="(date, idx) in ticket.ticket_timeslots"
+          :key="idx"
+        >
+          <label class="sr-only" for="title">Hora Inicio</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text d-none d-lg-block py-1">
+                Hora Inicio
+              </div>
+              <div class="input-group-text d-block d-lg-none py-1">
+                <i class="fa fa-heading"></i><span class="ml-2">Hora Inicio</span>
+              </div>
+            </div>
+            <input
+              class="form-control"
+              type="datetime-local"
+              v-model="date.start_date_time_picker"
+              disabled="disabled"
+            />
+          </div>
+          <label class="sr-only" for="title">Hora Fin</label>
+          <div class="input-group mt-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text d-none d-lg-block py-1">Hora Fin</div>
+              <div class="input-group-text d-block d-lg-none py-1">
+                <i class="fa fa-heading"></i><span class="ml-2">Hora Fin</span>
+              </div>
+            </div>
+            <input
+              class="form-control"
+              type="datetime-local"
+              v-model="date.end_date_time_picker"
+              disabled="disabled"
+            />
+          </div>
+        </div>
+      </div>
       <div class="col-12 mt-2">
         <label class="sr-only" for="title">Título</label>
         <div class="input-group">
@@ -266,7 +330,6 @@
           />
         </div>
       </div>
-
       <div class="col-12 mt-2">
         <label class="sr-only" for="ticket_id">Descripción</label>
         <div class="input-group">
@@ -329,6 +392,7 @@ export default {
   props: ["ticket", "editable", "buttonText", "type", "customer"],
   data() {
     return {
+      warranties: [],
       files: [],
       customers: [],
       users: [],
@@ -406,6 +470,7 @@ export default {
     this.get_all_priorities();
     this.get_all_origins();
     this.get_all_ticket_types();
+    this.get_all_waranties();
     if (this.customer) {
       this.ticket.customer.alias = this.customer.alias;
       this.ticket.customer_id = this.customer.id;
@@ -413,6 +478,14 @@ export default {
     }
   },
   methods: {
+    get_all_waranties() {
+      axios
+        .get("/api/get_all_warranties")
+        .then((res) => {
+          this.warranties = res.data.warranties;
+        })
+        .catch((err) => console.log(err.response.data));
+    },
     closeAll() {
       this.success.status = false;
       this.error.status = false;
@@ -445,6 +518,15 @@ export default {
           this.uploadFiles(formData);
         }
       }
+      if (Object.keys(this.dates).length > 0) {
+        for (const i of Object.keys(this.dates)) {
+          if (this.type == "new") {
+            formData.append(`dates[${i}]`, this.dates[i]);
+          } else {
+            this.ticket.dates = this.dates;
+          }
+        }
+      }
       if (this.type == "new") {
         formData.append("ticket_type_id", this.ticket.ticket_type_id);
         formData.append("department_type_id", this.ticket.department_type_id);
@@ -454,6 +536,7 @@ export default {
         formData.append("priority_id", this.ticket.priority_id);
         formData.append("origin_type_id", this.ticket.origin_type_id);
         formData.append("ticket_status_id", this.ticket.ticket_status_id);
+        formData.append("warranty_id", this.ticket.warranty_id);
         formData.append("title", this.ticket.title);
         formData.append("description", this.ticket.description);
 

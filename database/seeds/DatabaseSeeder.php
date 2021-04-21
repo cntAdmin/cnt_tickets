@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\TicketType;
-use App\Ticket;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -26,6 +24,7 @@ class DatabaseSeeder extends Seeder
             PrioritySeeder::class,
             TicketTypeSeeder::class,
             TicketStatusSeeder::class,
+            WarrantySeeder::class,
             // DATOS CREADOS DE TEST
             DepartmentTypeSeeder::class,
             TicketSeeder::class,

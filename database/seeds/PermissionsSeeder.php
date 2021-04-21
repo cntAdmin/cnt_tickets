@@ -43,7 +43,7 @@ class PermissionsSeeder extends Seeder
             ['id' => 28, 'name'=> 'origin_type.destroy', 'guard_name' => 'web', 'created_at' => now()->toDateTimeString(), 'updated_at' => now()->toDateTimeString()],
         ];
         Permission::insert($all_permissions);
-        // Spatie\Permission\Models\Role::find(1)->syncPermissions(Permission::all());
+        Spatie\Permission\Models\Role::find(1)->syncPermissions(Permission::all());
         $agent_permissions = [1, 2, 3, 4, 6, 9, 10, 11, 12, 13, 18, 22, 26];
         $agent_sync_permissions = Spatie\Permission\Models\Role::find(2)->syncPermissions($agent_permissions);
         $customer_permissions = [2, 6, 7, 10, 11, 14, 18, 22, 26];

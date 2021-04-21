@@ -92,7 +92,9 @@
 </template>
 
 <script>
+import DeleteModal from '../DeleteModal.vue';
 export default {
+  components: { DeleteModal },
   props: ["departments", "permissions"],
   data() {
     return {

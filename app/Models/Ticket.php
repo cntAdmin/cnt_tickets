@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Str;
+use TicketTimeslotSeeder;
 
 class Ticket extends Model
 {
@@ -26,7 +27,7 @@ class Ticket extends Model
         'customer_id', 'user_id', 'deleted_by', 'department_type_id', 'ticket_status_id'
     ];
     protected $with = [
-        'customer', 'user', 'agent', 'department_type', 'priority', 'ticket_status', 'origin_type', 'createdBy', 'attachments'
+        'customer', 'user', 'agent', 'department_type', 'priority', 'ticket_status', 'origin_type', 'createdBy', 'attachments', 'ticket_timeslots'
     ];
     
     protected $appends = ['description_short'];
@@ -36,6 +37,25 @@ class Ticket extends Model
         return Str::limit($this->attributes['description'], 100);
     }
     
+    /**
+     * Get the ticket_timeslot that has many the Ticket
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function ticket_timeslots(): HasMany
+    {
+        return $this->hasMany(TicketTimeslot::class, 'ticket_id', 'id');
+    }
+    /**
+     * Get the warranty that owns the Ticket
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function warranty(): BelongsTo
+    {
+        return $this->belongsTo(Warranty::class, 'warranty_id', 'id');
+    }
+
     /**
      * Get the created_by that owns the Ticket
      *
