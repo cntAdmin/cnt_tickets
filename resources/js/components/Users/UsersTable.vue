@@ -82,8 +82,8 @@
                     v-if="permissions.find((permission) => permission.name == 'user.update')"
                     :href="`/user/${user.id}/editar`"
                     class="btn btn-sm btn-info text-white"
-                    ><i class="fa fa-edit"></i
-                  ></a>
+                    ><i class="fa fa-edit"></i>
+                  </a>
                   <button
                     v-if="permissions.find((permission) => permission.name == 'user.destroy')"
                     type="button"

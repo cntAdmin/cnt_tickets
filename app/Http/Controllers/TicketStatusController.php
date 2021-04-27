@@ -24,7 +24,6 @@ class TicketStatusController extends Controller
      */
     public function index(Request $req)
     {
-        dd("A");
         if(!$req->ajax()) {
             return view('ticketStatuses.index')->with([ 'ticket_statuses_count' => TicketStatus::count() ]);
         }
