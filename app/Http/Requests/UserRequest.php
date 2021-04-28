@@ -19,14 +19,15 @@ class UserRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
-     *
+     * Sometimes usar para campos que puede ser que ni se muestren 
+     * en el formulario.
      * @return array
      */
     public function rules()
     {
         return [
-            'customer_id' => ['nullable', 'numeric', 'exists:customers,id'],
-            'department_id' => ['nullable', 'numeric', 'exists:departments,id'],
+            'customer_id' => ['sometimes', 'numeric', 'exists:customers,id'],
+            'department_id' => ['sometimes', 'numeric', 'exists:departments,id'],
             'role_id' => ['required', 'numeric', 'exists:roles,id'],
             'name' => ['required', 'string', 'max:255'],
             'mtcdr_customer_name' => ['nullable', 'string', 'max:255'],

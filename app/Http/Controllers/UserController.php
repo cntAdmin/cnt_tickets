@@ -62,7 +62,9 @@ class UserController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
         // ASSIGN CUSTOMER
-        $user->customer()->associate(Customer::find($validated['customer_id']));
+        if($validated['role_id'] !== 1) {
+            $user->customer()->associate(Customer::find($validated['customer_id']));
+        }
         $user->save();
 
         $user->syncRoles($validated['role_id']);
