@@ -35,7 +35,7 @@ class CustomerSeeder extends Seeder
                     'updated_at' => now()->toDateTimeString(),
                 ];
             });
-            dd($customers);
+            dd(Customer::all());
             Customer::insert($customers);
         }
     }
