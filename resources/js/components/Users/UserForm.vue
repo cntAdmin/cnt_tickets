@@ -42,7 +42,7 @@
           itemid="id"
           :options="customers"
           @input="setCustomer"
-          v-model="user.customer.alias"
+          v-model="user.customer.name"
           :disabled="!editable ? true : false"
         >
           <div slot="no-options">No hay opciones con esta búsqueda</div>
