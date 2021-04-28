@@ -10,12 +10,27 @@
         :icon="ticket_status.icon"
       ></counter>
     </div>
-    <a
-      href="/ticket/crear"
-      class="btn btn-sm btn-block btn-secondary font-weight-bold mt-3"
-    >
-      <i class="fa fa-plus"></i><span class="ml-2">Nuevo Ticket</span>
-    </a>
+    <div class="dropdown mt-3">
+      <button
+        class="btn btn-secondary dropdown-toggle btn-sm btn-block"
+        type="button"
+        id="dropdownMenuButton"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <i class="fa fa-plus"></i><span class="ml-2">Crear</span>
+      </button>
+      <div class="dropdown-menu w-100 text-center" aria-labelledby="dropdownMenuButton">
+        <a href="/ticket-type/1/ticket/crear" class="dropdown-item">
+          <i class="fa fa-ticket-alt"></i><span class="ml-2">Nuevo Ticket</span>
+        </a>
+        <a href="/ticket-type/2/ticket/crear" class="dropdown-item" v-if="[1, 2].includes(user.roles[0].id)">
+          <i class="fa fa-tools"></i><span class="ml-2">Nuevo Parte de Trabajo</span>
+        </a>
+      </div>
+    </div>
+
     <!-- PARTE MOBILE -->
     <div
       class="d-flex d-lg-none flex-wrap mt-3"
@@ -145,7 +160,7 @@ export default {
   },
   methods: {
     mobileSearch(data) {
-      console.log('data', data)
+      console.log("data", data);
       this.formsearch = data;
     },
     searching(data) {

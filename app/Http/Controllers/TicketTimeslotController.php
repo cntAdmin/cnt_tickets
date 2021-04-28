@@ -92,6 +92,11 @@ class TicketTimeslotController extends Controller
      */
     public function destroy(TicketTimeslot $ticketTimeslot)
     {
+        $deleted = $ticketTimeslot->delete();
+
+        return $deleted
+            ? response()->json([ "msg" => "Horas eliminadas correctamente."], 200)
+            : response()->json([ "msg" => "No se han podido eliminar estas horas, por favor, contacte con el administrador."], 400);
         //
     }
 }

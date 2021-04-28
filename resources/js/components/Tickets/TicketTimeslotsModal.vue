@@ -113,7 +113,7 @@ import FormErrors from "../FormErrors.vue";
 
 export default {
   components: { FormErrors },
-  props: ["ticket_id"],
+  props: ["ticket_id", "type"],
   data() {
     return {
       error: {
@@ -145,33 +145,37 @@ export default {
     addDates() {
       if (!this.dates.start_date_time || !this.dates.end_date_time) return;
       this.closeAll();
-      axios
-        .post("/api/ticket-timeslot", this.dates)
-        .then((res) => {
-          this.success = {
-            status: true,
-            msg: res.data.msg,
-          };
-          setTimeout(() => {
-            $("#ticketTimeslotsModal").modal("hide");
+      if (this.type !== "new") {
+        axios
+          .post("/api/ticket-timeslot", this.dates)
+          .then((res) => {
             this.success = {
-              status: false,
-              msg: null,
-            };
-            this.$emit("close");
-          }, 2000);
-          console.log(res.data);
-        })
-        .catch((err) => {
-          if (err.response.status !== 500) {
-            this.error = {
               status: true,
-              errors: err.response.data.errors,
+              msg: res.data.msg,
             };
-          } else {
-            console.log(err.response.data);
-          }
-        });
+            setTimeout(() => {
+              $("#ticketTimeslotsModal").modal("hide");
+              this.success = {
+                status: false,
+                msg: null,
+              };
+              this.$emit("close", this.dates);
+            }, 2000);
+          })
+          .catch((err) => {
+            if (err.response.status !== 500) {
+              this.error = {
+                status: true,
+                errors: err.response.data.errors,
+              };
+            } else {
+              console.log(err.response.data);
+            }
+          });
+      } else {
+        $("#ticketTimeslotsModal").modal("hide");
+        this.$emit("close", this.dates);
+      }
     },
   },
 };

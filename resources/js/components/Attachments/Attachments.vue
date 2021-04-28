@@ -23,7 +23,7 @@ export default {
     deleteAttachment(id) {
       axios.delete(`/api/attachment/${id}`)
         .then( res => {
-          this.$emit('attachmentDeleted')
+          this.$emit('attachmentDeleted', id)
           // console.log(res.data)
         }).catch( err => console.log(err.response.data))
     }

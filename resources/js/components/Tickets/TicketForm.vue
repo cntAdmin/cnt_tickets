@@ -24,33 +24,8 @@
     </div>
 
     <form @submit.prevent="handleSubmit" class="form-inline">
-      <div class="col-12 col-md-6 col-lg-4 mt-2">
-        <label class="sr-only" for="ticket_id">Cliente</label>
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">Cliente</div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-building"></i>
-            </div>
-          </div>
-          <vue-select
-            class="col-10 col-lg-8 col-xl-9 px-0"
-            transition="vs__fade"
-            label="alias"
-            itemid="id"
-            :options="customers"
-            @input="setCustomer"
-            v-model="ticket.customer.alias"
-            :disabled="!editable ? true : false"
-          >
-            <div slot="no-options">No hay opciones con esta búsqueda</div>
-            <template slot="option" slot-scope="option">
-              {{ option.id }} -
-              {{ option.alias ? option.alias : option.name }}
-            </template>
-          </vue-select>
-        </div>
-      </div>
+      <customers-dropdown-select :customer="ticket.customer" :editable="editable" @setCustomer="setCustomer" />
+      
       <div class="col-12 col-md-6 col-lg-4 mt-2">
         <label class="sr-only" for="users">Usuarios</label>
         <div class="input-group">
@@ -226,30 +201,6 @@
         </div>
       </div>
       <div class="col-12 col-md-6 col-lg-4 mt-2">
-        <label class="sr-only" for="ticket_id">Tipo</label>
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">Tipo</div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
-            </div>
-          </div>
-          <select
-            v-model="ticket.ticket_type_id"
-            class="form-control"
-            :disabled="!editable ? true : false"
-          >
-            <option
-              :value="ticket_type.id"
-              v-for="ticket_type in ticket_types"
-              :key="ticket_type.id"
-            >
-              {{ ticket_type.name }}
-            </option>
-          </select>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 col-lg-4 mt-2">
         <label class="sr-only" for="ticket_id">Garantia</label>
         <div class="input-group">
           <div class="input-group-prepend">
@@ -271,46 +222,6 @@
               {{ warranty.name }}
             </option>
           </select>
-        </div>
-      </div>
-      <div class="d-flex flex-wrap justify-content-start mt-2">
-        <div
-          class="col-12 col-md-6 col-lg-4 mt-2"
-          v-for="(date, idx) in ticket.ticket_timeslots"
-          :key="idx"
-        >
-          <label class="sr-only" for="title">Hora Inicio</label>
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <div class="input-group-text d-none d-lg-block py-1">
-                Hora Inicio
-              </div>
-              <div class="input-group-text d-block d-lg-none py-1">
-                <i class="fa fa-heading"></i><span class="ml-2">Hora Inicio</span>
-              </div>
-            </div>
-            <input
-              class="form-control"
-              type="datetime-local"
-              v-model="date.start_date_time_picker"
-              disabled="disabled"
-            />
-          </div>
-          <label class="sr-only" for="title">Hora Fin</label>
-          <div class="input-group mt-2">
-            <div class="input-group-prepend">
-              <div class="input-group-text d-none d-lg-block py-1">Hora Fin</div>
-              <div class="input-group-text d-block d-lg-none py-1">
-                <i class="fa fa-heading"></i><span class="ml-2">Hora Fin</span>
-              </div>
-            </div>
-            <input
-              class="form-control"
-              type="datetime-local"
-              v-model="date.end_date_time_picker"
-              disabled="disabled"
-            />
-          </div>
         </div>
       </div>
       <div class="col-12 mt-2">
@@ -383,9 +294,10 @@ import {
   QuickToolbar,
 } from "@syncfusion/ej2-vue-richtexteditor";
 import FormErrors from "../FormErrors.vue";
+import CustomersDropdownSelect from '../CustomersDropdownSelect.vue';
 
 export default {
-  components: { FormErrors },
+  components: { FormErrors, CustomersDropdownSelect },
   provide: {
     richtexteditor: [Toolbar, Image, Link, HtmlEditor, QuickToolbar],
   },
@@ -402,7 +314,6 @@ export default {
       department_types: [],
       priorities: [],
       origins: [],
-      ticket_types: [],
       success: {
         status: false,
         msg: "",
@@ -469,7 +380,6 @@ export default {
     this.get_all_department_types();
     this.get_all_priorities();
     this.get_all_origins();
-    this.get_all_ticket_types();
     this.get_all_waranties();
     if (this.customer) {
       this.ticket.customer.alias = this.customer.alias;
@@ -528,7 +438,7 @@ export default {
         }
       }
       if (this.type == "new") {
-        formData.append("ticket_type_id", this.ticket.ticket_type_id);
+        formData.append("ticket_type_id", this.ticketType.id);
         formData.append("department_type_id", this.ticket.department_type_id);
         formData.append("customer_id", this.ticket.customer_id);
         formData.append("agent_id", this.ticket.agent_id);
@@ -566,6 +476,7 @@ export default {
             };
           });
       } else {
+        this.ticket.ticketType_id = this.ticketType.id;
         axios
           .put(`/api/ticket/${this.ticket.id}`, this.ticket)
           .then((res) => {
@@ -604,11 +515,6 @@ export default {
       if (value) {
         this.get_customer_users();
       }
-    },
-    get_all_ticket_types() {
-      axios.get("/api/get_all_ticket_types").then((res) => {
-        this.ticket_types = res.data.ticket_types;
-      });
     },
     get_all_origins() {
       axios.get("/api/get_all_origins").then((res) => {

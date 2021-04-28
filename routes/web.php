@@ -39,9 +39,9 @@ Auth::routes();
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
     Route::get('/profile/{user}', 'UserController@profile')->name('profile');
-
-    Route::resource('ticket', TicketController::class)->only(['index', 'show', 'create', 'edit']);
+    Route::resource('ticket', TicketController::class)->only(['index', 'show', 'edit']);
     Route::resource('ticket.comment', TicketCommentController::class)->only(['create', 'edit']);
+    Route::get('ticket-type/{ticketType}/ticket/crear', 'TicketController@create');
     Route::resource('attachment', AttachmentController::class)->only(['create', 'edit']);
     Route::resource('comment', CommentController::class)->only(['create', 'edit']);
     Route::resource('customer', CustomerController::class)->only(['index', 'show','create', 'edit']);

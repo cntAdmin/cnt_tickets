@@ -1,22 +1,58 @@
 <template>
   <div class="card shadow">
     <div class="card-header">
-      <div class="d-flex flex-wrap justify-content-between">
-        <div class="mr-auto"></div>
-        <div class="ml-auto">
-          <a href="/ticket" class="btn btn-sm btn-info text-white">Volver al listado</a>
+      <div class="d-flex flex-wrap justify-content-between  align-items-center">
+        <div class="mr-auto align-items-center">
+          <span class="text-uppercase font-weight-bold">{{ ticketType.name }}</span>
+        </div>
+        <div class="ml-auto d-flex flex-wrap">
+            <ticket-timeslots-modal
+              v-if="ticketTimeslotModal"
+              type="new"
+              :ticket_id="ticket.id"
+              @close="pushTimeslots"
+            />
+            <button
+              type="button"
+              class="btn btn-sm btn-warning"
+              title="Borrar Ticket"
+              data-toggle="modal"
+              data-target="#ticketTimeslotsModal"
+              @click="ticketTimeslotModal = true"
+            >
+              Añadir Fechas
+            </button>
+
+          <a href="/ticket" class="btn btn-sm btn-info text-white ml-2">
+            Volver al listado
+          </a>
         </div>
       </div>
     </div>
 
     <div class="card-body">
       <ticket-form
-        :customer="customer ? customer : null"
-        :ticket="ticket"
-        :editable="true"
+        v-if="ticketType.id === 1"
         buttonText="Crear Ticket"
         type="new"
+        :customer="customer ? customer : null"
+        :ticket="ticket"
+        :ticketType="ticketType"
+        :editable="true"
         @created="ticketCreated"
+      />
+      <work-report-form
+        v-else-if="ticketType.id === 2"
+        buttonText="Crear Parte de Trabajo"
+        type="new"
+        :customer="customer ? customer : null"
+        :work-report="workReport"
+        :ticket="ticket"
+        :ticketType="ticketType"
+        :timeslots="timeslots"
+        :editable="true"
+        @created="ticketCreated"
+        @deleted="deleteTimeslots"
       />
     </div>
   </div>
@@ -24,19 +60,41 @@
 
 <script>
 import TicketForm from "./TicketForm.vue";
+import TicketTimeslotsModal from './TicketTimeslotsModal.vue';
+import WorkReportForm from "./WorkReportForm.vue";
+
 export default {
-  components: { TicketForm },
-  props: ["customer"],
+  components: { TicketForm, WorkReportForm, TicketTimeslotsModal },
+  props: ["customer", "ticketType"],
   data() {
     return {
-      ticket: {
+      ticketTimeslotModal: false,
+      timeslots:[],
+      workReport: {
         customer: {},
         department_type: {},
         ticket_timeslots: {},
       },
+      ticket: {
+        customer: {},
+        department_type: {},
+      },
     };
   },
+  mounted() {
+    // console.log(this.ticketStatus);
+  },
   methods: {
+    pushTimeslots(data){
+      this.timeslots.push({
+        id: Math.random().toString(36).substring(7),
+        start_date_time_picker: data.start_date_time,
+        end_date_time_picker: data.end_date_time,
+      });
+    },
+    deleteTimeslots(data) {
+      this.timeslots = this.timeslots.filter( timeslot => timeslot.id !== data.id);
+    },
     ticketCreated() {
       window.location = "/ticket";
     },
