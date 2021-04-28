@@ -12,7 +12,7 @@ class Comment extends Model
     use SoftDeletes;
     
     protected $fillable = [
-        'description', 'description', '_token', 'expires_in', 'deleted_by', 'deleted_at',
+        'description', '_token', 'expires_in', 'deleted_by', 'deleted_at',
         // RELACIONES
         'ticket_id', 'user_id'
     ];

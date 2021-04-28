@@ -64,6 +64,8 @@ class UserController extends Controller
         $user->customer()->associate(Customer::find($validated['customer_id']));
         $user->save();
 
+        $user->syncRoles($validated['role_id']);
+
         return $user
             ? response()->json([ "msg" => "Usuario creado correctamente."], 200)
             : response()->json([ "msg" => "No se ha podido crear el usuario, por favor, contacte con el administrador."], 400);
@@ -107,7 +109,8 @@ class UserController extends Controller
             'name' => $validated['name'],
             'username' => $validated['username'],
             'email' => $validated['email'],
-            'password' => isset($validated['password']) ? Hash::make($validated['password']) : $user->password
+            'password' => isset($validated['password']) ? Hash::make($validated['password']) : $user->password,
+            'is_active' => $validated['is_active'] ? true : false,
         ]);
 
         if(isset($validated['customer_id'])) {

@@ -3,33 +3,9 @@
     <div class="card w-100 shadow border-dark">
       <div class="card-body">
         <form @submit.prevent="handleSubmit" class="form-inline">
-          <div class="col-12 col-md-6 col-lg-4 mt-2">
-            <label class="sr-only" for="customer_id">Cliente</label>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block py-1">
-                  Cliente
-                </div>
-                <div class="input-group-text d-block d-lg-none py-1">
-                  <i class="fa fa-hashtag"></i>
-                </div>
-              </div>
-              <vue-select
-                class="col-10 col-lg-8 col-xl-9 px-0"
-                transition="vs__fade"
-                label="alias"
-                itemid="id"
-                :options="customers"
-                @input="setCustomer"
-              >
-                <div slot="no-options">No hay opciones con esta búsqueda</div>
-                <template slot="option" slot-scope="option">
-                  {{ option.id }} -
-                  {{ option.alias ? option.alias : option.name }}
-                </template>
-              </vue-select>
-            </div>
-          </div>
+          
+          <customers-dropdown-select :customer="null" :editable="true" />
+
           <div class="col-12 col-md-6 col-lg-4 mt-2">
             <label class="sr-only" for="ticket_id">Roles</label>
             <div class="input-group">
@@ -104,7 +80,9 @@
 </template>
 
 <script>
+import CustomersDropdownSelect from '../CustomersDropdownSelect.vue';
 export default {
+  components: { CustomersDropdownSelect },
   props: ["page", "deleted"],
   data() {
     return {

@@ -11,7 +11,7 @@
       <vue-select
         class="col-10 col-lg-9 px-0"
         transition="vs__fade"
-        label="alias"
+        label="name"
         itemid="id"
         :options="customers"
         @input="setCustomer"
@@ -20,8 +20,7 @@
       >
         <div slot="no-options">No hay opciones con esta búsqueda</div>
         <template slot="option" slot-scope="option">
-          {{ option.id }} -
-          {{ option.alias ? option.alias : option.name }}
+          {{ option.id }} - {{ option.name }}
         </template>
       </vue-select>
     </div>
