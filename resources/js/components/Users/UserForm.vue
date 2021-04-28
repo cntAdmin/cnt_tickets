@@ -258,6 +258,13 @@ export default {
       },
     };
   },
+  beforeMount() {
+    if (this.user.customer) {
+      this.user.customer = { name: this.user.customer.name };
+    } else {
+      this.user.customer = { name: "" };
+    }
+  },
   mounted() {
     this.get_all_customers();
     this.get_all_roles();

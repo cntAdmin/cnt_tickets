@@ -67,7 +67,7 @@ class TicketPolicy
                 return true;
                 break;
             case 3: // CUSTOMER
-                return request()->path() === "ticket/crear" || $user->customer_id === $customer->id;
+                return in_array(request()->path(), ["ticket-type/1/ticket/crear", "ticket-type/2/ticket/crear"]) || $user->customer_id === $customer->id;
                 break;
             case 4: // USER
                 return true;

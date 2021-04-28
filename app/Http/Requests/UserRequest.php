@@ -25,7 +25,7 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'customer_id' => ['required', 'numeric', 'exists:customers,id'],
+            'customer_id' => ['nullable', 'numeric', 'exists:customers,id'],
             'department_id' => ['nullable', 'numeric', 'exists:departments,id'],
             'role_id' => ['required', 'numeric', 'exists:roles,id'],
             'name' => ['required', 'string', 'max:255'],
