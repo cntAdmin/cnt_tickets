@@ -3,16 +3,13 @@
     <div class="card w-100 shadow border-dark">
       <div class="card-body">
         <form @submit.prevent="handleSubmit" class="form-inline">
-          
           <customers-dropdown-select :customer="null" :editable="true" />
 
           <div class="col-12 col-md-6 col-lg-4 mt-2">
             <label class="sr-only" for="ticket_id">Roles</label>
             <div class="input-group">
               <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block py-1">
-                  Roles
-                </div>
+                <div class="input-group-text d-none d-lg-block py-1">Roles</div>
                 <div class="input-group-text d-block d-lg-none py-1">
                   <i class="fa fa-hashtag"></i>
                 </div>
@@ -80,7 +77,7 @@
 </template>
 
 <script>
-import CustomersDropdownSelect from '../CustomersDropdownSelect.vue';
+import CustomersDropdownSelect from "../CustomersDropdownSelect.vue";
 export default {
   components: { CustomersDropdownSelect },
   props: ["page", "deleted"],
@@ -104,12 +101,11 @@ export default {
   },
   methods: {
     get_all_roles() {
-      axios.get('/api/get_all_roles')
-        .then( res => {
-          this.roles = res.data.roles
-        })
+      axios.get("/api/get_all_roles").then((res) => {
+        this.roles = res.data.roles;
+      });
     },
-    setRole(role){
+    setRole(role) {
       this.search.role_id = role ? role.id : null;
     },
     get_all_customers() {
@@ -133,10 +129,8 @@ export default {
           params: this.search,
         })
         .then((res) => {
-          setTimeout(() => {
-            this.$emit("searching", false);
-            this.$emit("searched", res.data.users);
-          }, 1000);
+          this.$emit("searching", false);
+          this.$emit("searched", res.data.users);
         })
         .catch((err) => console.log(err.response.data));
     },

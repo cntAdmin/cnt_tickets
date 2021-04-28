@@ -22,7 +22,10 @@
             </div>
           </div>
           <customers-dropdown-select :customer="null" :editable="true" />
-          <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="user.roles[0].id === 1">
+          <div
+            class="col-12 col-md-6 col-lg-4 mt-2"
+            v-if="user.roles[0].id === 1"
+          >
             <label class="sr-only" for="ticket_id">Agente</label>
             <div class="input-group">
               <div class="input-group-prepend">
@@ -227,11 +230,10 @@ export default {
     this.get_all_ticket_types();
   },
   methods: {
-    get_all_ticket_types(){
-      axios.get('/api/get_all_ticket_types')
-        .then( res => {
-          this.ticket_types = res.data.ticket_types;
-        })
+    get_all_ticket_types() {
+      axios.get("/api/get_all_ticket_types").then((res) => {
+        this.ticket_types = res.data.ticket_types;
+      });
     },
     get_all_ticket_statuses() {
       axios.get("/api/get_all_ticket_statuses").then((res) => {
@@ -270,7 +272,7 @@ export default {
           this.search.page = 1;
           this.search.offset = 0;
         }
-        this.$emit('mobileSearch', this.search);
+        this.$emit("mobileSearch", this.search);
 
         axios
           .get("/api/ticket", {
@@ -294,12 +296,10 @@ export default {
               return (this.stopLoading = true);
             }
             //   console.log(res.data);
-            setTimeout(() => {
-              if (this.$screen.breakpoint !== "xs") {
-                this.$emit("searching", false);
-              }
-              this.$emit("searched", res.data.tickets);
-            }, 1000);
+            if (this.$screen.breakpoint !== "xs") {
+              this.$emit("searching", false);
+            }
+            this.$emit("searched", res.data.tickets);
           })
           .catch((err) => console.log(err));
       }

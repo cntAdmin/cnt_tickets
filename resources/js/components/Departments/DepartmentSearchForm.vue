@@ -69,7 +69,7 @@ export default {
       search: {
         page: 1,
         name: "",
-        agent_id: null
+        agent_id: null,
       },
     };
   },
@@ -103,10 +103,8 @@ export default {
           params: this.search,
         })
         .then((res) => {
-          setTimeout(() => {
-            this.$emit("searching", false);
-            this.$emit("searched", res.data.departments);
-          }, 1000);
+          this.$emit("searching", false);
+          this.$emit("searched", res.data.departments);
         })
         .catch((err) => console.log(err.response.data));
     },

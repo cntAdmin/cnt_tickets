@@ -57,7 +57,7 @@
 
 <script>
 export default {
-  props:["page", "deleted"],
+  props: ["page", "deleted"],
   data() {
     return {
       agents: [],
@@ -95,10 +95,8 @@ export default {
           params: this.search,
         })
         .then((res) => {
-          setTimeout(() => {
-            this.$emit("searching", false);
-            this.$emit("searched", res.data.department_types);
-          }, 1000);
+          this.$emit("searching", false);
+          this.$emit("searched", res.data.department_types);
         })
         .catch((err) => console.log(err.response.data));
     },
