@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="card-body">
-        <user-form :user="user" :editable="true" />
+        <user-form :user="user" :user-role="userRole" :editable="true" />
       </div>
     </div>
   </div>
@@ -22,7 +22,7 @@
 import UserForm from './UserForm.vue'
 export default {
   components: { UserForm },
-    props: ["user"]
+    props: ["user", "userRole"]
 }
 </script>
 

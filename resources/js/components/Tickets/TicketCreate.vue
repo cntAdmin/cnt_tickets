@@ -6,23 +6,6 @@
           <span class="text-uppercase font-weight-bold">{{ ticketType.name }}</span>
         </div>
         <div class="ml-auto d-flex flex-wrap">
-            <ticket-timeslots-modal
-              v-if="ticketTimeslotModal"
-              type="new"
-              :ticket_id="ticket.id"
-              @close="pushTimeslots"
-            />
-            <button
-              type="button"
-              class="btn btn-sm btn-warning"
-              title="Borrar Ticket"
-              data-toggle="modal"
-              data-target="#ticketTimeslotsModal"
-              @click="ticketTimeslotModal = true"
-            >
-              Añadir Fechas
-            </button>
-
           <a href="/ticket" class="btn btn-sm btn-info text-white ml-2">
             Volver al listado
           </a>
@@ -78,6 +61,7 @@ export default {
       ticket: {
         customer: {},
         department_type: {},
+        dates: []
       },
     };
   },

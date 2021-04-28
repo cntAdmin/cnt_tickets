@@ -42,6 +42,7 @@
               <th scope="col">Agente</th>
               <th scope="col">Cliente</th>
               <th scope="col">Titulo</th>
+              <th scope="col">Tipo</th>
               <th scope="col" class="text-center">Fecha</th>
               <th scope="col" class="text-center">Estado</th>
               <th scope="col" class="text-center">Acciones</th>
@@ -55,6 +56,7 @@
               <td>{{ ticket.agent ? ticket.agent.name : ticket.createdBy.name }}</td>
               <td>{{ ticket.customer.alias !== '' ? ticket.customer.alias : ticket.customer.name }}</td>
               <td>{{ ticket.title }}</td>
+              <td>{{ ticket.ticket_type.name }}</td>
               <td class="text-center">{{ ticket.created_at | moment("DD-MM-YYYY") }}</td>
               <td>
                 <div class="d-flex flex-wrap justify-content-center">

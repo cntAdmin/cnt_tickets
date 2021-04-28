@@ -178,6 +178,24 @@
               </select>
             </div>
           </div>
+          <div class="col-12 col-md-6 col-lg-4 mt-2">
+            <label class="sr-only" for="dateTo">Tipo</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text d-none d-lg-block">Tipo</div>
+              </div>
+              <select v-model="search.ticket_type_id" class="form-control">
+                <option value="" selected>-- TODOS --</option>
+                <option
+                  :value="ticket_type.id"
+                  v-for="ticket_type in ticket_types"
+                  :key="ticket_type.id"
+                >
+                  {{ ticket_type.name }}
+                </option>
+              </select>
+            </div>
+          </div>
           <div class="col-12">
             <button type="submit" class="btn btn-sm btn-success btn-block mt-3">
               <i class="fa fa-search"></i><span class="ml-2">Buscar</span>
@@ -198,6 +216,7 @@ export default {
       customers: [],
       priorities: [],
       ticket_statuses: [],
+      ticket_types: [],
       stopLoading: false,
       search: {
         page: 1,
@@ -206,6 +225,7 @@ export default {
         agent_id: null,
         ticket_status_id: "",
         priority_id: "",
+        ticket_type_id: "",
         text: null,
         offset: 0,
         dateFrom: this.$moment().subtract(30, "days").format("YYYY-MM-DD"),
@@ -227,8 +247,15 @@ export default {
     this.getAgents();
     this.get_all_priorities();
     this.get_all_ticket_statuses();
+    this.get_all_ticket_types();
   },
   methods: {
+    get_all_ticket_types(){
+      axios.get('/api/get_all_ticket_types')
+        .then( res => {
+          this.ticket_types = res.data.ticket_types;
+        })
+    },
     get_all_ticket_statuses() {
       axios.get("/api/get_all_ticket_statuses").then((res) => {
         this.ticket_statuses = res.data.ticket_statuses;
@@ -275,6 +302,7 @@ export default {
               page: this.search.page,
               customer_id: this.search.customer_id,
               ticket_status_id: this.search.ticket_status_id,
+              ticket_type_id: this.search.ticket_type_id,
               priority_id: this.search.priority_id,
               agent_id: this.search.agent_id,
               ticket_id: this.search.ticket_id,

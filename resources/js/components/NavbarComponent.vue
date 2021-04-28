@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark px-5">
-    <a class="navbar-brand" href="/dashboard">
+    <a class="navbar-brand" href="/">
       <img src="/cnt_logo.png" width="150" height="48" />
     </a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">

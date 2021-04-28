@@ -4,7 +4,7 @@
       <div class="card-body">
         <form @submit.prevent="handleSubmit" class="form-inline">
           <div class="col-12 col-md-6 col-lg-4 mt-2">
-            <label class="sr-only" for="ticket_id">Cliente</label>
+            <label class="sr-only" for="customer_id">Cliente</label>
             <div class="input-group">
               <div class="input-group-prepend">
                 <div class="input-group-text d-none d-lg-block py-1">
@@ -26,6 +26,32 @@
                 <template slot="option" slot-scope="option">
                   {{ option.id }} -
                   {{ option.alias ? option.alias : option.name }}
+                </template>
+              </vue-select>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4 mt-2">
+            <label class="sr-only" for="ticket_id">Roles</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text d-none d-lg-block py-1">
+                  Roles
+                </div>
+                <div class="input-group-text d-block d-lg-none py-1">
+                  <i class="fa fa-hashtag"></i>
+                </div>
+              </div>
+              <vue-select
+                class="col-10 col-lg-8 col-xl-9 px-0"
+                transition="vs__fade"
+                label="name"
+                itemid="id"
+                :options="roles"
+                @input="setRole"
+              >
+                <div slot="no-options">No hay opciones con esta búsqueda</div>
+                <template slot="option" slot-scope="option">
+                  {{ option.name }}
                 </template>
               </vue-select>
             </div>
@@ -83,9 +109,11 @@ export default {
   data() {
     return {
       customers: [],
+      roles: [],
       search: {
         page: 1,
         customer_id: null,
+        role_id: null,
         name: null,
         email: null,
       },
@@ -93,9 +121,19 @@ export default {
   },
   mounted() {
     this.get_all_customers();
+    this.get_all_roles();
     this.handleSubmit();
   },
   methods: {
+    get_all_roles() {
+      axios.get('/api/get_all_roles')
+        .then( res => {
+          this.roles = res.data.roles
+        })
+    },
+    setRole(role){
+      this.search.role_id = role ? role.id : null;
+    },
     get_all_customers() {
       axios.get("/api/get_all_customers").then((res) => {
         this.customers = res.data.customers;

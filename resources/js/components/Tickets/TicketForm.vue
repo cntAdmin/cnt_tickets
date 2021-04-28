@@ -301,11 +301,12 @@ export default {
   provide: {
     richtexteditor: [Toolbar, Image, Link, HtmlEditor, QuickToolbar],
   },
-  props: ["ticket", "editable", "buttonText", "type", "customer"],
+  props: ["ticket", "editable", "buttonText", "type", "customer", "ticketType"],
   data() {
     return {
       warranties: [],
       files: [],
+      dates: [],
       customers: [],
       users: [],
       agents: [],
@@ -437,6 +438,7 @@ export default {
           }
         }
       }
+      console.log(this.ticketType)
       if (this.type == "new") {
         formData.append("ticket_type_id", this.ticketType.id);
         formData.append("department_type_id", this.ticket.department_type_id);

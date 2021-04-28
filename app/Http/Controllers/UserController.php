@@ -58,7 +58,7 @@ class UserController extends Controller
             'name' => $validated['name'],
             'username' => $validated['username'],
             'email' => $validated['email'],
-            'password' => Hash::make($validated['email']),
+            'password' => Hash::make($validated['password']),
         ]);
         // ASSIGN CUSTOMER
         $user->customer()->associate(Customer::find($validated['customer_id']));
@@ -107,7 +107,7 @@ class UserController extends Controller
             'name' => $validated['name'],
             'username' => $validated['username'],
             'email' => $validated['email'],
-            'password' => isset($validated['password']) ? $validated['password'] : $user->password
+            'password' => isset($validated['password']) ? Hash::make($validated['password']) : $user->password
         ]);
 
         if(isset($validated['customer_id'])) {
