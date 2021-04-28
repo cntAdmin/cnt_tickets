@@ -21,7 +21,7 @@ class CreateCustomersTable extends Migration
             $table->string('email', 150)->nullable();
             $table->string('address', 255)->nullable();
             $table->string('town', 100)->nullable();
-            $table->string('postcode', 5)->nullable();
+            $table->string('postcode', 25)->nullable();
             $table->string('phone', 15)->nullable();
             $table->string('fax', 15)->nullable();
             $table->boolean('is_active')->default(true);
