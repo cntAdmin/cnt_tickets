@@ -12,6 +12,7 @@ class Customer extends Model
 {
     use SoftDeletes;
     
+    protected $connection = "mysql";
     protected $fillable = [
         'cif', 'name', 'alias', 'email', 'address', 'town', 'postcode', 'phone', 'fax', 'is_active', 'deleted_by', 'deleted_at'
     ];
