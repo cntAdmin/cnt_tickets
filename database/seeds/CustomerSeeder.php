@@ -19,7 +19,7 @@ class CustomerSeeder extends Seeder
             App\Models\Dolibarr\Customer::get()->each(function($customer) use(&$customers) {
                 $customers[] = [
                     'id' => $customer->id,
-                    'cif' => Str::upper(Str::replaceArray('-', '', $customer->siren)),
+                    'cif' => Str::upper(Str::replaceArray('-', [''], $customer->siren)),
                     'name' => $customer->nom,
                     'alias' => $customer->name_alias,
                     'email' => $customer->email,
