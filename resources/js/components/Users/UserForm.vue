@@ -355,7 +355,7 @@ export default {
             }, 2000);
           })
           .catch((err) => {
-            // console.log(err.response.data);
+            console.log(err.response.data);
             this.error = {
               status: true,
               errors: err.response.data.errors,
