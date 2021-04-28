@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class DepartmentType extends Model
 {
+    protected $connection = "mysql";
     protected $fillable = [
         'name'
     ];

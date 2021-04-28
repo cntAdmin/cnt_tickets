@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TicketTimeslot extends Model
 {
+    protected $connection = "mysql";
     protected $fillable = [
         'start_date_time', 'end_date_time',
         // RELATIONS

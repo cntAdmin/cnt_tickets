@@ -11,6 +11,7 @@ class Comment extends Model
 {
     use SoftDeletes;
     
+    protected $connection = "mysql";
     protected $fillable = [
         'description', 'description', '_token', 'expires_in', 'deleted_by', 'deleted_at',
         // RELACIONES
