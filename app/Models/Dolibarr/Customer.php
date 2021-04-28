@@ -8,5 +8,4 @@ class Customer extends Model
 {
     protected $connection = "mysql2";
     protected $table = "societe";
-    //
 }

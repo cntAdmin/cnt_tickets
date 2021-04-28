@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Customer;
+use App\Models\Dolibarr\Customer as DolibarrCustomer;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App as AppEnv;
 
@@ -16,7 +18,7 @@ class CustomerSeeder extends Seeder
             factory(App\Models\Customer::class, 50)->create();
         } else {
             $customers = [];
-            App\Models\Dolibarr\Customer::get()->each(function($customer) use(&$customers) {
+            DolibarrCustomer::get()->each(function($customer) use(&$customers) {
                 $customers[] = [
                     'id' => $customer->id,
                     'cif' => Str::upper(Str::replaceArray('-', [''], $customer->siren)),
@@ -33,7 +35,8 @@ class CustomerSeeder extends Seeder
                     'updated_at' => now()->toDateTimeString(),
                 ];
             });
-            App\Models\Customer::insert($customers);
+            dd($customers);
+            Customer::insert($customers);
         }
     }
 }
