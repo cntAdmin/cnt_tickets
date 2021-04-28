@@ -25,7 +25,7 @@
     </div>
     <div
       :class="cardTemplate ? 'col-12 mt-2' : 'col-12 col-md-6 col-lg-3 mt-2'"
-      v-if="userrole === 1"
+      v-if="userRole === 1"
     >
       <label class="sr-only" for="customer">Cliente</label>
       <div class="input-group">
@@ -55,7 +55,7 @@
     </div>
     <div
       :class="cardTemplate ? 'col-12 mt-2' : 'col-12 col-md-6 col-lg-3 mt-2'"
-      v-if="userrole === 1"
+      v-if="userRole === 1"
     >
       <label class="sr-only" for="name">Rol</label>
       <div class="input-group">
@@ -65,7 +65,7 @@
             <i class="fa fa-user"></i>
           </div>
         </div>
-        <select v-model="user.role_id" class="form-control" @change="type === 'new' ? userRole() : null">
+        <select v-model="user.role_id" class="form-control" @change="type === 'new' ? user_role() : null">
           <option :value="role.id" v-for="role in roles" :key="role.id">
             {{ role.name }}
           </option>
@@ -215,7 +215,7 @@
 import FormErrors from "../FormErrors.vue";
 export default {
   components: { FormErrors },
-  props: ["user", "editable", "cardTemplate", "type", "userrole"],
+  props: ["user", "editable", "cardTemplate", "type", "userRole"],
   data() {
     return {
       customers: [],
@@ -249,7 +249,7 @@ export default {
           this.departments = res.data.departments;
         }).catch( err => console.log(err.response.data.message))
     },
-    userRole(){
+    user_role(){
         this.user.roles[0].id = this.user.role_id
     },
     get_all_roles() {

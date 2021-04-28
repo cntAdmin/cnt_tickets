@@ -81,7 +81,7 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department): View
     {
-        return view('departments.edit')->with([ 'department' => $department->load('agents') ]);
+        return view('departments.edit')->with([ 'department' => $department->load('agents','department_types') ]);
     }
 
     /**

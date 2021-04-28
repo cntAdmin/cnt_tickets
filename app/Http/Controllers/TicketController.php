@@ -224,4 +224,9 @@ class TicketController extends Controller
     {
         return response()->json([ 'attachments' => $ticket->attachments ]);
     }
+
+    public function without_login()
+    {
+        # code...
+    }
 }

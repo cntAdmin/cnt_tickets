@@ -19,15 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/testing', function (Request $req) {
-    $attachments = [];
-    User::find(101)->tickets()->withoutGlobalScopes()->each(function($ticket) use (&$attachments) {
-        if($ticket->attachments()->count() > 0){
-            $ticket->attachments()->pluck('attachments.id', 'attachments.id')->each(function($attachment) use (&$attachments) {
-                $attachments[$attachment] = $attachment;
-            });
-        }
-    });
-    dd($attachments);
+    dd("NOTHING TO DO HERE");
 });
 
 Route::get('/', function () {
@@ -35,6 +27,10 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
+Route::get('annonymous/ticket/crear', function(Request $req) {
+    return view('tickets.create_annonymous');
+})->name('ticket.without.login');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');

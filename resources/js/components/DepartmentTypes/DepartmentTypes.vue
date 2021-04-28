@@ -32,6 +32,7 @@
         class="d-none d-lg-block"
         :department-types="departmentTypes"
         :permissions="permissions"
+        :paginated="true"
         @page="setPage"
         @deleted="deleted = true"
       />

@@ -16,7 +16,9 @@
         :cardTemplate="false"
         :editable="true"
         :user="user"
+        :user-role="userRole"
         type="new"
+
       />
     </div>
   </div>
@@ -26,6 +28,7 @@
 import UserForm from "./UserForm.vue";
 export default {
   components: { UserForm },
+  props: ["userRole"],
   data() {
     return {
       user: {

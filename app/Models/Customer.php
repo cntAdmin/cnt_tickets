@@ -28,7 +28,9 @@ class Customer extends Model
 
     public function scopeFilterCustomers(Builder $builder): Builder
     {
-        return $builder->when(request()->input('cif'), function(Builder $q, $cif) {
+        return $builder->when(request()->input('customer_id'), function(Builder $q, $customer_id) {
+                $q->where('id', $customer_id);
+            })->when(request()->input('cif'), function(Builder $q, $cif) {
                 $q->where('cif', 'LIKE', '%'. $cif . '%');
             })->when(request()->input('name'), function(Builder $q, $name) {
                 $q->where(function(Builder $q2) use ($name) {

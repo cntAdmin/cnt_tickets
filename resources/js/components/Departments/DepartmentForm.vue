@@ -37,7 +37,7 @@
             type="text"
             v-model="department.name"
             class="form-control"
-            maxlength="10"
+            maxlength="100"
           />
         </div>
       </div>

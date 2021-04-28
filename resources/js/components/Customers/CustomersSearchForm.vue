@@ -4,7 +4,7 @@
       <div class="card-body">
         <form @submit.prevent="handleSubmit" class="form-inline">
           <div class="col-12 col-md-6 col-lg-4 mt-2">
-            <label class="sr-only" for="ticket_id"># ID</label>
+            <label class="sr-only" for="customer_id"># ID</label>
             <div class="input-group">
               <div class="input-group-prepend">
                 <div class="input-group-text d-none d-lg-block"># ID</div>
@@ -15,8 +15,8 @@
               <input
                 type="text"
                 class="form-control"
-                id="ticket_id"
-                placeholder="ID Ticket"
+                id="customer_id"
+                placeholder="ID Cliente"
                 v-model="search.customer_id"
               />
             </div>
@@ -108,11 +108,12 @@ export default {
       } else {
         this.search.page = 1;
       }
+      console.log(this.search.page);
 
       axios
         .get("/api/customer", {
           params: {
-            page: this.page,
+            page: this.search.page,
             customer_id: this.search.customer_id,
             name: this.search.name,
             email: this.search.email,
@@ -120,10 +121,8 @@ export default {
           },
         })
         .then((res) => {
-          setTimeout(() => {
             this.$emit("searching", false);
             this.$emit("searched", res.data.customers);
-          }, 1000);
         })
         .catch((err) => err.response.data);
     },

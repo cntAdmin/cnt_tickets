@@ -47,7 +47,9 @@
           </thead>
           <tbody>
             <tr
-              v-for="departmentType in departmentTypes.data"
+              v-for="departmentType in paginated
+                ? departmentTypes.data
+                : departmentTypes"
               :key="departmentType.id"
             >
               <th scope="row" class="text-center">{{ departmentType.id }}</th>
@@ -56,13 +58,25 @@
               <td>{{ departmentType.tickets_count }}</td>
               <td>
                 <div class="d-flex flex-wrap justify-content-around">
-                  <a 
-                    v-if="permissions.find(permission => permission.name =='department_type.update')"
-                    :href="`/department-type/${departmentType.id}/editar`" class="btn btn-sm btn-info text-white">
+                  <a
+                    v-if="
+                      permissions.find(
+                        (permission) =>
+                          permission.name == 'department_type.update'
+                      )
+                    "
+                    :href="`/department-type/${departmentType.id}/editar`"
+                    class="btn btn-sm btn-info text-white"
+                  >
                     <i class="fa fa-edit"></i>
-                </a>
+                  </a>
                   <button
-                    v-if="permissions.find(permission => permission.name =='department_type.destroy')"
+                    v-if="
+                      permissions.find(
+                        (permission) =>
+                          permission.name == 'department_type.destroy'
+                      )
+                    "
                     type="button"
                     class="btn btn-sm btn-danger"
                     title="Borrar Usuario"
@@ -87,12 +101,23 @@
         />
       </div>
     </div>
+    <pagination
+      v-if="paginated"
+      size="small"
+      align="center"
+      :data="departmentTypes"
+      :limit="3"
+      @pagination-change-page="emitPagination"
+    >
+      <span slot="prev-nav">&lt; Anterior</span>
+      <span slot="next-nav">Siguiente &gt;</span>
+    </pagination>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["departmentTypes", "permissions"],
+  props: ["departmentTypes", "permissions", "paginated"],
   data() {
     return {
       departmentType: {},
