@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Models\Customer;
+use App\Models\Department;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -97,7 +98,7 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\UserRequest  $request
-     * @param  int  $id
+     * @param  User $user
      * @return \Illuminate\Http\Response
      */
     public function update(UserRequest $request, User $user): JsonResponse
@@ -117,7 +118,7 @@ class UserController extends Controller
             $user->customer()->associate(Customer::find( $validated['customer_id'] ));
         }
         if(isset($validated['department_id'])) {
-            $user->department()->associate(Customer::find( $validated['department_id'] ));
+            $user->department()->associate(Department::find( $validated['department_id'] ));
         }
         if(isset($validated['role_id'])) {
             $user->syncRoles(Role::find($validated['role_id']));

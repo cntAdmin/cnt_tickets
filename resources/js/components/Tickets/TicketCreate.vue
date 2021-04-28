@@ -22,6 +22,7 @@
         :ticket="ticket"
         :ticketType="ticketType"
         :editable="true"
+        :userRole="userRole"
         @created="ticketCreated"
       />
       <work-report-form
@@ -34,6 +35,7 @@
         :ticketType="ticketType"
         :timeslots="timeslots"
         :editable="true"
+        :userRole="userRole"
         @created="ticketCreated"
         @deleted="deleteTimeslots"
       />
@@ -48,7 +50,7 @@ import WorkReportForm from "./WorkReportForm.vue";
 
 export default {
   components: { TicketForm, WorkReportForm, TicketTimeslotsModal },
-  props: ["customer", "ticketType"],
+  props: ["customer", "ticketType", "userRole"],
   data() {
     return {
       ticketTimeslotModal: false,

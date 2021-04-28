@@ -24,9 +24,9 @@
     </div>
 
     <form @submit.prevent="handleSubmit" class="form-inline">
-      <customers-dropdown-select :customer="ticket.customer" :editable="editable" @setCustomer="setCustomer" />
+      <customers-dropdown-select v-if="admins.includes(userRole)" :customer="ticket.customer" :editable="editable" @setCustomer="setCustomer" />
       
-      <div class="col-12 col-md-6 col-lg-4 mt-2">
+      <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="admins.includes(userRole)">
         <label class="sr-only" for="users">Usuarios</label>
         <div class="input-group">
           <div class="input-group-prepend">
@@ -301,7 +301,7 @@ export default {
   provide: {
     richtexteditor: [Toolbar, Image, Link, HtmlEditor, QuickToolbar],
   },
-  props: ["ticket", "editable", "buttonText", "type", "customer", "ticketType"],
+  props: ["ticket", "editable", "buttonText", "type", "customer", "ticketType", "userRole"],
   data() {
     return {
       warranties: [],
@@ -310,6 +310,7 @@ export default {
       customers: [],
       users: [],
       agents: [],
+      admins: [1, 2],
       agentValue: this.ticket.agent ? this.ticket.agent : "",
       departments: [],
       department_types: [],
