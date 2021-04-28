@@ -18,7 +18,8 @@ class WarrantySeeder extends Seeder
         } else {
             $waranties = [
                 ['name' => 'Total', 'created_at' => now()->toDateTimeString(), 'updated_at' => now()->toDateTimeString()],
-                ['name' => 'Parcial', 'created_at' => now()->toDateTimeString(), 'updated_at' => now()->toDateTimeString()]
+                ['name' => 'Parcial', 'created_at' => now()->toDateTimeString(), 'updated_at' => now()->toDateTimeString()],
+                ['name' => 'Sin Garantia', 'created_at' => now()->toDateTimeString(), 'updated_at' => now()->toDateTimeString()]
             ];
             Warranty::insert($waranties);
         }
