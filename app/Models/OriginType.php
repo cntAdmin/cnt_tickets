@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class OriginType extends Model
 {
-    protected $connection = "mysql";
     protected $fillable = [
         'name'
     ];

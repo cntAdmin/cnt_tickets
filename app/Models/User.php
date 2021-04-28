@@ -16,7 +16,6 @@ class User extends Authenticatable
     use SoftDeletes;
     use HasRoles;
 
-    protected $connection = "mysql";
     /**
      * The attributes that are mass assignable.
      *

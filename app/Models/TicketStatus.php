@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TicketStatus extends Model
 {
-    protected $connection = "mysql";
     protected $fillable = [
         'name', 'color', 'icon'
     ];

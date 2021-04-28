@@ -21,7 +21,6 @@ class Ticket extends Model
         static::addGlobalScope(new ByRoleOnCustomerIDGlobalScope('customer_id'));
     }
     
-    protected $connection = "mysql";
     protected $fillable = [
         'title', 'description', 'deleted_at', 'read_by_admin', 'custom_id',
         // ASSOCIATIONS

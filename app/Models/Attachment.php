@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Attachment extends Model
 {
-    protected $connection = "mysql";
     protected $fillable = [
         'name', 'path', 'created_at', 'updated_at'
     ];

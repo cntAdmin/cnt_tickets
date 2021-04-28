@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Priority extends Model
 {
-    protected $connection = "mysql";
     protected $fillable = [
         'name'
     ];
