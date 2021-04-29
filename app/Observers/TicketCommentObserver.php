@@ -2,9 +2,11 @@
 
 namespace App\Observers;
 
+use App\Mail\TicketCommentMail;
 use App\Models\Comment;
 use App\Models\TicketStatus;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Mail;
 
 class TicketCommentObserver
 {
@@ -22,6 +24,18 @@ class TicketCommentObserver
                 'read_by_admin' => true,
                 'ticket_status_id' => TicketStatus::where('name', 'LIKE', '%abierto%')->first()->id ?: $comment->ticket->ticket_status->id ?: null
                 ]);
+            if(!$this->comment->customer) {
+                $sendTo = [$this->comment->user->email];
+            } else {
+                if( $this->comment->ticket->user->email !== $this->comment->ticket->customer->email ) {
+                    $sentTo = [$this->comment->ticket->user->email, $this->comment->ticket->customer->email];
+                } else {
+                    $sentTo = [$this->comment->ticket->user->email];
+                }
+            }
+        
+            Mail::to($sendTo)->send(new TicketCommentMail($comment));
+
         } else {
             $comment->ticket()->update([
                 'read_by_admin' => false

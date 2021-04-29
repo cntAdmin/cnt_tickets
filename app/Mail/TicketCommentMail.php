@@ -30,17 +30,7 @@ class TicketCommentMail extends Mailable
      */
     public function build()
     {
-        if(!$this->comment->customer) {
-            $sendTo = [$this->comment->user->email];
-        } else {
-            if( $this->comment->ticket->user->email !== $this->comment->ticket->customer->email ) {
-                $sentTo = [$this->comment->ticket->user->email, $this->comment->ticket->customer->email];
-            } else {
-                $sentTo = [$this->comment->ticket->user->email];
-            }
-        }
-
-        return $this->to($sendTo)->view('mails.ticket_comment')
+        return $this->view('mails.ticket_comment')
             ->with([
                 'comment' => $this->comment , 'ticket' => $this->comment->ticket
             ]);
