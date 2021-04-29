@@ -465,7 +465,7 @@ export default {
           }
         }
       }
-      console.log(this.ticketType);
+
       if (this.type == "new") {
         if (this.ticket.customer_id)
           formData.append("customer_id", this.ticket.customer_id);
@@ -492,7 +492,7 @@ export default {
         axios
           .post(`/api/ticket`, formData)
           .then((res) => {
-            console.log(res.data);
+            // console.log(res.data);
             $("html, body").animate({ scrollTop: 0 }, "slow");
             this.success = {
               status: true,
@@ -508,7 +508,7 @@ export default {
           })
           .catch((err) => {
             $("html, body").animate({ scrollTop: 0 }, "slow");
-            console.log(err.response.data);
+            // console.log(err.response.data);
             this.error = {
               status: true,
               errors: err.response.data.errors,
