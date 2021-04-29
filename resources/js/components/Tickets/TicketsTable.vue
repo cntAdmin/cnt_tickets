@@ -217,7 +217,7 @@ export default {
   },
   methods: {
     checkTicketRow(ticket) {
-      if (userRole < 3) {
+      if (this.userRole < 3) {
         if (ticket.read_by_admin) {
           return "border-left border-success";
         } else {
