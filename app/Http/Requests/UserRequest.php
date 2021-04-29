@@ -32,7 +32,7 @@ class UserRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'mtcdr_customer_name' => ['nullable', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255', Rule::unique('users', 'username')->ignore($this->user)],
-            'email' => ['required', 'email', 'max:255'],
+            'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($this->user)],
             'password' => ['nullable', 'string', 'max:255', 'confirmed'],
             'is_active' => ['nullable', 'boolean']
         ];
