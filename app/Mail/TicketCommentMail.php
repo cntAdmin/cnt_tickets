@@ -30,8 +30,7 @@ class TicketCommentMail extends Mailable
      */
     public function build()
     {
-        return $this->view('mails.ticket_comment')
-            ->with([
+        return $this->markdown('mails.ticket_comment', [
                 'comment' => $this->comment , 'ticket' => $this->comment->ticket
             ]);
     }
