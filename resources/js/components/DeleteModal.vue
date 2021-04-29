@@ -43,7 +43,8 @@ export default {
             .then( res => {
                 this.$emit('success', res.data.msg)
             }).catch( err => {
-              if([404, 500].includes(err.response.status)) console.log(err.response.data.message);
+              if([404, 500].includes(err.response.status))
+                console.log(err.response.data.message);
               this.$emit('error', err.response.data.msg)
             });
       }

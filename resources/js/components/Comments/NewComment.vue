@@ -147,7 +147,7 @@ export default {
               msg: "",
             };
             this.newComment = "";
-            console.log(this.ticket.comments)
+            // console.log(this.ticket.comments)
             if(this.userRole) {
               this.$emit("submitted");
             } else {

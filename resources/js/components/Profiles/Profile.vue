@@ -69,7 +69,6 @@ export default {
         users: [this.user],
       };
     }
-    console.log(this.user.customer.users);
   },
 };
 </script>

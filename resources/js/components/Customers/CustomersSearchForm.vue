@@ -108,7 +108,7 @@ export default {
       } else {
         this.search.page = 1;
       }
-      console.log(this.search.page);
+      // console.log(this.search.page);
 
       axios
         .get("/api/customer", {

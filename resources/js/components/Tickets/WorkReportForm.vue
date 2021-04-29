@@ -361,7 +361,6 @@ export default {
     };
   },
   beforeMount() {
-    console.log(this.ticket)
     if(!this.ticket.user_id) this.ticket.user_id = "";
   },
   mounted() {

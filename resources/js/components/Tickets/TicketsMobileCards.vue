@@ -156,7 +156,6 @@ export default {
           },
         })
         .then((res) => {
-          console.log('res.data.tickets.length', res.data.tickets.length)
           if (res.data.tickets.length <= 10) {
             return (this.stopLoading = true);
           }

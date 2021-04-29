@@ -73,7 +73,6 @@ export default {
       this.handleSubmit();
     },
     deleted() {
-      console.log("aaaaa");
       this.handleSubmit();
     },
   },

@@ -106,7 +106,7 @@ export default {
     };
   },
   mounted() {
-    console.log(this.userRole)
+    // console.log(this.userRole)
   },
   methods: {
     commentDeleted(data) {
