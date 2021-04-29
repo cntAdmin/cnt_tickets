@@ -16,7 +16,7 @@
 <p>
     Puede comprobar el estado de la incidenciao actualizarlo en línea pulsando aquí.
 </p>
-@component('mail::button', ['url' => config('app.url') . 'ticket/comment/' . $comment->_token])
+@component('mail::button', ['url' => config('app.url') . '/ticket/comment/' . $comment->_token])
 Ver Incidencia
 @endcomponent
 <p>

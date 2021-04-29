@@ -52,11 +52,7 @@
             <tr
               v-for="ticket in tickets.data"
               :key="ticket.id"
-              :class="
-                !ticket.read_by_admin
-                  ? 'border-left border-danger text-danger font-weight-bold'
-                  : 'border-left border-success'
-              "
+              :class="checkTicketRow(ticket)"
             >
               <th scope="row" class="text-center">
                 <a
@@ -97,9 +93,7 @@
                   <span class="btn btn-sm btn-link">
                     <i class="text-secondary fas fa-comment-dots"></i
                     ><span class="badge badge-dark ml-2">
-                      {{
-                        Object.keys(ticket.comments).length
-                      }}
+                      {{ Object.keys(ticket.comments).length }}
                     </span>
                   </span>
                 </div>
@@ -121,7 +115,11 @@
                     <i class="fa fa-eye"></i>
                   </a>
                   <a
-                    v-if="permissions.find((permission) => permission.name == 'ticket.update')"
+                    v-if="
+                      permissions.find(
+                        (permission) => permission.name == 'ticket.update'
+                      )
+                    "
                     class="btn btn-sm btn-info text-white"
                     title="Editar Ticket"
                     :href="`/ticket/${ticket.id}/editar`"
@@ -129,21 +127,36 @@
                     <i class="fa fa-edit"></i>
                   </a>
                   <button
-                    v-if="permissions.find((permission) => permission.name == 'ticket.update')"
+                    v-if="
+                      permissions.find(
+                        (permission) => permission.name == 'ticket.update'
+                      )
+                    "
                     type="button"
                     class="btn btn-sm btn-secondary text-white dropdown-toggle"
                     title="Editar Ticket"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
                   >
-                  <i class="fa fa-question-circle"></i>
+                    <i class="fa fa-question-circle"></i>
                   </button>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <button class="dropdown-item" @click="changeStatus(ticket.id, ticket_status.id)" v-for="ticket_status in ticket_statuses" :key="ticket_status.id">
+                    <button
+                      class="dropdown-item"
+                      @click="changeStatus(ticket.id, ticket_status.id)"
+                      v-for="ticket_status in ticket_statuses"
+                      :key="ticket_status.id"
+                    >
                       {{ ticket_status.name }}
                     </button>
                   </div>
                   <button
-                    v-if="permissions.find((permission) => permission.name == 'ticket.destroy')"
+                    v-if="
+                      permissions.find(
+                        (permission) => permission.name == 'ticket.destroy'
+                      )
+                    "
                     type="button"
                     class="btn btn-sm btn-danger"
                     title="Borrar Ticket"
@@ -183,11 +196,11 @@
 
 <script>
 export default {
-  props: ["tickets", "permissions"],
+  props: ["tickets", "permissions", "userRole"],
   data() {
     return {
       ticket: {},
-      ticket_statuses:[],
+      ticket_statuses: [],
       showDelete: false,
       success: {
         status: false,
@@ -200,26 +213,44 @@ export default {
     };
   },
   mounted() {
-    this.get_all_ticket_status()
+    this.get_all_ticket_status();
   },
   methods: {
+    checkTicketRow(ticket) {
+      if (userRole < 3) {
+        if (ticket.read_by_admin) {
+          return "border-left border-success";
+        } else {
+          return "border-left border-danger text-danger font-weight-bold";
+        }
+      } else {
+        if (ticket.read_by_admin) {
+          return "border-left border-danger text-danger font-weight-bold";
+        } else {
+          return "border-left border-success";
+        }
+      }
+    },
     changeStatus(ticket_id, ticket_status_id) {
-      axios.put(`/api/ticket/${ticket_id}/ticket-status/${ticket_status_id}`)
-        .then( res => {
+      axios
+        .put(`/api/ticket/${ticket_id}/ticket-status/${ticket_status_id}`)
+        .then((res) => {
           this.success = {
             status: true,
-            msg: res.data.msg
-          }
+            msg: res.data.msg,
+          };
           setTimeout(() => {
             this.$emit("page");
           }, 1500);
-        })
+        });
     },
-    get_all_ticket_status(){
-      axios.get('/api/get_all_ticket_statuses')
-        .then( res => {
+    get_all_ticket_status() {
+      axios
+        .get("/api/get_all_ticket_statuses")
+        .then((res) => {
           this.ticket_statuses = res.data.ticket_statuses;
-        }).catch( error => console.log(error.response.data));
+        })
+        .catch((error) => console.log(error.response.data));
     },
     emitPagination(page) {
       this.$emit("page", page);
