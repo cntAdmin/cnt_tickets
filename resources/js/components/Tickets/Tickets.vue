@@ -160,14 +160,14 @@ export default {
   },
   methods: {
     mobileSearch(data) {
-      console.log("data", data);
       this.formsearch = data;
     },
     searching(data) {
       this.is_searching = data;
     },
     setPage(data) {
-      this.page = data;
+      let a = Math.random().toString(36).substring(7);
+      this.page = data ? data : a;
     },
     searched(data) {
       this.ticketDeleted = false;
