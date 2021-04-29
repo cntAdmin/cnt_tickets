@@ -110,6 +110,7 @@
           class="d-none d-lg-block"
           :tickets="tickets"
           :permissions="permissions"
+          :user-role="user.role[0].id"
           @page="setPage"
           @ticketDeleted="ticketDeleted = true"
         ></tickets-table>
