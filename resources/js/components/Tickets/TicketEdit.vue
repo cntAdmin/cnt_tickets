@@ -51,6 +51,7 @@
           :ticketType="ticket.ticket_type"
           :timeslots="timeslots"
           :customer="ticket.customer"
+          :user-role="userRole"
           @deleted="deletedTimeslots"
         />
       </div>
