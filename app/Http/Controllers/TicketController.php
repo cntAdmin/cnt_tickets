@@ -79,7 +79,7 @@ class TicketController extends Controller
         ]);
 
         // ASSIGN DATA TO TICKET
-        $created_ticket->customer()->associate($validated['customer_id'] ?? null);
+        $created_ticket->customer()->associate($validated['customer_id'] ?: auth()->user()->customer_id ?: null);
         $created_ticket->agent()->associate($validated['agent_id'] ?? auth()->user()->id);
         $created_ticket->ticket_type()->associate($validated['ticket_type_id']);
         $created_ticket->user()->associate($validated['user_id'] ?? auth()->user()->id);
