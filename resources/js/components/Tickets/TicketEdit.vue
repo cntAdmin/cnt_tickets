@@ -40,6 +40,7 @@
           buttonText="Actualizar Ticket"
           :ticket="ticket"
           :editable="true"
+          :user-role="userRole"
           @updated="redirectToTicket"
         />
         <work-report-form
@@ -68,7 +69,7 @@ import TicketTimeslotsModal from "./TicketTimeslotsModal.vue";
 import WorkReportForm from "./WorkReportForm.vue";
 export default {
   components: { TicketForm, Attachments, TicketTimeslotsModal, WorkReportForm },
-  props: ["ticket"],
+  props: ["ticket", "userRole"],
   data() {
     return {
       ticketTimeslotModal: false,
