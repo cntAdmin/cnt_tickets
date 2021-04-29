@@ -217,17 +217,21 @@ export default {
   },
   methods: {
     checkTicketRow(ticket) {
-      if (this.userRole < 3) {
-        if (ticket.read_by_admin) {
-          return "border-left border-success";
-        } else {
-          return "border-left border-danger text-danger font-weight-bold";
-        }
+      if (ticket.ticket_status.id > 2) {
+        return "border-left border-success";
       } else {
-        if (ticket.read_by_admin) {
-          return "border-left border-danger text-danger font-weight-bold";
+        if (this.userRole < 3) {
+          if (ticket.read_by_admin) {
+            return "border-left border-success";
+          } else {
+            return "border-left border-danger text-danger font-weight-bold";
+          }
         } else {
-          return "border-left border-success";
+          if (ticket.read_by_admin) {
+            return "border-left border-danger text-danger font-weight-bold";
+          } else {
+            return "border-left border-success";
+          }
         }
       }
     },
