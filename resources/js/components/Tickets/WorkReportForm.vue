@@ -132,7 +132,31 @@
           </select>
         </div>
       </div>
-      <div class="d-flex flex-row justify-content-start mt-2 w-100">
+      <div class="col-12 col-md-6 col-lg-4 mt-2">
+        <label class="sr-only" for="ticket_id">Facturable</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text d-none d-lg-block py-1">Facturable</div>
+            <div class="input-group-text d-block d-lg-none py-1">
+              <i class="fa fa-hashtag"></i>
+            </div>
+          </div>
+          <select
+            v-model="ticket.invoiceable_type_id"
+            class="form-control"
+            :disabled="!editable ? true : false"
+          >
+            <option
+              :value="invoiceable_type.id"
+              v-for="invoiceable_type in invoiceable_types"
+              :key="invoiceable_type.id"
+            >
+              {{ invoiceable_type.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="d-flex flex-row justify-content-start mt-2 w-100" v-if="timeslots.length > 0">
         <div
           class="col-12 col-md-6 col-lg-3"
           v-for="(date, idx) in timeslots"
@@ -226,6 +250,12 @@
           ></div>
         </div>
       </div>
+      <div class="col-12 mt-3">
+        <p class="text-right" v-if="type !== 'new'">
+          <span class="mr-2 font-weight-bold">{{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }}</span>
+        </p>
+      </div>
+
       <div class="col-12 mt-3" v-if="editable">
         <input
           class="form-control w-100"
@@ -275,6 +305,7 @@ export default {
       departments: [],
       department_types: [],
       warranties: [],
+      invoiceable_types: [],
       files: [],
       success: {
         status: false,
@@ -334,22 +365,33 @@ export default {
       },
     };
   },
+  beforeMount() {
+    console.log(this.ticket)
+    if(!this.ticket.user_id) this.ticket.user_id = "";
+  },
   mounted() {
     this.get_all_department_types();
     this.get_all_departments();
     this.get_all_warranties();
+    this.get_all_invoiceable_types();
   },
   methods: {
+    get_all_invoiceable_types(){
+      axios.get('/api/get_all_invoiceable_types')
+        .then( res => {
+          this.invoiceable_types = res.data.invoiceable_types;
+        }).catch(error => console.log(error.response))
+    },
     deleteDate(date) {
-      if(date.start_date_time) {
+      if (date.start_date_time) {
         axios
-        .delete(`/api/ticket-timeslot/${date.id}`)
-        .then((res) => {
-          this.$emit("deleted", date);
-        })
-        .catch((error) => console.log(error.response.data));
+          .delete(`/api/ticket-timeslot/${date.id}`)
+          .then((res) => {
+            this.$emit("deleted", date);
+          })
+          .catch((error) => console.log(error.response.data));
       } else {
-          this.$emit("deleted", date);
+        this.$emit("deleted", date);
       }
     },
     get_all_warranties() {
@@ -405,14 +447,21 @@ export default {
       });
 
       if (this.type == "new") {
-        formData.append("ticket_type_id", this.ticketType.id);
-        formData.append("department_type_id", this.ticket.department_type_id);
-        formData.append("customer_id", this.ticket.customer_id);
-        formData.append("user_id", this.ticket.user_id);
-        formData.append("ticket_status_id", this.ticket.ticket_status_id);
-        formData.append("warranty_id", this.ticket.warranty_id);
-        formData.append("title", this.ticket.title);
-        formData.append("description", this.ticket.description);
+        if (this.ticketType.id)
+          formData.append("ticket_type_id", this.ticketType.id);
+        if (this.ticket.department_type_id)
+          formData.append("department_type_id", this.ticket.department_type_id);
+        if (this.ticket.customer_id)
+          formData.append("customer_id", this.ticket.customer_id);
+        if (this.ticket.user_id)
+          formData.append("user_id", this.ticket.user_id);
+        if (this.ticket.ticket_status_id)
+          formData.append("ticket_status_id", this.ticket.ticket_status_id);
+        if (this.ticket.warranty_id)
+          formData.append("warranty_id", this.ticket.warranty_id);
+        if (this.ticket.title) formData.append("title", this.ticket.title);
+        if (this.ticket.description)
+          formData.append("description", this.ticket.description);
 
         axios
           .post(`/api/ticket`, formData)

@@ -18,7 +18,7 @@
         :user="user"
         :user-role="userRole"
         type="new"
-
+        @success="userCreated"
       />
     </div>
   </div>
@@ -37,6 +37,11 @@ export default {
       },
     };
   },
+  methods: {
+    userCreated(){
+      window.location = "/user";
+    }
+  }
 };
 </script>
 

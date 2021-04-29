@@ -4,23 +4,59 @@
       <div class="card-header">
         <div class="d-flex justify-content-between flex-row align-items-center">
           <div class="mr-auto">
-            <span class="font-weight-bold text-uppercase">{{ ticket.custom_id }}</span>
+            <span class="font-weight-bold text-uppercase">{{
+              ticket.custom_id
+            }}</span>
           </div>
           <div class="ml-auto">
-            <a 
-              v-if="permissions.find(permission => permission.name == 'ticket.update')"
-            :href="`/ticket/${ticket.id}/editar`" class="btn btn-sm btn-warning">Editar</a>
-            <a 
-              v-if="permissions.find(permission => permission.name == 'ticket.show')"
-              href="/ticket" class="btn btn-sm btn-info text-white">Volver al listado</a>
+            <a
+              v-if="
+                permissions.find(
+                  (permission) => permission.name == 'ticket.update'
+                )
+              "
+              :href="`/ticket/${ticket.id}/editar`"
+              class="btn btn-sm btn-warning"
+              >Editar</a
+            >
+            <a
+              v-if="
+                permissions.find(
+                  (permission) => permission.name == 'ticket.show'
+                )
+              "
+              href="/ticket"
+              class="btn btn-sm btn-info text-white"
+              >Volver al listado</a
+            >
           </div>
         </div>
       </div>
       <div class="card-body">
-        <ticket-form :ticket="ticket" :editable="false" />
+        <!-- <ticket-form :ticket="ticket" :editable="false" /> -->
+        <ticket-form
+          v-if="ticket.ticket_type.id === 1"
+          :customer="ticket.customer ? ticket.customer : null"
+          :ticket="ticket"
+          :ticketType="ticket.ticket_type"
+          :editable="false"
+          :userRole="userRole"
+        />
+        <work-report-form
+          v-else-if="ticket.ticket_type.id === 2"
+          :customer="ticket.customer ? ticket.customer : null"
+          :ticket="ticket"
+          :ticketType="ticket.ticket_type"
+          :timeslots="ticket.ticket_timeslots"
+          :editable="false"
+          :userRole="userRole"
+        />
       </div>
     </div>
-    <attachments :attachments="attachments" @attachmentDeleted="getTicketAttachments" />
+    <attachments
+      :attachments="attachments"
+      @attachmentDeleted="getTicketAttachments"
+    />
 
     <comments :comments="comments" @commentDeleted="getTicketComments" />
 
@@ -33,10 +69,11 @@ import Comments from "../Comments/Comments.vue";
 import NewComment from "../Comments/NewComment.vue";
 import Attachments from "../Attachments/Attachments.vue";
 import TicketForm from "./TicketForm.vue";
+import WorkReportForm from './WorkReportForm.vue';
 
 export default {
-  components: { TicketForm, Attachments, Comments, NewComment },
-  props: ["ticket", "permissions"],
+  components: { TicketForm, Attachments, Comments, NewComment, WorkReportForm },
+  props: ["ticket", "permissions", "userRole"],
   data() {
     return {
       comments: [],

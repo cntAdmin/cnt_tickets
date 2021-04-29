@@ -1,11 +1,31 @@
 <template>
   <div class="card shadow">
     <div class="card-header">
-      <div class="d-flex flex-wrap justify-content-between  align-items-center">
+      <div class="d-flex flex-wrap justify-content-between align-items-center">
         <div class="mr-auto align-items-center">
-          <span class="text-uppercase font-weight-bold">{{ ticketType.name }}</span>
+          <span class="text-uppercase font-weight-bold">{{
+            ticketType.name
+          }}</span>
         </div>
         <div class="ml-auto d-flex flex-wrap">
+          <ticket-timeslots-modal
+            v-if="ticketTimeslotModal && ticketType.id === 2"
+            type="new"
+            :ticket_id="ticket.id"
+            @close="pushTimeslots"
+          />
+          <button
+            v-if="ticketType.id === 2"
+            type="button"
+            class="btn btn-sm btn-warning"
+            title="Borrar Ticket"
+            data-toggle="modal"
+            data-target="#ticketTimeslotsModal"
+            @click="ticketTimeslotModal = true"
+          >
+            Añadir Fechas
+          </button>
+
           <a href="/ticket" class="btn btn-sm btn-info text-white ml-2">
             Volver al listado
           </a>
@@ -23,7 +43,7 @@
         :ticketType="ticketType"
         :editable="true"
         :userRole="userRole"
-        @created="ticketCreated"
+        @success="ticketCreated"
       />
       <work-report-form
         v-else-if="ticketType.id === 2"
@@ -45,7 +65,7 @@
 
 <script>
 import TicketForm from "./TicketForm.vue";
-import TicketTimeslotsModal from './TicketTimeslotsModal.vue';
+import TicketTimeslotsModal from "./TicketTimeslotsModal.vue";
 import WorkReportForm from "./WorkReportForm.vue";
 
 export default {
@@ -54,7 +74,7 @@ export default {
   data() {
     return {
       ticketTimeslotModal: false,
-      timeslots:[],
+      timeslots: [],
       workReport: {
         customer: {},
         department_type: {},
@@ -63,7 +83,7 @@ export default {
       ticket: {
         customer: {},
         department_type: {},
-        dates: []
+        dates: [],
       },
     };
   },
@@ -71,7 +91,7 @@ export default {
     // console.log(this.ticketStatus);
   },
   methods: {
-    pushTimeslots(data){
+    pushTimeslots(data) {
       this.timeslots.push({
         id: Math.random().toString(36).substring(7),
         start_date_time_picker: data.start_date_time,
@@ -79,7 +99,9 @@ export default {
       });
     },
     deleteTimeslots(data) {
-      this.timeslots = this.timeslots.filter( timeslot => timeslot.id !== data.id);
+      this.timeslots = this.timeslots.filter(
+        (timeslot) => timeslot.id !== data.id
+      );
     },
     ticketCreated() {
       window.location = "/ticket";

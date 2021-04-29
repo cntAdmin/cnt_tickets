@@ -54,10 +54,10 @@
                 <a :href="`/ticket/${ticket.id}`" class="btn btn-sm btn-link text-dark font-weight-bold">{{ ticket.custom_id }}</a>
               </th>
               <td>{{ ticket.agent ? ticket.agent.name : ticket.createdBy.name }}</td>
-              <td>{{ ticket.customer.alias !== '' ? ticket.customer.alias : ticket.customer.name }}</td>
+              <td>{{ ticket.customer ? ticket.customer.name : '' }}</td>
               <td>{{ ticket.title }}</td>
               <td>{{ ticket.ticket_type.name }}</td>
-              <td class="text-center">{{ ticket.created_at | moment("DD-MM-YYYY") }}</td>
+              <td class="text-center">{{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }}</td>
               <td>
                 <div class="d-flex flex-wrap justify-content-center">
                   <button :class="`btn btn-sm btn-${ticket.ticket_status.color} ${ticket.ticket_status.color == 'info' ? ' text-white' : ''}`"

@@ -29,6 +29,7 @@ class CreateTicketsTable extends Migration
             $table->string('title', 100)->nullable();
             $table->text('description')->nullable();
             $table->boolean('read_by_admin')->default(true);
+            $table->foreignId('invoiceable_type_id')->nullable()->constrained()->cascadeOnUpdate()->onDelete('no action');
             
             $table->foreignId('deleted_by')->nullable()->constrained('users')->cascadeOnUpdate()->onDelete('no action');
             $table->softDeletes();

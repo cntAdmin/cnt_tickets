@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\InvoiceableType;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -27,6 +28,7 @@ class DatabaseSeeder extends Seeder
             WarrantySeeder::class,
             // DATOS CREADOS DE TEST
             DepartmentTypeSeeder::class,
+            InvoiceableTypeSeeder::class,
             TicketSeeder::class,
             CommentSeeder::class,
             AttachmentSeeder::class,

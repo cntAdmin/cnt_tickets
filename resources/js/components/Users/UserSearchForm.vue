@@ -65,6 +65,22 @@
               />
             </div>
           </div>
+          <div class="col-12 col-md-6 col-lg-4 mt-2">
+            <label class="sr-only" for="is_active">Activo</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text d-none d-lg-block">Activo</div>
+                <div class="input-group-text d-block d-lg-none">
+                  <i class="fa fa-hashtag"></i>
+                </div>
+              </div>
+              <select v-model="search.is_active" class="form-control">
+                <option value="">-- TODOS --</option>
+                <option value="1">Activos</option>
+                <option value="2">Inactivos</option>
+              </select>
+            </div>
+          </div>
           <div class="col-12">
             <button type="submit" class="btn btn-sm btn-success btn-block mt-3">
               <i class="fa fa-search"></i><span class="ml-2">Buscar</span>

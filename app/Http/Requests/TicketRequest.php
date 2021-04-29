@@ -25,10 +25,11 @@ class TicketRequest extends FormRequest
     {
         return [
             'ticket_type_id' => ['required', 'exists:ticket_types,id'],
+            'invoiceable_type_id' => ['nullable', 'sometimes', 'exists:invoiceable_types,id'],
             'department_type_id' => ['required', 'exists:department_types,id'],
-            'customer_id' => ['required', 'exists:customers,id'],
-            'agent_id' => ['sometimes', 'exists:users,id'],
-            'user_id' => ['required', 'exists:users,id'],
+            'customer_id' => ['nullable', 'sometimes', 'exists:customers,id'],
+            'agent_id' => ['nullable', 'sometimes', 'exists:users,id'],
+            'user_id' => ['nullable', 'sometimes', 'exists:users,id'],
             'priority_id' => ['sometimes', 'exists:priorities,id'],
             'origin_type_id' => ['sometimes', 'exists:origin_types,id'],
             'warranty_id' => ['required', 'exists:warranties,id'],

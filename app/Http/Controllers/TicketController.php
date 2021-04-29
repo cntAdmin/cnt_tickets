@@ -79,13 +79,14 @@ class TicketController extends Controller
         ]);
 
         // ASSIGN DATA TO TICKET
-        $created_ticket->customer()->associate($validated['customer_id']);
+        $created_ticket->customer()->associate($validated['customer_id'] ?? null);
         $created_ticket->agent()->associate($validated['agent_id'] ?? auth()->user()->id);
         $created_ticket->ticket_type()->associate($validated['ticket_type_id']);
-        $created_ticket->user()->associate($validated['user_id']);
+        $created_ticket->user()->associate($validated['user_id'] ?? auth()->user()->id);
         $created_ticket->priority()->associate($validated['priority_id'] ?? null);
         $created_ticket->origin_type()->associate($validated['origin_type_id'] ?? null);
         $created_ticket->warranty()->associate($validated['warranty_id'] ?? null);
+        $created_ticket->invoiceable_type()->associate($validated['invoiceable_type_id'] ?? null);
 
         // SAVE ALL THE RELATIONSHIPS
         $created_ticket->save();
@@ -124,9 +125,9 @@ class TicketController extends Controller
     public function show(Ticket $ticket, Request $req)
     {
         if($req->ajax()) {
-            return response()->json(['ticket' => $ticket->load(['attachments', 'comments'] )]);
+            return response()->json(['ticket' => $ticket->load(['attachments', 'comments', 'ticket_type', 'ticket_timeslots'] )]);
         }
-        return view('tickets.show')->with(['ticket' => $ticket->load(['attachments', 'comments']) ]);
+        return view('tickets.show')->with(['ticket' => $ticket->load(['attachments', 'comments', 'ticket_type', 'ticket_timeslots']) ]);
     }
 
     /**

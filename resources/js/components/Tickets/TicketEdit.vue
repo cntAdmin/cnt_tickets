@@ -8,12 +8,12 @@
           </div>
           <div class="ml-auto">
             <ticket-timeslots-modal
-              v-if="ticketTimeslotModal"
+              v-if="ticketTimeslotModal && ticket.ticket_type.id === 2"
               :ticket_id="ticket.id"
               @close="pushTimeslots"
             />
             <button
-            v-if="ticket.ticket_type.id === 2"
+              v-if="ticket.ticket_type.id === 2"
               type="button"
               class="btn btn-sm btn-warning"
               title="Borrar Ticket"

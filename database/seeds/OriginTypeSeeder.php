@@ -17,7 +17,7 @@ class OriginTypeSeeder extends Seeder
         } else {
             $origins = [
                 ['name' => 'Llamada Telefónica', 'created_at' => now()->toDateTimeString(), 'updated_at' => now()->toDateTimeString()],
-                ['name' => 'Email', 'created_at' => now()->toDateTimeString(), 'updated_at' => now()->toDateTimeString()]
+                ['name' => 'Email', 'created_at' => now()->toDateTimeString(), 'updated_at' => now()->toDateTimeString()],
             ];
 
             App\Models\OriginType::insert($origins);

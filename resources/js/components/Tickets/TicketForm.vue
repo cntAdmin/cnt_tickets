@@ -24,9 +24,17 @@
     </div>
 
     <form @submit.prevent="handleSubmit" class="form-inline">
-      <customers-dropdown-select v-if="admins.includes(userRole)" :customer="ticket.customer" :editable="editable" @setCustomer="setCustomer" />
-      
-      <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="admins.includes(userRole)">
+      <customers-dropdown-select
+        v-if="admins.includes(userRole)"
+        :customer="ticket.customer"
+        :editable="editable"
+        @setCustomer="setCustomer"
+      />
+
+      <div
+        class="col-12 col-md-6 col-lg-4 mt-2"
+        v-if="admins.includes(userRole)"
+      >
         <label class="sr-only" for="users">Usuarios</label>
         <div class="input-group">
           <div class="input-group-prepend">
@@ -52,7 +60,10 @@
           </select>
         </div>
       </div>
-      <div class="col-12 col-md-6 col-lg-4 mt-2">
+      <div
+        class="col-12 col-md-6 col-lg-4 mt-2"
+        v-if="admins.includes(userRole)"
+      >
         <label class="sr-only" for="agent_id">Asignar a</label>
         <div class="input-group">
           <div class="input-group-prepend">
@@ -93,7 +104,7 @@
             id="ticket_id"
             placeholder="ID Ticket"
             v-model="ticket.id"
-            :disabled="!editable ? true : false"
+            disabled
           />
         </div>
       </div>
@@ -268,6 +279,14 @@
           ></div>
         </div>
       </div>
+      <div class="col-12 mt-3">
+        <p class="text-right" v-if="type !== 'new'">
+          <span class="mr-2 font-weight-bold">{{
+            ticket.created_at | moment("DD-MM-YYYY HH:mm:ss")
+          }}</span>
+        </p>
+      </div>
+
       <div class="col-12 mt-3" v-if="editable">
         <input
           class="form-control w-100"
@@ -294,14 +313,22 @@ import {
   QuickToolbar,
 } from "@syncfusion/ej2-vue-richtexteditor";
 import FormErrors from "../FormErrors.vue";
-import CustomersDropdownSelect from '../CustomersDropdownSelect.vue';
+import CustomersDropdownSelect from "../CustomersDropdownSelect.vue";
 
 export default {
   components: { FormErrors, CustomersDropdownSelect },
   provide: {
     richtexteditor: [Toolbar, Image, Link, HtmlEditor, QuickToolbar],
   },
-  props: ["ticket", "editable", "buttonText", "type", "customer", "ticketType", "userRole"],
+  props: [
+    "ticket",
+    "editable",
+    "buttonText",
+    "type",
+    "customer",
+    "ticketType",
+    "userRole",
+  ],
   data() {
     return {
       warranties: [],
@@ -375,7 +402,6 @@ export default {
     };
   },
   mounted() {
-    // SI ES EDITABLE ASIGNAR VARIABLES A LOS VUE-SELECT
     this.get_all_customers();
     this.get_all_agents();
     this.get_all_departments();
@@ -439,24 +465,34 @@ export default {
           }
         }
       }
-      console.log(this.ticketType)
+      console.log(this.ticketType);
       if (this.type == "new") {
-        formData.append("ticket_type_id", this.ticketType.id);
-        formData.append("department_type_id", this.ticket.department_type_id);
-        formData.append("customer_id", this.ticket.customer_id);
-        formData.append("agent_id", this.ticket.agent_id);
-        formData.append("user_id", this.ticket.user_id);
-        formData.append("priority_id", this.ticket.priority_id);
-        formData.append("origin_type_id", this.ticket.origin_type_id);
-        formData.append("ticket_status_id", this.ticket.ticket_status_id);
-        formData.append("warranty_id", this.ticket.warranty_id);
-        formData.append("title", this.ticket.title);
-        formData.append("description", this.ticket.description);
+        if (this.ticket.customer_id)
+          formData.append("customer_id", this.ticket.customer_id);
+        if (this.ticket.agent_id)
+          formData.append("agent_id", this.ticket.agent_id);
+        if (this.ticket.user_id)
+          formData.append("user_id", this.ticket.user_id);
+        if (this.ticketType.id)
+          formData.append("ticket_type_id", this.ticketType.id);
+        if (this.ticket.department_type_id)
+          formData.append("department_type_id", this.ticket.department_type_id);
+        if (this.ticket.priority_id)
+          formData.append("priority_id", this.ticket.priority_id);
+        if (this.ticket.origin_type_id)
+          formData.append("origin_type_id", this.ticket.origin_type_id);
+        if (this.ticket.ticket_status_id)
+          formData.append("ticket_status_id", this.ticket.ticket_status_id);
+        if (this.ticket.warranty_id)
+          formData.append("warranty_id", this.ticket.warranty_id);
+        if (this.ticket.title) formData.append("title", this.ticket.title);
+        if (this.ticket.description)
+          formData.append("description", this.ticket.description);
 
         axios
           .post(`/api/ticket`, formData)
           .then((res) => {
-            // console.log(res.data);
+            console.log(res.data);
             $("html, body").animate({ scrollTop: 0 }, "slow");
             this.success = {
               status: true,
@@ -467,7 +503,7 @@ export default {
                 status: false,
                 msg: "",
               };
-              this.$emit("created");
+              this.$emit("success");
             }, 2000);
           })
           .catch((err) => {
@@ -494,7 +530,7 @@ export default {
                 status: false,
                 msg: "",
               };
-              this.$emit("updated");
+              this.$emit("success");
             }, 2000);
           })
           .catch((err) => {
