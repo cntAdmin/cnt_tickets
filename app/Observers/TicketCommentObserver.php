@@ -24,13 +24,14 @@ class TicketCommentObserver
                 'read_by_admin' => true,
                 'ticket_status_id' => TicketStatus::where('name', 'LIKE', '%abierto%')->first()->id ?: $comment->ticket->ticket_status->id ?: null
                 ]);
-            if(!$this->comment->customer) {
-                $sendTo = [$this->comment->user->email];
+
+            if(!$comment->customer) {
+                $sendTo = [$comment->user->email];
             } else {
-                if( $this->comment->ticket->user->email !== $this->comment->ticket->customer->email ) {
-                    $sendTo = [$this->comment->ticket->user->email, $this->comment->ticket->customer->email];
+                if( $comment->ticket->user->email !== $comment->ticket->customer->email ) {
+                    $sendTo = [$comment->ticket->user->email, $comment->ticket->customer->email];
                 } else {
-                    $sendTo = [$this->comment->ticket->user->email];
+                    $sendTo = [$comment->ticket->user->email];
                 }
             }
         
