@@ -56,7 +56,7 @@ export default {
   provide: {
     richtexteditor: [Toolbar, Image, Link, HtmlEditor, QuickToolbar],
   },
-  props: ["ticket_id"],
+  props: ["ticket", "userRole"],
   data() {
     return {
       newComment: "",
@@ -131,7 +131,7 @@ export default {
       formData.append("comment", this.newComment);
 
       axios
-        .post(`/api/ticket/${this.ticket_id}/comment`, formData, {
+        .post(`/api/ticket/${this.ticket.id}/comment`, formData, {
             headers: {
                 "Content-Type": "multipart/form-data"
             }
@@ -142,16 +142,20 @@ export default {
             msg: res.data.msg,
           };
           setTimeout(() => {
-            this.$emit("submitted");
             this.success = {
               status: false,
               msg: "",
             };
             this.newComment = "";
-            // window.location = `/ticket/${this.ticket_id}`;
+            console.log(this.ticket.comments)
+            if(this.userRole) {
+              this.$emit("submitted");
+            } else {
+              window.location = `/ticket/comment/${this.ticket.comments[this.ticket.comments.length - 1]._token}`;
+            }
           }, 2000);
         })
-        .catch((err) => console.log(err.response.data.errors));
+        .catch((err) => console.log(err.response.data));
     },
   },
 };

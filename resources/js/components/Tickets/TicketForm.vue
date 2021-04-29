@@ -394,17 +394,25 @@ export default {
     };
   },
   mounted() {
-    this.get_all_customers();
-    this.get_all_agents();
-    this.get_all_departments();
-    this.get_all_department_types();
-    this.get_all_priorities();
-    this.get_all_origins();
-    this.get_all_waranties();
-    if (this.customer) {
-      this.ticket.customer.alias = this.customer.alias;
-      this.ticket.customer_id = this.customer.id;
-      this.get_customer_users();
+    if (this.type === "annonymous") {
+      this.department_types = [ this.ticket.department_type ];
+      this.departments = [ this.ticket.department_type.department ];
+      this.priorities = [ this.ticket.priority ];
+      this.origins = [ this.ticket.origin_type ];
+      this.warranties = [ this.ticket.warranty ];
+    } else {
+      this.get_all_customers();
+      this.get_all_agents();
+      this.get_all_departments();
+      this.get_all_department_types();
+      this.get_all_priorities();
+      this.get_all_origins();
+      this.get_all_waranties();
+      if (this.customer) {
+        this.ticket.customer.alias = this.customer.alias;
+        this.ticket.customer_id = this.customer.id;
+        this.get_customer_users();
+      }
     }
   },
   methods: {

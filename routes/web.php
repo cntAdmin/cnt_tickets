@@ -31,6 +31,7 @@ Auth::routes();
 Route::get('annonymous/ticket/crear', function(Request $req) {
     return view('tickets.create_annonymous');
 })->name('ticket.without.login');
+Route::get('ticket/comment/{comment:_token}', 'TicketCommentController@getTicketThroughToken')->name('comment.token');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');

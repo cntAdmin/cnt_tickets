@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Str;
-use TicketTimeslotSeeder;
 
 class Ticket extends Model
 {

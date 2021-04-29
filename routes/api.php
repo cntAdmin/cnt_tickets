@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::post('/ticket/{ticket}/comment', 'TicketCommentController@store')->name('ticket.comment.store');
+
 Route::middleware(['auth:web'])->group(function () {
     // * GETTERS 
     Route::get('/get_ticket_status_count', 'TicketController@count')->name('count');
@@ -39,8 +41,8 @@ Route::middleware(['auth:web'])->group(function () {
 
     // RESOURCES
     Route::apiResource('ticket', TicketController::class)->except('show');
+    Route::apiResource('ticket.comment', TicketCommentController::class)->except('store');
     Route::apiResources([
-        'ticket.comment' => TicketCommentController::class,
         'attachment' => AttachmentController::class,
         'comment' => CommentController::class,
         'customer' => CustomerController::class,

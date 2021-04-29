@@ -33,7 +33,6 @@
         </div>
       </div>
       <div class="card-body">
-        <!-- <ticket-form :ticket="ticket" :editable="false" /> -->
         <ticket-form
           v-if="ticket.ticket_type.id === 1"
           :customer="ticket.customer ? ticket.customer : null"
@@ -41,6 +40,7 @@
           :ticketType="ticket.ticket_type"
           :editable="false"
           :userRole="userRole"
+          :type="type ? type : ''"
         />
         <work-report-form
           v-else-if="ticket.ticket_type.id === 2"
@@ -58,9 +58,9 @@
       @attachmentDeleted="getTicketAttachments"
     />
 
-    <comments :comments="comments" @commentDeleted="getTicketComments" />
+    <comments :comments="comments" @commentDeleted="getTicketComments" :user-role="userRole" />
 
-    <new-comment :ticket_id="ticket.id" @submitted="getTicketComments" />
+    <new-comment :ticket="ticket" @submitted="getTicketComments" :user-role="userRole" />
   </div>
 </template>
 
@@ -74,12 +74,17 @@ import Spinner from '../Spinner.vue';
 
 export default {
   components: { TicketForm, Attachments, Comments, NewComment, WorkReportForm, Spinner },
-  props: ["ticket", "permissions", "userRole"],
+  props: ["ticket", "permissions", "userRole", "type"],
   data() {
     return {
       comments: [],
       attachments: [],
     };
+  },
+  beforeMount() {
+    if(!this.permissions) {
+      this.permissions = [];
+    }
   },
   mounted() {
     this.comments = this.ticket.comments;

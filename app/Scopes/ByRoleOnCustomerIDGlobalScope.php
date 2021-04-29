@@ -22,7 +22,7 @@ class ByRoleOnCustomerIDGlobalScope implements Scope
      * @param  \Illuminate\Database\Eloquent\Model  $model
      * @return void
      */
-    public function apply(Builder $builder, Model $model): Builder
+    public function apply(Builder $builder, Model $model)
     {
         $user = auth()->user();
         if(auth()->check()) {

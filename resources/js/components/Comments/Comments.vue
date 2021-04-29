@@ -46,12 +46,13 @@
         <div class="card-body">
           <p v-html="comment.description"></p>
         </div>
-        <div :class="'card-footer text-' + alignText(comment)">
-          <div class="row mx-1 align-items-center">
+        <div class="card-footer">
+          <div :class="'row mx-1 align-items-center justify-content-' + alignFooter(comment) ">
             <span :class="'font-weight-bold order-' + dateOrder(comment)">
               {{ comment.created_at | moment("DD-MM-YYYY HH:mm:ss") }}
             </span>
             <button
+              v-if="userRole && userRole < 3"
               data-toggle="modal"
               data-target="#deleteModal"
               :class="
@@ -88,7 +89,7 @@ import Attachments from "../Attachments/Attachments.vue";
 import DeleteModal from "../DeleteModal.vue";
 export default {
   components: { Attachments, DeleteModal },
-  props: ["comments"],
+  props: ["comments", "userRole"],
   data() {
     return {
       success: {
@@ -103,6 +104,9 @@ export default {
       comment_id: null,
       admin_users: [1, 2],
     };
+  },
+  mounted() {
+    console.log(this.userRole)
   },
   methods: {
     commentDeleted(data) {
@@ -143,6 +147,12 @@ export default {
       return "ml-auto";
     },
     alignAttachment(comment) {
+      if (this.admin_users.includes(comment.user.roles[0].id)) {
+        return "start";
+      }
+      return "end";
+    },
+    alignFooter(comment){
       if (this.admin_users.includes(comment.user.roles[0].id)) {
         return "start";
       }

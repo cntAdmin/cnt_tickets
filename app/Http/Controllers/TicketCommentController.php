@@ -50,12 +50,12 @@ class TicketCommentController extends Controller
         ]);
 
         if($validator->fails()) {
-            return response()->json(['errors' => $validator->errors() ], 400);
+            return response()->json(['errors' => $validator->errors() ], 422);
         }
 
         $comment = Comment::create([
             'ticket_id' => $ticket->id,
-            'user_id' => auth()->user()->id,
+            'user_id' => auth()->user()->id ?? $ticket->user->id,
             'description' => $req->comment,
             '_token' => $this->createToken()
         ]);
@@ -71,7 +71,9 @@ class TicketCommentController extends Controller
             }
         }
 
-        return response()->json(['msg' => 'Comentario creado correctamente.'], 200);
+        return $comment 
+            ? response()->json(['msg' => 'Comentario creado correctamente.'], 200)
+            : response()->json(['msg' => 'No se ha podido crear el comentario, por favor, contacte con el administrador.'], 400);
     }
 
     /**
@@ -131,6 +133,20 @@ class TicketCommentController extends Controller
             return $token;
         } else {
             $this->createToken();
+        }
+    }
+
+    public function getTicketThroughToken(Comment $comment)
+    {
+
+        if($comment->created_at->diffInMinutes(now()) > $comment->expires_in) {
+            return abort(403);
+        } else {
+            return view('tickets.show_annonymous')
+                ->with([
+                    'ticket' => $comment->ticket
+                                ->load(['comments', 'ticket_type', 'agent', 'department_type', 'priority', 'origin_type', 'warranty'])
+                ]);
         }
     }
 

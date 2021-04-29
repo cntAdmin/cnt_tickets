@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Comment;
+use App\Models\TicketStatus;
 use Illuminate\Support\Arr;
 
 class TicketCommentObserver
@@ -18,10 +19,13 @@ class TicketCommentObserver
         $admin_roles = [1, 2];
         if(Arr::exists($admin_roles,  $comment->user->roles[0]->id)) {
             $comment->ticket()->update([
-                'read_by_admin' => true
+                'read_by_admin' => true,
+                'ticket_status_id' => TicketStatus::where('name', 'LIKE', '%abierto%')->first()->id ?: $comment->ticket->ticket_status->id ?: null
                 ]);
         } else {
-            $comment->ticket()->update(['read_by_admin' => false]);
+            $comment->ticket()->update([
+                'read_by_admin' => false
+            ]);
         }
     }
 
