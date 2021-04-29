@@ -28,9 +28,9 @@ class TicketCommentObserver
                 $sendTo = [$this->comment->user->email];
             } else {
                 if( $this->comment->ticket->user->email !== $this->comment->ticket->customer->email ) {
-                    $sentTo = [$this->comment->ticket->user->email, $this->comment->ticket->customer->email];
+                    $sendTo = [$this->comment->ticket->user->email, $this->comment->ticket->customer->email];
                 } else {
-                    $sentTo = [$this->comment->ticket->user->email];
+                    $sendTo = [$this->comment->ticket->user->email];
                 }
             }
         
