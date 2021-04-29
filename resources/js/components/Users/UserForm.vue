@@ -218,7 +218,7 @@
         <div class="input-group-prepend">
           <div class="input-group-text d-none d-lg-block py-1">Activo</div>
           <div class="input-group-text d-block d-lg-none py-1">
-            <i class="fa fa-at"></i>
+            <i class="fa fa-user"></i> - <i class="fa fa-user-slash"></i>
           </div>
         </div>
         <select v-model="user.is_active" class="form-control">

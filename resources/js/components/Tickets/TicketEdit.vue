@@ -4,7 +4,9 @@
       <div class="card-header">
         <div class="d-flex justify-content-between flex-row align-items-center">
           <div class="mr-auto">
-            <span class="font-weight-bold text-uppercase">{{ ticket.custom_id }} - {{ ticket.ticket_type.name }}</span>
+            <span class="font-weight-bold text-uppercase"
+              >{{ ticket.custom_id }} - {{ ticket.ticket_type.name }}</span
+            >
           </div>
           <div class="ml-auto">
             <ticket-timeslots-modal
@@ -23,11 +25,11 @@
             >
               Añadir Fechas
             </button>
-            <a :href="`/ticket`" class="btn btn-sm btn-info text-white"
-              >Volver al listado</a
-            >
             <a :href="`/ticket/${ticket.id}`" class="btn btn-sm btn-success"
               >Ver Ticket</a
+            >
+            <a :href="`/ticket`" class="btn btn-sm btn-info text-white"
+              >Volver al listado</a
             >
           </div>
         </div>
@@ -52,7 +54,10 @@
         />
       </div>
     </div>
-    <attachments :attachments="attachments" @attachmentDeleted="deleteAttachments" />
+    <attachments
+      :attachments="attachments"
+      @attachmentDeleted="deleteAttachments"
+    />
   </div>
 </template>
 
@@ -87,11 +92,15 @@ export default {
       });
     },
     deletedTimeslots(data) {
-      this.timeslots = this.timeslots.filter( timeslot => timeslot.id !== data.id);
+      this.timeslots = this.timeslots.filter(
+        (timeslot) => timeslot.id !== data.id
+      );
     },
     deleteAttachments(id) {
       this.closeAll();
-      this.attachments = this.attachments.filter( attachment => attachment.id !== id);
+      this.attachments = this.attachments.filter(
+        (attachment) => attachment.id !== id
+      );
     },
     reloadTicket(data) {
       this.closeAll();

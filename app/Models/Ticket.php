@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Str;
@@ -37,6 +38,17 @@ class Ticket extends Model
         return Str::limit($this->attributes['description'], 100);
     }
     
+    /**
+     * Get all of the comment_attachments for the Ticket
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function comment_attachments(): HasManyThrough
+    {
+        return $this->hasManyThrough(Attachable::class, Comment::class, 'ticket_id', 'attachable_id', 'id', 'id')
+            ->where('attachable_type', 'App\Models\Comment');
+    }
+
     /**
      * Get the invoiceable_type that owns the Ticket
      *

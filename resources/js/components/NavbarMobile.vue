@@ -22,16 +22,26 @@
         </a>
       </li>
       <li class="nav-item text-white align-items-center">
+        <a :href="`/profile/${user.id}`" class="btn btn-link text-white">
+          <i class="far fa-plus fa-2x"></i>
+          <p class="text-decoration-none">Perfil</p>
+        </a>
+      </li>
+      <li class="nav-item text-white align-items-center">
         <button
           type="button"
           class="btn btn-link text-white"
-          onclick="event.preventDefault();  
-                                document.getElementById('logout-form-mobile').submit();"
+          onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();"
         >
           <i class="far fa-sign-out-alt fa-2x"></i>
           <p class="text-decoration-none">SALIR</p>
         </button>
-        <form id="logout-form-mobile" action="/logout" method="POST" class="d-none">
+        <form
+          id="logout-form-mobile"
+          action="/logout"
+          method="POST"
+          class="d-none"
+        >
           <input type="hidden" name="_token" :value="csrf" />
         </form>
       </li>

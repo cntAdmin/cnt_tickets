@@ -4,9 +4,9 @@
       <div class="card-header">
         <div class="d-flex justify-content-between flex-row align-items-center">
           <div class="mr-auto">
-            <span class="font-weight-bold text-uppercase">{{
-              ticket.custom_id
-            }}</span>
+            <span class=" text-uppercase">
+              <span class="font-weight-bold">{{ ticket.custom_id }}</span><span class="ml-2">({{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }})</span>
+            </span>
           </div>
           <div class="ml-auto">
             <a
@@ -70,9 +70,10 @@ import NewComment from "../Comments/NewComment.vue";
 import Attachments from "../Attachments/Attachments.vue";
 import TicketForm from "./TicketForm.vue";
 import WorkReportForm from './WorkReportForm.vue';
+import Spinner from '../Spinner.vue';
 
 export default {
-  components: { TicketForm, Attachments, Comments, NewComment, WorkReportForm },
+  components: { TicketForm, Attachments, Comments, NewComment, WorkReportForm, Spinner },
   props: ["ticket", "permissions", "userRole"],
   data() {
     return {

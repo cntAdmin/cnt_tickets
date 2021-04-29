@@ -250,11 +250,6 @@
           ></div>
         </div>
       </div>
-      <div class="col-12 mt-3">
-        <p class="text-right" v-if="type !== 'new'">
-          <span class="mr-2 font-weight-bold">{{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }}</span>
-        </p>
-      </div>
 
       <div class="col-12 mt-3" v-if="editable">
         <input

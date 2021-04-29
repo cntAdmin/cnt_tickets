@@ -49,28 +49,71 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="ticket in tickets.data" :key="ticket.id" :class="!ticket.read_by_admin ? 'border-left border-danger text-danger font-weight-bold' : 'border-left border-success'">
+            <tr
+              v-for="ticket in tickets.data"
+              :key="ticket.id"
+              :class="
+                !ticket.read_by_admin
+                  ? 'border-left border-danger text-danger font-weight-bold'
+                  : 'border-left border-success'
+              "
+            >
               <th scope="row" class="text-center">
-                <a :href="`/ticket/${ticket.id}`" class="btn btn-sm btn-link text-dark font-weight-bold">{{ ticket.custom_id }}</a>
+                <a
+                  :href="`/ticket/${ticket.id}`"
+                  class="btn btn-sm btn-link text-dark font-weight-bold"
+                  >{{ ticket.custom_id }}</a
+                >
               </th>
-              <td>{{ ticket.agent ? ticket.agent.name : ticket.createdBy.name }}</td>
-              <td>{{ ticket.customer ? ticket.customer.name : '' }}</td>
+              <td>
+                {{ ticket.agent ? ticket.agent.name : ticket.createdBy.name }}
+              </td>
+              <td>{{ ticket.customer ? ticket.customer.name : "" }}</td>
               <td>{{ ticket.title }}</td>
               <td>{{ ticket.ticket_type.name }}</td>
-              <td class="text-center">{{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }}</td>
+              <td class="text-center">
+                {{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }}
+              </td>
               <td>
                 <div class="d-flex flex-wrap justify-content-center">
-                  <button :class="`btn btn-sm btn-${ticket.ticket_status.color} ${ticket.ticket_status.color == 'info' ? ' text-white' : ''}`"
+                  <button
+                    :class="`btn btn-sm btn-${ticket.ticket_status.color} ${
+                      ticket.ticket_status.color == 'info' ? ' text-white' : ''
+                    }`"
                     :title="ticket.ticket_status.name"
-                    disabled>
+                    disabled
+                  >
                     <i :class="`fa fa-${ticket.ticket_status.icon}`"></i>
                   </button>
+                  <span class="btn btn-sm btn-link">
+                    <i class="text-secondary fas fa-paperclip"></i
+                    ><span class="badge badge-dark ml-2">
+                      {{
+                        Object.keys(ticket.comment_attachments).length +
+                        Object.keys(ticket.attachments).length
+                      }}
+                    </span>
+                  </span>
+                  <span class="btn btn-sm btn-link">
+                    <i class="text-secondary fas fa-comment-dots"></i
+                    ><span class="badge badge-dark ml-2">
+                      {{
+                        Object.keys(ticket.comments).length
+                      }}
+                    </span>
+                  </span>
                 </div>
               </td>
               <td>
-                <div class="d-flex flex-wrap justify-content-around align-items-center">
+                <div
+                  class="d-flex flex-wrap justify-content-around align-items-center"
+                >
                   <a
-                    v-if="permissions.find(permission => permission.name == 'ticket.show')"
+                    v-if="
+                      permissions.find(
+                        (permission) => permission.name == 'ticket.show'
+                      )
+                    "
                     type="button"
                     class="btn btn-sm btn-success"
                     :href="`/ticket/${ticket.id}`"
@@ -79,7 +122,11 @@
                     <i class="fa fa-eye"></i>
                   </a>
                   <a
-                    v-if="permissions.find(permission => permission.name == 'ticket.update')"
+                    v-if="
+                      permissions.find(
+                        (permission) => permission.name == 'ticket.update'
+                      )
+                    "
                     type="button"
                     class="btn btn-sm btn-info text-white"
                     title="Editar Ticket"
@@ -88,7 +135,11 @@
                     <i class="fa fa-edit"></i>
                   </a>
                   <button
-                    v-if="permissions.find(permission => permission.name == 'ticket.destroy')"
+                    v-if="
+                      permissions.find(
+                        (permission) => permission.name == 'ticket.destroy'
+                      )
+                    "
                     type="button"
                     class="btn btn-sm btn-danger"
                     title="Borrar Ticket"
@@ -113,16 +164,16 @@
         />
       </div>
     </div>
-      <pagination
-        size="small"
-        align="center"
-        :data="tickets"
-        :limit="3"
-        @pagination-change-page="emitPagination"
-      >
-        <span slot="prev-nav">&lt; Anterior</span>
-        <span slot="next-nav">Siguiente &gt;</span>
-      </pagination>
+    <pagination
+      size="small"
+      align="center"
+      :data="tickets"
+      :limit="3"
+      @pagination-change-page="emitPagination"
+    >
+      <span slot="prev-nav">&lt; Anterior</span>
+      <span slot="next-nav">Siguiente &gt;</span>
+    </pagination>
   </div>
 </template>
 
@@ -143,9 +194,7 @@ export default {
       },
     };
   },
-  mounted() {
-
-  },
+  mounted() {},
   methods: {
     emitPagination(page) {
       this.$emit("page", page);
@@ -169,11 +218,11 @@ export default {
         msg: data,
       };
       setTimeout(() => {
-      this.success = {
-        status: false,
-        msg: "",
-      };
-      this.$emit('ticketDeleted');
+        this.success = {
+          status: false,
+          msg: "",
+        };
+        this.$emit("ticketDeleted");
       }, 2000);
     },
     ticketNotDeleted(data) {
