@@ -31,8 +31,8 @@ class UserRequest extends FormRequest
             'role_id' => ['required', 'numeric', 'exists:roles,id'],
             'name' => ['required', 'string', 'max:255'],
             'mtcdr_customer_name' => ['nullable', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255', Rule::unique('users', 'username')->ignore($this->user)],
-            'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($this->user)],
+            'username' => ['required', 'string', 'max:255', Rule::unique('users', 'username')->ignore($this->user)->where('deleted_at', null)],
+            'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($this->user)->where('deleted_at', null)],
             'password' => ['nullable', 'string', 'max:255', 'confirmed'],
             'is_active' => ['nullable', 'boolean']
         ];
