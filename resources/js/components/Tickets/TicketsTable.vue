@@ -84,18 +84,11 @@
                   <span class="btn btn-sm btn-link" v-if="Object.keys(ticket.comment_attachments).length +
                         Object.keys(ticket.attachments).length > 0">
                     <i class="text-secondary fas fa-paperclip"></i
-                    ><span class="badge badge-dark ml-2">
-                      {{
-                        Object.keys(ticket.comment_attachments).length +
-                        Object.keys(ticket.attachments).length
-                      }}
-                    </span>
+                    >
                   </span>
                   <span class="btn btn-sm btn-link" v-if="Object.keys(ticket.comments).length > 0">
                     <i class="text-secondary fas fa-comment-dots"></i
-                    ><span class="badge badge-dark ml-2">
-                      {{ Object.keys(ticket.comments).length }}
-                    </span>
+                    >
                   </span>
                   <span class="btn btn-sm btn-link">
                     <i :class="'fas fa-exclamation text-' + checkColor(ticket) "></i>
