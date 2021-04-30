@@ -220,6 +220,7 @@ export default {
   },
   methods: {
     checkColor(thisTicket) {
+      console.log(thisTicket.priority)
       switch (thisTicket.priority.id) {
         case 1:
             return "success";
