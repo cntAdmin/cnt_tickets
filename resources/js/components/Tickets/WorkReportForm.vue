@@ -482,7 +482,7 @@ export default {
           })
           .catch((err) => {
             $("html, body").animate({ scrollTop: 0 }, "slow");
-            // console.log(err.response.data);
+            console.log(err.response);
             this.error = {
               status: true,
               errors: err.response.data.errors,
@@ -490,7 +490,9 @@ export default {
           });
       } else {
         this.ticket.ticketType_id = this.ticketType.id;
-        this.ticket.timeslots = this.timeslots;
+        if(this.timeslots.length > 0) {
+          this.ticket.timeslots = this.timeslots;
+        }
         axios
           .put(`/api/ticket/${this.ticket.id}`, this.ticket)
           .then((res) => {
@@ -510,7 +512,7 @@ export default {
           })
           .catch((err) => {
             $("html, body").animate({ scrollTop: 0 }, "slow");
-            // console.log(err.response.data);
+            console.log(err.response.data);
             this.error = {
               status: true,
               errors: err.response.data.errors,
