@@ -173,6 +173,24 @@
               </select>
             </div>
           </div>
+          <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="user.roles[0].id === 1">
+            <label class="sr-only" for="dateTo">Asignado a</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text d-none d-lg-block">Asignado a</div>
+              </div>
+              <select v-model="search.agent_id" class="form-control">
+                <option value="" selected>-- TODOS --</option>
+                <option
+                  :value="user_asignable.id"
+                  v-for="user_asignable in users_asignables"
+                  :key="user_asignable.id"
+                >
+                  {{ user_asignable.name }}
+                </option>
+              </select>
+            </div>
+          </div>
           <div class="col-12">
             <button type="submit" class="btn btn-sm btn-success btn-block mt-3">
               <i class="fa fa-search"></i><span class="ml-2">Buscar</span>
@@ -197,6 +215,7 @@ export default {
       priorities: [],
       ticket_statuses: [],
       ticket_types: [],
+      users_asignables: [],
       stopLoading: false,
       search: {
         page: 1,
@@ -228,8 +247,16 @@ export default {
     this.get_all_priorities();
     this.get_all_ticket_statuses();
     this.get_all_ticket_types();
+    this.get_all_users_asignables();
   },
   methods: {
+    get_all_users_asignables() {
+      axios.get('/api/get_all_users_asignables')
+        .then( res => {
+          console.log(res.data)
+        this.users_asignables = res.data.users_asignables;
+        }).catch( error => console.log(error.response.data))
+    },
     get_all_ticket_types() {
       axios.get("/api/get_all_ticket_types").then((res) => {
         this.ticket_types = res.data.ticket_types;

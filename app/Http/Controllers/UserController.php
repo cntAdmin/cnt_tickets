@@ -158,4 +158,12 @@ class UserController extends Controller
     {
         return view('profiles.index')->with([ 'user' => $user->load('customer.users') ]);
     }
+
+    public function get_all_users_asignables(): JsonResponse
+    {
+        return response()->json([
+            'users_asignables' => User::role([1, 2])->get()->toArray()
+        ]);
+    }
+
 }

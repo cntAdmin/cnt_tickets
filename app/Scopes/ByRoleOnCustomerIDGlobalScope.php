@@ -2,9 +2,11 @@
 
 namespace App\Scopes;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
+use Illuminate\Http\JsonResponse;
 
 class ByRoleOnCustomerIDGlobalScope implements Scope
 {
