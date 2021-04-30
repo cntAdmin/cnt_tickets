@@ -21,7 +21,7 @@ class TicketSeeder extends Seeder
                 $ticket->origin_type()->associate(App\Models\OriginType::inRandomOrder()->first());
                 $ticket->ticket_type()->associate(App\Models\TicketType::inRandomOrder()->first());
                 $ticket->ticket_status()->associate(App\Models\TicketStatus::inRandomOrder()->first());
-                $ticket->createdBy()->associate(App\Models\User::inRandomOrder()->first());
+                $ticket->created_by_user()->associate(App\Models\User::inRandomOrder()->first());
                 $ticket->warranty()->associate(App\Models\Warranty::inRandomOrder()->first());
                 $ticket->invoiceable_type()->associate(App\Models\InvoiceableType::inRandomOrder()->first());
                 
