@@ -484,6 +484,7 @@ export default {
           });
       } else {
         this.ticket.ticketType_id = this.ticketType.id;
+        this.ticket.timeslots = this.timeslots;
         axios
           .put(`/api/ticket/${this.ticket.id}`, this.ticket)
           .then((res) => {

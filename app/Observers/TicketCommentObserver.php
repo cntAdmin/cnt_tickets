@@ -19,24 +19,24 @@ class TicketCommentObserver
     public function created(Comment $comment)
     {
         $admin_roles = [1, 2];
-        if(Arr::exists($admin_roles,  $comment->user->roles[0]->id)) {
+        if (Arr::exists($admin_roles,  $comment->user->roles[0]->id)) {
             $comment->ticket()->update([
                 'read_by_admin' => true,
                 'ticket_status_id' => TicketStatus::where('name', 'LIKE', '%abierto%')->first()->id ?: $comment->ticket->ticket_status->id ?: null
-                ]);
+            ]);
 
-            if(!$comment->customer) {
-                $sendTo = [$comment->user->email];
-            } else {
-                if( $comment->ticket->user->email !== $comment->ticket->customer->email ) {
-                    $sendTo = [$comment->ticket->user->email, $comment->ticket->customer->email];
+            if ($comment->ticket->ticket_type->id === 1) {
+                if (!$comment->customer) {
+                    $sendTo = [$comment->user->email];
                 } else {
-                    $sendTo = [$comment->ticket->user->email];
+                    if ($comment->ticket->user->email !== $comment->ticket->customer->email) {
+                        $sendTo = [$comment->ticket->user->email, $comment->ticket->customer->email];
+                    } else {
+                        $sendTo = [$comment->ticket->user->email];
+                    }
                 }
+                Mail::to($sendTo)->send(new TicketCommentMail($comment));
             }
-        
-            Mail::to($sendTo)->send(new TicketCommentMail($comment));
-
         } else {
             $comment->ticket()->update([
                 'read_by_admin' => false

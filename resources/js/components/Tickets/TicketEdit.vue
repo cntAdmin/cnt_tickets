@@ -41,7 +41,8 @@
           :ticket="ticket"
           :editable="true"
           :user-role="userRole"
-          @updated="redirectToTicket"
+          :ticketType="ticket.ticket_type"
+          @success="redirectToTicket"
         />
         <work-report-form
           v-if="ticket.ticket_type_id === 2"

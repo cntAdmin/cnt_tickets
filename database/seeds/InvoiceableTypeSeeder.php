@@ -17,7 +17,8 @@ class InvoiceableTypeSeeder extends Seeder
             factory(InvoiceableType::class, 5)->create();
         } else {
             $invoiceable_types = [
-                ['name' => 'A facturar', 'created_at' => now()->toDateTimeString(), 'updated_at' => now()->toDateTimeString()],
+                ['name' => 'No Facturar', 'created_at' => now()->toDateTimeString(), 'updated_at' => now()->toDateTimeString()],
+                ['name' => 'A Facturar', 'created_at' => now()->toDateTimeString(), 'updated_at' => now()->toDateTimeString()],
                 ['name' => 'Facturado', 'created_at' => now()->toDateTimeString(), 'updated_at' => now()->toDateTimeString()],
             ];
 

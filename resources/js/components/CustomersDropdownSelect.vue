@@ -37,7 +37,7 @@ export default {
         }
     },
     mounted() {
-        this.alias = this.customer !== null ? this.customer.alias : '';
+        this.alias = this.customer !== null ? this.customer.name : '';
         this.get_all_customers();
     },
     methods: {

@@ -27,9 +27,6 @@ class ByRoleOnCustomerIDGlobalScope implements Scope
         $user = auth()->user();
         if(auth()->check()) {
             switch($user->roles[0]->id) {
-                case 2:
-                    return $builder->where('agent_id', $user->id);
-                    break;
                 case 3:
                     return $builder->where($this->searchRoleKey, $user->customer_id);
                     break;

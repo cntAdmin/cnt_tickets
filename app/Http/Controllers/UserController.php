@@ -116,15 +116,10 @@ class UserController extends Controller
             'is_active' => $validated['is_active'] ? true : false,
         ]);
 
-        if(isset($validated['customer_id'])) {
-            $user->customer()->associate(Customer::find( $validated['customer_id'] ));
-        }
-        if(isset($validated['department_id'])) {
-            $user->department()->associate(Department::find( $validated['department_id'] ));
-        }
-        if(isset($validated['role_id'])) {
-            $user->syncRoles(Role::find($validated['role_id']));
-        }
+        $user->customer()->associate(Customer::find( $validated['customer_id'] ?? null ));
+        $user->department()->associate(Department::find( $validated['department_id'] ?? null ));
+        $user->syncRoles(Role::find($validated['role_id']));
+        
         $user->save();
 
         return response()->json([ "msg" => "Usuario actualizado correctamente"], 200);

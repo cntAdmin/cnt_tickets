@@ -42,7 +42,7 @@
           itemid="id"
           :options="customers"
           @input="setCustomer"
-          v-model="user.customer.name"
+          v-model="customer_name"
           :disabled="!editable ? true : false"
         >
           <div slot="no-options">No hay opciones con esta búsqueda</div>
@@ -91,8 +91,8 @@
         </div>
         <select v-model="user.department_id" class="form-control">
           <option
-            :value="department.id"
             v-for="department in departments"
+            :value="department.id"
             :key="department.id"
           >
             {{ department.name }} - {{ department.code }}
@@ -256,13 +256,12 @@ export default {
         status: false,
         msg: "",
       },
+      customer_name: ""
     };
   },
   beforeMount() {
-    if (this.user.customer) {
-      this.user.customer = { name: this.user.customer.name };
-    } else {
-      this.user.customer = { name: "" };
+    if (this.user.customer_id) {
+      this.customer_name = { name: this.user.customer.name };
     }
   },
   mounted() {
@@ -271,7 +270,6 @@ export default {
     this.get_all_departments();
     if (!this.type || this.type !== "new") {
       this.user.role_id = this.user.roles[0].id;
-      this.user.department_id = this.user.roles[0].id;
     }
   },
   methods: {
@@ -306,6 +304,7 @@ export default {
     },
     setCustomer(value) {
       this.user.customer_id = value ? value.id : null;
+      this.customer_name = value ? value.name : null;
     },
     get_all_customers() {
       axios
@@ -339,6 +338,7 @@ export default {
             };
           });
       } else {
+        console.log(this.user)
         axios
           .put(`/api/user/${this.user.id}`, this.user)
           .then((res) => {

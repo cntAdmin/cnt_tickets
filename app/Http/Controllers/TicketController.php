@@ -180,16 +180,16 @@ class TicketController extends Controller
             }
         }
         // IF HAS DATES
-        if ($validated['dates']) {
-            foreach ($validated['dates'] as $dateTime ) {
+        if (isset($validated['timeslots'])) {
+            foreach ($validated['timeslots'] as $dateTime ) {
                 if($dateTime['start'] && $dateTime['end']) {
-                    $dates[] = [
+                    $timeslots[] = [
                         'start_date_time' =>  $dateTime['start'],
                         'end_date_time' => $dateTime['end']
                     ];
                 }
             }
-            $ticket->ticket_timeslots()->createMany($dates);
+            $ticket->ticket_timeslots()->createMany($timeslots);
         }
 
         return $ticket

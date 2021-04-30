@@ -325,7 +325,6 @@ export default {
     return {
       warranties: [],
       files: [],
-      dates: [],
       customers: [],
       users: [],
       agents: [],
@@ -454,15 +453,6 @@ export default {
         }
         if (this.type !== "new") {
           this.uploadFiles(formData);
-        }
-      }
-      if (Object.keys(this.dates).length > 0) {
-        for (const i of Object.keys(this.dates)) {
-          if (this.type == "new") {
-            formData.append(`dates[${i}]`, this.dates[i]);
-          } else {
-            this.ticket.dates = this.dates;
-          }
         }
       }
 
