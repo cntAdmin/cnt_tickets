@@ -184,7 +184,7 @@
             aria-expanded="false"
           >
             <i class="fa faw fa-user-circle"></i>
-            <span class="text-lowercase ml-2">{{ user.username }}</span>
+            <span class="text-lowercase ml-2">{{ user.name }}</span>
           </a>
 
           <div
