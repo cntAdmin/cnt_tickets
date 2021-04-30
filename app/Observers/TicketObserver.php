@@ -19,7 +19,7 @@ class TicketObserver
             'custom_id' => Str::upper($ticket->department_type->department->code . now()->year . '-'. Str::padLeft($ticket->id, 5, '0')),
         ]);
 
-        if($ticket->ticket_type->id === 2 ) {
+        if($ticket->ticket_type_id === 2 ) {
             $ticket->update([ 'ticket_status_id' => 2 ]);
         }
     }

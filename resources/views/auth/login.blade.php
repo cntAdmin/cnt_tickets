@@ -8,7 +8,7 @@
                 <div class="card-header">
                     <div class="d-flex flex-wrap justify-content-between align-items-center">
                         <span class="text-uppercase font-weight-bold">{{ __('Login') }}</span>
-                        <a href="{{ route('ticket.without.login') }}"
+                        <a href="{{ route('register') }}"
                             class="btn btn-sm btn-success text-uppercase font-weight-bold">
                             {{ __('Crear ticket sin entrar') }}
                         </a>

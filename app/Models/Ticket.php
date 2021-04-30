@@ -24,7 +24,7 @@ class Ticket extends Model
     protected $fillable = [
         'title', 'description', 'deleted_at', 'read_by_admin', 'custom_id',
         // ASSOCIATIONS
-        'customer_id', 'user_id', 'deleted_by', 'department_type_id', 'ticket_status_id', 'invoiceable_type_id'
+        'customer_id', 'user_id', 'deleted_by', 'department_type_id','ticket_type_id', 'ticket_status_id', 'invoiceable_type_id'
     ];
     protected $with = [
         'customer', 'user', 'agent', 'department_type', 'priority', 'ticket_status', 'origin_type',

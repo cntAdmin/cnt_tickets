@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AnnonymousTicketRequest;
 use App\Http\Requests\TicketRequest;
 use App\Models\Attachment;
+use App\Models\DepartmentType;
+use App\Models\Priority;
 use App\Models\Ticket;
 use App\Models\TicketStatus;
 use App\Models\TicketTimeslot;
 use App\Models\TicketType;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -74,6 +81,7 @@ class TicketController extends Controller
             'title' => $validated['title'],
             'description' => $validated['description'],
             'department_type_id' => $validated['department_type_id'],
+            'ticket_type_id' => $validated['ticket_type_id'],
             'ticket_status_id' => 1,
             'created_by' => auth()->user()->id
         ]);
@@ -81,7 +89,6 @@ class TicketController extends Controller
         // ASSIGN DATA TO TICKET
         $created_ticket->customer()->associate($validated['customer_id'] ?? auth()->user()->customer_id ?: null);
         $created_ticket->agent()->associate($validated['agent_id'] ?? auth()->user()->id);
-        $created_ticket->ticket_type()->associate($validated['ticket_type_id']);
         $created_ticket->user()->associate($validated['user_id'] ?? auth()->user()->id);
         $created_ticket->priority()->associate($validated['priority_id'] ?? null);
         $created_ticket->origin_type()->associate($validated['origin_type_id'] ?? null);
@@ -226,8 +233,50 @@ class TicketController extends Controller
         return response()->json([ 'attachments' => $ticket->attachments ]);
     }
 
-    public function without_login()
+    public function annonymous_ticket(AnnonymousTicketRequest $req): JsonResponse
     {
-        # code...
+        $validated = $req->validated();
+
+        $transaction = DB::transaction(function () use ($validated, $req) {
+            $user = User::create([
+                'name' => $validated['userName'],
+                'email' => $validated['userEmail'],
+                'password' => Hash::make($validated['userPassword']),
+                'is_active' => true,
+            ]);
+
+            $user->syncRoles(4);
+            Auth::login($user);
+
+            $ticket = Ticket::create([
+                'title' => $validated['title'],
+                'description' => $validated['description'],
+                'department_type_id' => $validated['department_type_id'],
+                'ticket_type_id' => 1,
+                'ticket_status_id' => 1,
+                'origin_type_id' => 3,
+                'read_by_admin' => false
+            ]);
+
+            $ticket->priority()->associate(Priority::find($validated['priority_id']));
+            $ticket->createdBy()->associate($user->id);
+            $ticket->user()->associate($user->id);
+            $ticket->save();
+            
+            // IF HAS FILES ATTACHED
+            if ($req->file('files')) {
+                foreach ($req->file('files') as $file) {
+                    $stored_file = Storage::disk('public')->put('media/' . now()->year . '/' . str_pad(now()->month, 2, '0', STR_PAD_LEFT), $file);
+                    $attachment = Attachment::create([
+                        'name' => $file->getClientOriginalName(),
+                        'path' => $stored_file
+                    ]);
+                    $ticket->attachments()->save($attachment);
+                }
+            }
+
+        });
+        
+        return response()->json([ "msg" => "Usuario y ticket creados correctamente."], 200);
     }
 }

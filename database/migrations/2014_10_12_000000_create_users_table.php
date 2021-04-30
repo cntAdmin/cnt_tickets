@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->foreignId('department_id')->nullable()->constrained()->cascadeOnUpdate()->onDelete('set null');
             $table->string('mtcdr_customer_name', 255)->nullable();
             $table->string('name');
-            $table->string('username')->unique();
+            $table->string('username')->unique()->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

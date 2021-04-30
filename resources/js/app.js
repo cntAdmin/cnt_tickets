@@ -50,6 +50,7 @@ Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('spinner', require('./components/Spinner').default);
 Vue.component('navbar', require('./components/NavbarComponent').default);
 Vue.component('navbar-mobile', require('./components/NavbarMobile').default);
+Vue.component('register-form', require('./components/RegisterForm').default);
 
 // ? TICKETS
 Vue.component('tickets', require('./components/Tickets/Tickets').default);
