@@ -76,7 +76,7 @@ class TicketController extends Controller
     public function store(TicketRequest $req): JsonResponse
     {
         $validated = $req->validated();
-
+        
         $created_ticket = Ticket::create([
             'title' => $validated['title'],
             'description' => $validated['description'],
@@ -91,7 +91,7 @@ class TicketController extends Controller
         $created_ticket->agent()->associate($validated['agent_id'] ?? auth()->user()->id);
         $created_ticket->user()->associate($validated['user_id'] ?? auth()->user()->id);
         $created_ticket->priority()->associate($validated['priority_id'] ?? null);
-        $created_ticket->origin_type()->associate($validated['origin_type_id'] ?? null);
+        $created_ticket->origin_type()->associate(auth()->user()->roles[0]->id >= 3 ? 3 : ($validated['origin_type_id'] ?? null));
         $created_ticket->warranty()->associate($validated['warranty_id'] ?? null);
         $created_ticket->invoiceable_type()->associate($validated['invoiceable_type_id'] ?? null);
 

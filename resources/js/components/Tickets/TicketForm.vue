@@ -487,6 +487,7 @@ export default {
           .post(`/api/ticket`, formData)
           .then((res) => {
             // console.log(res.data);
+            this.sending = false;
             $("html, body").animate({ scrollTop: 0 }, "slow");
             this.success = {
               status: true,
@@ -501,8 +502,9 @@ export default {
             }, 2000);
           })
           .catch((err) => {
+            this.sending = false;
             $("html, body").animate({ scrollTop: 0 }, "slow");
-            // console.log(err.response.data);
+            console.log(err.response.data);
             this.error = {
               status: true,
               errors: err.response.data.errors,
