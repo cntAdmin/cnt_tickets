@@ -38,6 +38,7 @@
       <div class="card-body">
         <user-form
           v-if="![1, 3].includes(user.roles[0].id)"
+          buttonText="Actualizar usuario"
           :user-role="userRole"
           :cardTemplate="false"
           :editable="true"
@@ -46,6 +47,7 @@
         <div class="d-flex flex-wrap" v-else>
           <user-form-card
             v-for="u in user.customer.users"
+            buttonText="Actualizar usuario"
             :key="u.id"
             :user="u"
           />

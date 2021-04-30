@@ -288,7 +288,7 @@
         />
       </div>
       <div class="col-12 mt-3" v-if="editable">
-        <button class="btn btn-sm btn-primary btn-block">
+        <button class="btn btn-sm btn-primary btn-block" :disabled="sending ? true : false">
           {{ buttonText }}
         </button>
       </div>
@@ -334,6 +334,7 @@ export default {
       department_types: [],
       priorities: [],
       origins: [],
+      sending: false,
       success: {
         status: false,
         msg: "",
@@ -446,6 +447,7 @@ export default {
     handleSubmit() {
       if (!this.editable) return;
       this.closeAll();
+      this.sending = true;
       const formData = new FormData();
       if (Object.keys(this.files).length > 0) {
         for (const i of Object.keys(this.files)) {

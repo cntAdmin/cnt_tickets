@@ -13,6 +13,7 @@
 
     <div class="card-body">
       <user-form
+          buttonText="Crear usuario"
         :cardTemplate="false"
         :editable="true"
         :user="user"

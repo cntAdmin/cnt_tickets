@@ -96,6 +96,9 @@
                       {{ Object.keys(ticket.comments).length }}
                     </span>
                   </span>
+                  <span class="btn btn-sm btn-link">
+                    <i class="text-secondary fas fa-comment-dots"></i>
+                  </span>
                 </div>
               </td>
               <td>

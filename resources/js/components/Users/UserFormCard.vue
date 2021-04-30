@@ -5,7 +5,12 @@
         <span class="font-weight-bold text-uppercase"># {{ user.id }}</span>
       </div>
       <div class="card-body">
-        <user-form :user="user" :editable="true" :cardTemplate="true"/>
+        <user-form
+          :user="user"
+          :editable="true"
+          buttonText="Actualizar usuario"
+          :cardTemplate="true"
+        />
       </div>
     </div>
   </div>
@@ -13,7 +18,7 @@
 
 <script>
 import FormErrors from "../FormErrors.vue";
-import UserForm from './UserForm.vue';
+import UserForm from "./UserForm.vue";
 export default {
   components: { FormErrors, UserForm },
   props: ["user", "editable"],

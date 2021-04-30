@@ -230,7 +230,7 @@
 
     <div class="col-12 mt-3" v-if="editable">
       <button class="btn btn-sm btn-primary btn-block">
-        Actualizar Usuario
+        {{ buttonText }}
       </button>
     </div>
   </form>
@@ -240,7 +240,7 @@
 import FormErrors from "../FormErrors.vue";
 export default {
   components: { FormErrors },
-  props: ["user", "editable", "cardTemplate", "type", "userRole"],
+  props: ["user", "editable", "cardTemplate", "type", "userRole", "buttonText"],
   data() {
     return {
       customers: [],
