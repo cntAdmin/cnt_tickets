@@ -23,7 +23,7 @@
       </li>
       <li class="nav-item text-white align-items-center">
         <a :href="`/profile/${user.id}`" class="btn btn-link text-white">
-          <i class="far fa-plus fa-2x"></i>
+          <i class="far fa-user fa-2x"></i>
           <p class="text-decoration-none">Perfil</p>
         </a>
       </li>

@@ -253,7 +253,6 @@ export default {
     get_all_users_asignables() {
       axios.get('/api/get_all_users_asignables')
         .then( res => {
-          console.log(res.data)
         this.users_asignables = res.data.users_asignables;
         }).catch( error => console.log(error.response.data))
     },

@@ -97,7 +97,7 @@
                     </span>
                   </span>
                   <span class="btn btn-sm btn-link">
-                    <i class="text-secondary fas fa-comment-dots"></i>
+                    <i :class="'fas fa-exclamation text-' + checkColor(ticket) "></i>
                   </span>
                 </div>
               </td>
@@ -219,6 +219,23 @@ export default {
     this.get_all_ticket_status();
   },
   methods: {
+    checkColor(ticket) {
+      switch (ticket.priority.id) {
+        case 1:
+            return "success";
+          break;
+        case 2:
+            return "warning";
+          break;
+        case 3:
+            return "danger";
+          break;
+      
+        default:
+          return "primary"
+          break;
+      }
+    },
     checkTicketRow(ticket) {
       if (ticket.ticket_status.id > 2) {
         return "border-left border-success";
