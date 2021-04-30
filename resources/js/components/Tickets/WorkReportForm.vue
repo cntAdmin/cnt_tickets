@@ -496,7 +496,7 @@ export default {
         axios
           .put(`/api/ticket/${this.ticket.id}`, this.ticket)
           .then((res) => {
-            // console.log(res.data)
+            console.log(res.data)
             $("html, body").animate({ scrollTop: 0 }, "slow");
             this.success = {
               status: true,

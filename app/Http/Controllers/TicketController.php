@@ -187,14 +187,15 @@ class TicketController extends Controller
                 $ticket->attachments()->save($attachment);
             }
         }
+        return response()->json($validated['timeslots']);
         // IF HAS DATES
         if (isset($validated['timeslots'])) {
             $timeslots = [];
             foreach ($validated['timeslots'] as $dateTime ) {
-                if($dateTime['start'] && $dateTime['end']) {
+                if($dateTime['start_date_time_picker'] && $dateTime['end_date_time_picker']) {
                     $timeslots[] = [
-                        'start_date_time' =>  $dateTime['start'],
-                        'end_date_time' => $dateTime['end']
+                        'start_date_time' =>  $dateTime['start_date_time_picker'],
+                        'end_date_time' => $dateTime['end_date_time_picker']
                     ];
                 }
             }
