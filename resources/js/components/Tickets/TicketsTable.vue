@@ -71,7 +71,7 @@
                 {{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }}
               </td>
               <td>
-                <div class="d-flex flex-wrap justify-content-center">
+                <div class="d-flex flex-wrap justify-content-start">
                   <button
                     :class="`btn btn-sm btn-${ticket.ticket_status.color} ${
                       ticket.ticket_status.color == 'info' ? ' text-white' : ''
@@ -81,7 +81,8 @@
                   >
                     <i :class="`fa fa-${ticket.ticket_status.icon}`"></i>
                   </button>
-                  <span class="btn btn-sm btn-link">
+                  <span class="btn btn-sm btn-link" v-if="Object.keys(ticket.comment_attachments).length +
+                        Object.keys(ticket.attachments).length > 0">
                     <i class="text-secondary fas fa-paperclip"></i
                     ><span class="badge badge-dark ml-2">
                       {{
@@ -90,7 +91,7 @@
                       }}
                     </span>
                   </span>
-                  <span class="btn btn-sm btn-link">
+                  <span class="btn btn-sm btn-link" v-if="Object.keys(ticket.comments).length > 0">
                     <i class="text-secondary fas fa-comment-dots"></i
                     ><span class="badge badge-dark ml-2">
                       {{ Object.keys(ticket.comments).length }}
@@ -98,6 +99,15 @@
                   </span>
                   <span class="btn btn-sm btn-link">
                     <i :class="'fas fa-exclamation text-' + checkColor(ticket) "></i>
+                  </span>
+                  <span class="btn btn-sm btn-link" v-if="ticket.ticket_type.id === 2" :title="ticket.invoiceable_type.name">
+                    <!-- NO FACTURAR -->
+                    <i class="fas fa-creative-commons-nc-eu" v-if="ticket.invoiceable_type_id === 1" 
+                      ></i> 
+                    <!-- A FACTURAR  -->
+                    <i class="fas fa-coins" v-if="ticket.invoiceable_type_id === 2"></i>
+                    <!-- FACTURADO  -->
+                    <i class="fas fa-euro-sign" v-if="ticket.invoiceable_type_id === 3"></i>
                   </span>
                 </div>
               </td>

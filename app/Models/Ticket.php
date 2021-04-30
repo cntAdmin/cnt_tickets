@@ -28,7 +28,7 @@ class Ticket extends Model
     ];
     protected $with = [
         'customer', 'user', 'agent', 'department_type', 'priority', 'ticket_status', 'origin_type',
-        'created_by_user', 'attachments', 'ticket_timeslots', 'ticket_type'
+        'created_by_user', 'attachments', 'ticket_timeslots', 'ticket_type', 'invoiceable_type'
     ];
     
     protected $appends = ['description_short'];
