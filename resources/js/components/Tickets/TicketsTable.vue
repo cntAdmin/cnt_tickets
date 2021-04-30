@@ -62,7 +62,7 @@
                 >
               </th>
               <td>
-                {{ ticket.agent !== null ? ticket.agent.name : ticket.created_by.name }}
+                {{ ticket.agent !== null ? ticket.agent.name : (ticket.created_by_user ? ticket.created_by_user.name : '')  }}
               </td>
               <td>{{ ticket.customer ? ticket.customer.name : "" }}</td>
               <td>{{ ticket.title }}</td>

@@ -16,7 +16,7 @@ class CreateTicketsTable extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->nullable()->constrained()->cascadeOnUpdate()->onDelete('no action');
-            $table->foreignId('user_id')->nullable()->constrained()->cascadeOnUpdate()->onDelete('no action');
+            $table->foreignId('user_id')->nullable()->constrained()->cascadeOnUpdate()->onDelete('NULL');
             $table->foreignId('agent_id')->nullable()->constrained('users')->cascadeOnUpdate()->onDelete('no action');
             $table->foreignId('department_type_id')->nullable()->constrained()->cascadeOnUpdate()->onDelete('no action');
             $table->foreignId('priority_id')->nullable()->constrained()->cascadeOnUpdate()->onDelete('no action');
@@ -33,7 +33,7 @@ class CreateTicketsTable extends Migration
             
             $table->foreignId('deleted_by')->nullable()->constrained('users')->cascadeOnUpdate()->onDelete('no action');
             $table->softDeletes();
-            $table->foreignId('created_by')->nullable()->constrained('users')->cascadeOnUpdate()->onDelete('no action');
+            $table->foreignId('created_by')->nullable()->constrained('users')->cascadeOnUpdate()->onDelete('NULL');
             $table->timestamps();
         });
     }

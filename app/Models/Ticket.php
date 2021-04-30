@@ -20,7 +20,7 @@ class Ticket extends Model
     {
         static::addGlobalScope(new ByRoleOnCustomerIDGlobalScope('customer_id'));
     }
-    
+
     protected $fillable = [
         'title', 'description', 'deleted_at', 'read_by_admin', 'custom_id',
         // ASSOCIATIONS
@@ -28,7 +28,7 @@ class Ticket extends Model
     ];
     protected $with = [
         'customer', 'user', 'agent', 'department_type', 'priority', 'ticket_status', 'origin_type',
-        'createdBy', 'attachments', 'ticket_timeslots', 'ticket_type'
+        'created_by_user', 'attachments', 'ticket_timeslots', 'ticket_type'
     ];
     
     protected $appends = ['description_short'];
@@ -83,9 +83,9 @@ class Ticket extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function createdBy(): BelongsTo
+    public function created_by_user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'created_by', 'id');
+        return $this->belongsTo(User::class, 'created_by', 'id')->withTrashed();
     }
 
     /**
