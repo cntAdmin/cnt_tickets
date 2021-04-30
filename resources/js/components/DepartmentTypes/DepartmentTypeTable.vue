@@ -40,7 +40,7 @@
             <tr>
               <th scope="col" class="text-center"># ID</th>
               <th scope="col">Departamento</th>
-              <th scope="col">Sub Departamento</th>
+              <th scope="col">Servicio</th>
               <th scope="col">Tickets</th>
               <th scope="col" class="text-center">Acciones</th>
             </tr>
@@ -94,7 +94,7 @@
         <delete-modal
           v-if="showDelete"
           :data="departmentType.id"
-          title="Subdepartamento"
+          title="Servicio"
           toDelete="department-type"
           @success="deleted"
           @error="notDeleted"

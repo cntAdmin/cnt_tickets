@@ -15,7 +15,7 @@
       <department-types-form
         :department-type="departmentType"
         type="new"
-        buttonText="Crear SubDepartamento"
+        buttonText="Crear Servicio"
         @success="redirectTo"
       />
     </div>

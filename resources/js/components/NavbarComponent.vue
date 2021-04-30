@@ -96,7 +96,7 @@
                 <div class="col-2 text-right">
                   <i class="fa fa-plus"></i>
                 </div>
-                <div class="col-10 text-left">Sub Departamentos</div>
+                <div class="col-10 text-left">Servicios</div>
               </a>
             </div>
             <div class="col-12 align-items-center">

@@ -353,6 +353,7 @@ export default {
                 msg: "",
               };
             }, 2000);
+            this.$emit('success');
           })
           .catch((err) => {
             console.log(err.response.data.errors);

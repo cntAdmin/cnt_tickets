@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="card-body">
-        <user-form :user="user" :user-role="userRole" :editable="true" />
+        <user-form :user="user" :user-role="userRole" :editable="true" @success="redirectUser"/>
       </div>
     </div>
   </div>
@@ -22,7 +22,12 @@
 import UserForm from './UserForm.vue'
 export default {
   components: { UserForm },
-    props: ["user", "userRole"]
+    props: ["user", "userRole"],
+    methods: {
+      redirectUser() {
+        window.location = "/user"
+      }
+    }
 }
 </script>
 

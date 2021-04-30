@@ -63,7 +63,7 @@
                                 <i class="fa fa-plus"></i>
                             </div>
                             <div class="col-10 text-left">
-                                {{ __('Sub Departamentos') }}
+                                {{ __('Servicios') }}
                             </div>
                         </a>
                     </div>

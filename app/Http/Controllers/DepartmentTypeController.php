@@ -55,7 +55,7 @@ class DepartmentTypeController extends Controller
         $department_type->department()->associate(Department::find($validated['department_id']));
         $department_type->save();
 
-        return response()->json([ "msg" => "Subdepartamento creado correctamente."], 200);
+        return response()->json([ "msg" => "Servicio creado correctamente."], 200);
 
     }
 
@@ -99,7 +99,7 @@ class DepartmentTypeController extends Controller
         $departmentType->department()->associate(Department::find($validated['department_id']));
         $departmentType->save();
 
-        return response()->json([ "msg" => "Subdepartamento actualizado correctamente"]);
+        return response()->json([ "msg" => "Servicio actualizado correctamente"]);
     }
 
     /**
@@ -115,8 +115,8 @@ class DepartmentTypeController extends Controller
         // }
 
         return isset($deleted) && $deleted
-            ? response()->json([ "msg" => "Subdepartamento eliminado correctamente"], 200)
-            : response()->json([ "msg" => "No se ha podido eliminar el subdepartamento, por favor, contacte con el administrador"], 400);
+            ? response()->json([ "msg" => "Servicio eliminado correctamente"], 200)
+            : response()->json([ "msg" => "No se ha podido eliminar el Servicio, por favor, contacte con el administrador"], 400);
     }
 
     public function get_all_department_types()

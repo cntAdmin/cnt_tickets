@@ -12,7 +12,7 @@
       href="/department-type/crear"
       class="btn btn-sm btn-block btn-secondary font-weight-bold mt-3"
     >
-      <i class="fa fa-plus"></i><span class="ml-2">Crear SubDepartamento</span>
+      <i class="fa fa-plus"></i><span class="ml-2">Crear Servicio</span>
     </a>
     <department-type-search-form
       :page="page"
