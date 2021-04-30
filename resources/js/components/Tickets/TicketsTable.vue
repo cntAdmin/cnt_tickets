@@ -219,8 +219,8 @@ export default {
     this.get_all_ticket_status();
   },
   methods: {
-    checkColor(ticket) {
-      switch (ticket.priority.id) {
+    checkColor(thisTicket) {
+      switch (thisTicket.priority.id) {
         case 1:
             return "success";
           break;
