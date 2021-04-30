@@ -166,6 +166,7 @@ class TicketController extends Controller
         $ticket->customer()->associate($validated['customer_id'] ?? NULL);
         $ticket->agent()->associate($validated['agent_id'] ?? NULL);
         $ticket->ticket_type()->associate($validated['ticket_type_id'] ?? NULL);
+        $ticket->invoiceable_type()->associate($validated['invoiceable_type_id'] ?? null);
         $ticket->department_type()->associate($validated['department_type_id'] ?? NULL);
         $ticket->user()->associate($validated['user_id'] ?? NULL);
         $ticket->priority()->associate($validated['priority_id'] ?? NULL);
