@@ -163,14 +163,14 @@ class TicketController extends Controller
         ]);
 
         // ASSIGN DATA TO TICKET
-        $ticket->customer()->associate($validated['customer_id']);
-        $ticket->agent()->associate($validated['agent_id']);
-        $ticket->ticket_type()->associate($validated['ticket_type_id']);
-        $ticket->department_type()->associate($validated['department_type_id']);
-        $ticket->user()->associate($validated['user_id']);
-        $ticket->priority()->associate($validated['priority_id']);
+        $ticket->customer()->associate($validated['customer_id'] ?? NULL);
+        $ticket->agent()->associate($validated['agent_id'] ?? NULL);
+        $ticket->ticket_type()->associate($validated['ticket_type_id'] ?? NULL);
+        $ticket->department_type()->associate($validated['department_type_id'] ?? NULL);
+        $ticket->user()->associate($validated['user_id'] ?? NULL);
+        $ticket->priority()->associate($validated['priority_id'] ?? NULL);
         $ticket->origin_type()->associate($validated['ticket_type_id'] === 1 ? $validated['origin_type_id'] : NULL );
-        $ticket->warranty()->associate($validated['warranty_id']);
+        $ticket->warranty()->associate($validated['warranty_id'] ?? NULL);
 
         // SAVE ALL THE RELATIONSHIPS
         $ticket->save();
