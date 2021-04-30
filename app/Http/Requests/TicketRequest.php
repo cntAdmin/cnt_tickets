@@ -30,7 +30,7 @@ class TicketRequest extends FormRequest
             'customer_id' => ['nullable', 'sometimes', 'exists:customers,id'],
             'agent_id' => ['nullable', 'sometimes', 'exists:users,id'],
             'user_id' => ['nullable', 'sometimes', 'exists:users,id'],
-            'priority_id' => ['required_if:ticket_type_id,1', 'sometimes', 'exists:priorities,id'],
+            'priority_id' => ['required_if:ticket_type_id,1', 'exists:priorities,id'],
             'origin_type_id' => ['sometimes', 'exists:origin_types,id'],
             'warranty_id' => ['required', 'exists:warranties,id'],
             'title' => ['required', 'string', 'max:100'],
