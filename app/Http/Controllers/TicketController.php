@@ -189,6 +189,7 @@ class TicketController extends Controller
         }
         // IF HAS DATES
         if (isset($validated['timeslots'])) {
+            $timeslots = [];
             foreach ($validated['timeslots'] as $dateTime ) {
                 if($dateTime['start'] && $dateTime['end']) {
                     $timeslots[] = [
