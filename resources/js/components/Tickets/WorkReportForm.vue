@@ -86,9 +86,7 @@
         <label class="sr-only" for="ticket_id">Servicio</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">
-              Servicio
-            </div>
+            <div class="input-group-text d-none d-lg-block py-1">Servicio</div>
             <div class="input-group-text d-block d-lg-none py-1">
               <i class="fa fa-couch"></i><span class="ml-2">Serv.</span>
             </div>
@@ -136,7 +134,9 @@
         <label class="sr-only" for="ticket_id">Facturable</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">Facturable</div>
+            <div class="input-group-text d-none d-lg-block py-1">
+              Facturable
+            </div>
             <div class="input-group-text d-block d-lg-none py-1">
               <i class="fa fa-hashtag"></i>
             </div>
@@ -156,7 +156,10 @@
           </select>
         </div>
       </div>
-      <div class="d-flex flex-row justify-content-start mt-2 w-100" v-if="timeslots.length > 0">
+      <div
+        class="d-flex flex-row justify-content-start mt-2 w-100"
+        v-if="timeslots.length > 0"
+      >
         <div
           class="col-12 col-md-6 col-lg-3"
           v-for="(date, idx) in timeslots"
@@ -258,6 +261,7 @@
           @change="uploadFile"
           multiple
         />
+        <sub>(max. 25MB)</sub>
       </div>
 
       <div class="col-12 mt-3" v-if="editable">
@@ -361,7 +365,7 @@ export default {
     };
   },
   beforeMount() {
-    if(!this.ticket.user_id) this.ticket.user_id = "";
+    if (!this.ticket.user_id) this.ticket.user_id = "";
   },
   mounted() {
     this.get_all_department_types();
@@ -370,11 +374,13 @@ export default {
     this.get_all_invoiceable_types();
   },
   methods: {
-    get_all_invoiceable_types(){
-      axios.get('/api/get_all_invoiceable_types')
-        .then( res => {
+    get_all_invoiceable_types() {
+      axios
+        .get("/api/get_all_invoiceable_types")
+        .then((res) => {
           this.invoiceable_types = res.data.invoiceable_types;
-        }).catch(error => console.log(error.response))
+        })
+        .catch((error) => console.log(error.response));
     },
     deleteDate(date) {
       if (date.start_date_time) {

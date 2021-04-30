@@ -139,9 +139,7 @@
         <label class="sr-only" for="ticket_id">Servicio</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">
-              Servicio
-            </div>
+            <div class="input-group-text d-none d-lg-block py-1">Servicio</div>
             <div class="input-group-text d-block d-lg-none py-1">
               <i class="fa fa-couch"></i><span class="ml-2">Sub. Dep.</span>
             </div>
@@ -286,9 +284,13 @@
           @change="uploadFile"
           multiple
         />
+        <sub>(max. 25MB)</sub>
       </div>
       <div class="col-12 mt-3" v-if="editable">
-        <button class="btn btn-sm btn-primary btn-block" :disabled="sending ? true : false">
+        <button
+          class="btn btn-sm btn-primary btn-block"
+          :disabled="sending ? true : false"
+        >
           {{ buttonText }}
         </button>
       </div>
@@ -395,11 +397,11 @@ export default {
   },
   mounted() {
     if (this.type === "annonymous") {
-      this.department_types = [ this.ticket.department_type ];
-      this.departments = [ this.ticket.department_type.department ];
-      this.priorities = [ this.ticket.priority ];
-      this.origins = [ this.ticket.origin_type ];
-      this.warranties = [ this.ticket.warranty ];
+      this.department_types = [this.ticket.department_type];
+      this.departments = [this.ticket.department_type.department];
+      this.priorities = [this.ticket.priority];
+      this.origins = [this.ticket.origin_type];
+      this.warranties = [this.ticket.warranty];
     } else {
       this.get_all_customers();
       this.get_all_agents();

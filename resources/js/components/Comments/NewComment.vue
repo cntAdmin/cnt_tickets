@@ -32,6 +32,7 @@
             @change="uploadFile"
             multiple
           />
+          <sub>(max. 25MB)</sub>
         </div>
         <div class="col-12 mt-2">
           <button class="btn btn-sm btn-info text-light btn-block">
@@ -132,9 +133,9 @@ export default {
 
       axios
         .post(`/api/ticket/${this.ticket.id}/comment`, formData, {
-            headers: {
-                "Content-Type": "multipart/form-data"
-            }
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         })
         .then((res) => {
           this.success = {
@@ -148,10 +149,12 @@ export default {
             };
             this.newComment = "";
             // console.log(this.ticket.comments)
-            if(this.userRole) {
+            if (this.userRole) {
               this.$emit("submitted");
             } else {
-              window.location = `/ticket/comment/${this.ticket.comments[this.ticket.comments.length - 1]._token}`;
+              window.location = `/ticket/comment/${
+                this.ticket.comments[this.ticket.comments.length - 1]._token
+              }`;
             }
           }, 2000);
         })
