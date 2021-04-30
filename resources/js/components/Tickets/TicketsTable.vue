@@ -102,7 +102,7 @@
                   </span>
                   <span class="btn btn-sm btn-link" v-if="ticket.ticket_type.id === 2" :title="ticket.invoiceable_type ? ticket.invoiceable_type.name : ''">
                     <!-- NO FACTURAR -->
-                    <i class="fas fa-creative-commons-nc-eu" v-if="ticket.invoiceable_type_id === 1" 
+                    <i class="fab fa-creative-commons-nc-eu" v-if="ticket.invoiceable_type_id === 1" 
                       ></i> 
                     <!-- A FACTURAR  -->
                     <i class="fas fa-coins" v-if="ticket.invoiceable_type_id === 2"></i>
