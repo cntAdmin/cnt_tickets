@@ -259,7 +259,7 @@ class TicketController extends Controller
             ]);
 
             $ticket->priority()->associate(Priority::find($validated['priority_id']));
-            $ticket->createdBy()->associate($user->id);
+            $ticket->created_by_user()->associate($user->id);
             $ticket->user()->associate($user->id);
             $ticket->save();
             
