@@ -63,7 +63,7 @@ class UserController extends Controller
         ]);
         // ASSIGN CUSTOMER
         $user->customer()->associate(Customer::find($validated['customer_id'] ?? null));
-        $user->department()->associate(Customer::find($validated['department_id'] ?? null));
+        $user->department()->associate(Department::find($validated['department_id'] ?? null));
 
         $user->save();
 
