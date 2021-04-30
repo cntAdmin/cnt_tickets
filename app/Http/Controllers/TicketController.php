@@ -169,7 +169,7 @@ class TicketController extends Controller
         $ticket->department_type()->associate($validated['department_type_id']);
         $ticket->user()->associate($validated['user_id']);
         $ticket->priority()->associate($validated['priority_id']);
-        $ticket->origin_type()->associate($ticket->ticket_type->id === 1 ? $validated['origin_type_id'] : null);
+        $ticket->origin_type()->associate($ticket->ticket_type_id === 1 ? $validated['origin_type_id'] : NULL );
         $ticket->warranty()->associate($validated['warranty_id']);
 
         // SAVE ALL THE RELATIONSHIPS
