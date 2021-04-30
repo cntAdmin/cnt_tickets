@@ -187,7 +187,6 @@ class TicketController extends Controller
                 $ticket->attachments()->save($attachment);
             }
         }
-        return response()->json($validated['timeslots']);
         // IF HAS DATES
         if (isset($validated['timeslots'])) {
             $timeslots = [];
