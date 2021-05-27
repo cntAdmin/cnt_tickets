@@ -90,7 +90,7 @@
                     <i class="text-secondary fas fa-comment-dots"></i
                     >
                   </span>
-                  <span class="btn btn-sm btn-link">
+                  <span class="btn btn-sm btn-link" v-if="ticket.priority_id !== null">
                     <i :class="'fas fa-exclamation text-' + checkColor(ticket) "></i>
                   </span>
                   <span class="btn btn-sm btn-link" v-if="ticket.ticket_type.id === 2" :title="ticket.invoiceable_type ? ticket.invoiceable_type.name : ''">
