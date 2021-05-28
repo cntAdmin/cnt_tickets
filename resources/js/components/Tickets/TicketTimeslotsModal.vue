@@ -62,6 +62,7 @@
                   class="form-control"
                   type="datetime-local"
                   v-model="dates.start_date_time"
+                  placeholder="dd/mm/aaaa hh:mm"
                 />
               </div>
             </div>
@@ -81,6 +82,7 @@
                   class="form-control"
                   type="datetime-local"
                   v-model="dates.end_date_time"
+                  placeholder="dd/mm/aaaa hh:mm"
                 />
               </div>
             </div>
