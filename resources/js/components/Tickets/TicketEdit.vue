@@ -18,7 +18,7 @@
               v-if="ticket.ticket_type.id === 2"
               type="button"
               class="btn btn-sm btn-warning"
-              title="Borrar Ticket"
+              title="Añadir fechas"
               data-toggle="modal"
               data-target="#ticketTimeslotsModal"
               @click="ticketTimeslotModal = true"
