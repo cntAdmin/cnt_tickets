@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Illuminate\Support\Str;
 
 class TicketController extends Controller
 {
@@ -75,11 +76,29 @@ class TicketController extends Controller
      */
     public function store(TicketRequest $req): JsonResponse
     {
+        // IF HAS SIGNATURE
+        $imageName = null;
+        $is_signed = false;
+        if ($req->signature) {
+            $image_64   = $req->signature;
+            $extension  = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];   // .jpg .png .pdf
+            $replace    = substr($image_64, 0, strpos($image_64, ',')+1); 
+            $image      = str_replace($replace, '', $image_64); 
+            $image      = str_replace(' ', '+', $image); 
+            $imageName  = Str::random(32).'.'.$extension;
+            $imageName  = 'images/'.$imageName;
+            $is_signed  = true;
+
+            Storage::disk('public')->put($imageName, base64_decode($image));
+        }
+
         $validated = $req->validated();
         
         $created_ticket = Ticket::create([
             'title' => $validated['title'],
             'description' => $validated['description'],
+            'signature' => $imageName,
+            'is_signed' => $is_signed,
             'department_type_id' => $validated['department_type_id'],
             'ticket_type_id' => $validated['ticket_type_id'],
             'ticket_status_id' => 1,
@@ -90,7 +109,8 @@ class TicketController extends Controller
         $created_ticket->customer()->associate($validated['customer_id'] ?? auth()->user()->customer_id ?: null);
         $created_ticket->agent()->associate($validated['agent_id'] ?? auth()->user()->id);
         $created_ticket->user()->associate($validated['user_id'] ?? auth()->user()->id);
-        $created_ticket->priority()->associate($validated['priority_id'] ?? null);
+        // $created_ticket->priority()->associate($validated['priority_id'] ?? null);
+        $created_ticket->priority()->associate($validated['priority_id'] ?? 1);
         $created_ticket->origin_type()->associate(auth()->user()->roles[0]->id >= 3 ? 3 : ($validated['origin_type_id'] ?? null));
         $created_ticket->warranty()->associate($validated['warranty_id'] ?? null);
         $created_ticket->invoiceable_type()->associate($validated['invoiceable_type_id'] ?? null);
@@ -113,14 +133,15 @@ class TicketController extends Controller
             foreach ($validated['timeslots'] as $key => $timeslot) {
                 $created_ticket->ticket_timeslots()->create([
                     'start_date_time' => Carbon::parse($timeslot['start_date_time'])->toDateTimeString(),
-                    'end_date_time' => Carbon::parse($timeslot['end_date_time'])->toDateTimeString()
+                    'end_date_time' => null,
+                    'work_time' => $timeslot['work_time']
                 ]);
             }
         }
 
         return $created_ticket
-            ? response()->json(['msg' => __('Ticket creado correctamente')], 200)
-            : response()->json(['msg' => __('No se ha podido crear el ticket, por favor contacte con el administrador')], 400);
+        ? response()->json(['msg' => __('Incidencia creada correctamente')], 200)
+        : response()->json(['msg' => __('No se ha podido crear la incidencia, por favor contacte con el administrador')], 400);
     }
 
     /**
@@ -157,9 +178,32 @@ class TicketController extends Controller
      */
     public function update(TicketRequest $req, Ticket $ticket)
     {
+
+        // IF HAS SIGNATURE
+        $imageName = null;
+        $is_signed = false;
+        if ($req->signature) {
+            $image_64   = $req->signature;
+            $extension  = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];   // .jpg .png .pdf
+            $replace    = substr($image_64, 0, strpos($image_64, ',')+1); 
+            $image      = str_replace($replace, '', $image_64); 
+            $image      = str_replace(' ', '+', $image); 
+            $imageName  = Str::random(32).'.'.$extension;
+            $imageName  = 'images/'.$imageName;
+            $is_signed  = true;
+
+            Storage::disk('public')->put($imageName, base64_decode($image));
+        }
+
         $validated = $req->validated();
         $ticket->update([
-            'description' => $validated['description']
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'signature' => $imageName,
+            'is_signed' => $is_signed,
+            'department_type_id' => $validated['department_type_id'],
+            'ticket_type_id' => $validated['ticket_type_id'],
+            'ticket_status_id' => 1
         ]);
 
         // ASSIGN DATA TO TICKET
@@ -169,7 +213,8 @@ class TicketController extends Controller
         $ticket->invoiceable_type()->associate($validated['invoiceable_type_id'] ?? null);
         $ticket->department_type()->associate($validated['department_type_id'] ?? NULL);
         $ticket->user()->associate($validated['user_id'] ?? NULL);
-        $ticket->priority()->associate($validated['priority_id'] ?? NULL);
+        // $ticket->priority()->associate($validated['priority_id'] ?? NULL);
+        $ticket->priority()->associate($validated['priority_id'] ?? 1);
         $ticket->origin_type()->associate($validated['ticket_type_id'] === 1 ? $validated['origin_type_id'] : NULL );
         $ticket->warranty()->associate($validated['warranty_id'] ?? NULL);
 
@@ -191,10 +236,11 @@ class TicketController extends Controller
         if (isset($validated['timeslots'])) {
             $timeslots = [];
             foreach ($validated['timeslots'] as $dateTime ) {
-                if($dateTime['start_date_time_picker'] && $dateTime['end_date_time_picker']) {
+                if($dateTime['start_date_time_picker'] && $dateTime['work_time']) {
                     $timeslots[] = [
                         'start_date_time' =>  $dateTime['start_date_time_picker'],
-                        'end_date_time' => $dateTime['end_date_time_picker']
+                        'end_date_time' => null,
+                        'work_time' => $dateTime['work_time']
                     ];
                 }
             }
@@ -202,8 +248,8 @@ class TicketController extends Controller
         }
 
         return $ticket
-            ? response()->json(['msg' => __('Ticket actualizado correctamente.')], 200)
-            : response()->json(['msg' => __('No se ha podido actualizar el ticket, por favor, contacte con el administrador.')], 400);
+            ? response()->json(['msg' => __('Incidencia actualizada correctamente.')], 200)
+            : response()->json(['msg' => __('No se ha podido actualizar la incidencia, por favor, contacte con el administrador.')], 400);
     }
 
     /**
@@ -220,8 +266,8 @@ class TicketController extends Controller
         // }
 
         return isset($deleted) && $deleted === true
-            ? response()->json(['msg' => __('Ticket eliminado correctamente.')], 200)
-            : response()->json(['msg' => __('No se ha podido eliminar el ticket, por favor, contacte con el administrador.')], 400);
+            ? response()->json(['msg' => __('Incidencia eliminada correctamente.')], 200)
+            : response()->json(['msg' => __('No se ha podido eliminar la incidencia, por favor, contacte con el administrador.')], 400);
     }
 
     public function count(Request $req): JsonResponse
@@ -279,6 +325,6 @@ class TicketController extends Controller
 
         });
         
-        return response()->json([ "msg" => "Usuario y ticket creados correctamente."], 200);
+        return response()->json([ "msg" => "Usuario e incidencia creados correctamente."], 200);
     }
 }

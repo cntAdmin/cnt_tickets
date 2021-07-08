@@ -9,6 +9,27 @@
             >
           </div>
           <div class="ml-auto">
+
+            <!-- MODAL DE FIRMA -->
+            <signature-modal
+              v-if="signatureModal && ticket.ticket_type.id === 2"
+              :ticket_id="ticket.id"
+              @firmaEnviadaPorModal="pushSignature"
+            />
+            <button
+              v-if="ticket.ticket_type.id === 2"
+              type="button"
+              class="btn btn-sm btn-info text-white"
+              title="Firma Digital"
+              data-toggle="modal"
+              data-target="#signatureModal"
+              @click="signatureModal = true"
+            >
+              Firmar
+            </button>
+
+
+            <!-- MODAL REGISTRO DE TRABAJO -->
             <ticket-timeslots-modal
               v-if="ticketTimeslotModal && ticket.ticket_type.id === 2"
               :ticket_id="ticket.id"
@@ -18,16 +39,22 @@
               v-if="ticket.ticket_type.id === 2"
               type="button"
               class="btn btn-sm btn-warning"
-              title="Añadir fechas"
+              title="Registrar horas"
               data-toggle="modal"
               data-target="#ticketTimeslotsModal"
               @click="ticketTimeslotModal = true"
             >
-              Añadir Fechas
+              Registrar horas
             </button>
+
+
+            <!-- VER INCIDENCIA -->
             <a :href="`/ticket/${ticket.id}`" class="btn btn-sm btn-success"
-              >Ver Ticket</a
+              >Ver Incidencia</a
             >
+            
+
+            <!-- VOLVER LISTADO DE INCIDENCIAS -->
             <a :href="`/ticket`" class="btn btn-sm btn-info text-white"
               >Volver al listado</a
             >
@@ -37,7 +64,8 @@
       <div class="card-body">
         <ticket-form
           v-if="ticket.ticket_type_id === 1"
-          buttonText="Actualizar Ticket"
+          buttonText="Actualizar Incidencia"
+          type="edit"
           :ticket="ticket"
           :editable="true"
           :user-role="userRole"
@@ -46,11 +74,13 @@
         />
         <work-report-form
           v-if="ticket.ticket_type_id === 2"
-          :buttonText="'Actualizar Parte'"
+          :buttonText="'Actualizar Parte de trabajo'"
+          type="edit"
           :editable="true"
           :ticket="ticket"
           :ticketType="ticket.ticket_type"
           :timeslots="timeslots"
+          :customerSign="ticketSignature"
           :customer="ticket.customer"
           :user-role="userRole"
           @deleted="deletedTimeslots"
@@ -69,14 +99,18 @@ import Attachments from "../Attachments/Attachments.vue";
 import TicketForm from "./TicketForm.vue";
 import TicketTimeslotsModal from "./TicketTimeslotsModal.vue";
 import WorkReportForm from "./WorkReportForm.vue";
+import SignatureModal from "../SignatureModal.vue";
+
 export default {
-  components: { TicketForm, Attachments, TicketTimeslotsModal, WorkReportForm },
+  components: { TicketForm, Attachments, TicketTimeslotsModal, WorkReportForm, SignatureModal },
   props: ["ticket", "userRole"],
   data() {
     return {
       ticketTimeslotModal: false,
       timeslots: [],
       attachments: [],
+      signatureModal: false,
+      ticketSignature: null,
     };
   },
   mounted() {
@@ -91,7 +125,8 @@ export default {
       this.closeAll();
       this.timeslots.push({
         start_date_time_picker: data.start_date_time,
-        end_date_time_picker: data.end_date_time,
+        end_date_time_picker: null,
+        work_time: data.work_time,
       });
     },
     deletedTimeslots(data) {
@@ -117,6 +152,9 @@ export default {
     redirectToTicket() {
       window.location = `/ticket/${this.ticket.id}`;
     },
+    pushSignature(data){ 
+      this.ticketSignature = data;
+    } 
   },
 };
 </script>

@@ -40,7 +40,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text d-none d-lg-block py-1">Usuarios</div>
             <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-user"></i>
+              <i class="fa fa-user"></i><span class="ml-2">Usuarios</span>
             </div>
           </div>
           <select
@@ -69,7 +69,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text d-none d-lg-block py-1">Asignar a</div>
             <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-user-tie"></i>
+              <i class="fa fa-user-tie"></i><span class="ml-2">Asignar a</span>
             </div>
           </div>
           <vue-select
@@ -116,7 +116,7 @@
               Departamento
             </div>
             <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-door-open"></i><span class="ml-2">Dep</span>
+              <i class="fa fa-door-open"></i><span class="ml-2">Depto</span>
             </div>
           </div>
           <select
@@ -165,7 +165,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text d-none d-lg-block py-1">Prioridad</div>
             <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-exclamation-circle"></i>
+              <i class="fa fa-exclamation-circle"></i><span class="ml-2">Prioridad</span>
             </div>
           </div>
           <select
@@ -215,7 +215,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text d-none d-lg-block py-1">Garantia</div>
             <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
+              <i class="fa fa-hashtag"></i><span class="ml-2">Garantia</span>
             </div>
           </div>
           <select
@@ -479,10 +479,10 @@ export default {
           formData.append("ticket_status_id", this.ticket.ticket_status_id);
         if (this.ticket.warranty_id)
           formData.append("warranty_id", this.ticket.warranty_id);
-        if (this.ticket.title) formData.append("title", this.ticket.title);
+        if (this.ticket.title) 
+          formData.append("title", this.ticket.title);
         if (this.ticket.description)
           formData.append("description", this.ticket.description);
-
         axios
           .post(`/api/ticket`, formData)
           .then((res) => {

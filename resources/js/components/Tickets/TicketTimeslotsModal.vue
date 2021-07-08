@@ -11,7 +11,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="ticketTimeslotsModalLabel">
-            Seleccione hora de inicio y hora de fin
+            Detalle del trabajo realizado
           </h5>
           <button
             type="button"
@@ -67,22 +67,21 @@
               </div>
             </div>
             <div class="col-12">
-              <label class="sr-only" for="title">Hora Fin</label>
+              <label class="sr-only" for="title">Tiempo trabajado</label>
               <div class="input-group mt-2">
                 <div class="input-group-prepend">
                   <div class="input-group-text d-none d-lg-block py-1">
-                    Hora Fin
+                    Tiempo trabajado
                   </div>
                   <div class="input-group-text d-block d-lg-none py-1">
-                    <i class="fa fa-heading"></i
-                    ><span class="ml-2">Hora Fin</span>
+                    <i class="fa fa-heading"></i><span class="ml-2">Tiempo</span>
                   </div>
                 </div>
                 <input
+                  type='time'
                   class="form-control"
-                  type="datetime-local"
-                  v-model="dates.end_date_time"
-                  placeholder="dd/mm/aaaa hh:mm"
+                  v-model="dates.work_time"
+                  step='1800'
                 />
               </div>
             </div>
@@ -101,7 +100,7 @@
             form="datepicker"
             class="btn btn-success text-uppercase"
           >
-            Añadir Fechas
+            Añadir Datos
           </button>
         </div>
       </div>
@@ -130,6 +129,7 @@ export default {
         ticket_id: this.ticket_id,
         start_date_time: null,
         end_date_time: null,
+        work_time: null,
       },
     };
   },
@@ -145,7 +145,7 @@ export default {
       };
     },
     addDates() {
-      if (!this.dates.start_date_time || !this.dates.end_date_time) return;
+    if (!this.dates.start_date_time || !this.dates.work_time) return;
       this.closeAll();
       if (this.type !== "new") {
         axios

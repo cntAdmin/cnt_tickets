@@ -29,7 +29,7 @@
 
 <script>
 export default {
-    props: ["customer", "editable"],
+    props: ["customer", "editable", "type"],
     data() {
         return {
             customers: [],
@@ -49,6 +49,9 @@ export default {
         },
         setCustomer(customer) {
           this.$emit('setCustomer', customer);
+          if(this.type == "edit"){
+            alert('Cuidado, has modificado el cliente asignado a la incidencia de trabajo.');
+          }
         }
     }
 };

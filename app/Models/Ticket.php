@@ -22,7 +22,7 @@ class Ticket extends Model
     }
 
     protected $fillable = [
-        'title', 'description', 'deleted_at', 'read_by_admin', 'custom_id',
+        'title', 'description', 'deleted_at', 'read_by_admin', 'custom_id', 'signature', 'is_signed',
         // ASSOCIATIONS
         'customer_id', 'user_id', 'deleted_by', 'department_type_id', 'origin_type_id', 'ticket_type_id', 'ticket_status_id', 'invoiceable_type_id'
     ];
@@ -38,6 +38,11 @@ class Ticket extends Model
         return Str::limit($this->attributes['description'], 100);
     }
     
+    public function getIsSigned()
+    {
+        return $this->attributes['is_signed'];
+    }
+
     /**
      * Get all of the comment_attachments for the Ticket
      *

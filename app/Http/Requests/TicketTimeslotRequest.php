@@ -25,8 +25,10 @@ class TicketTimeslotRequest extends FormRequest
     {
         return [
             'ticket_id' => ['required', 'numeric', 'exists:tickets,id'],
-            'start_date_time' => ['required', 'date_format:Y-m-d\TH:i', 'before:end_date_time'],
-            'end_date_time' => ['required', 'date_format:Y-m-d\TH:i', 'after:start_date_time'],
+            'start_date_time' => ['required', 'date_format:Y-m-d\TH:i'],
+            'work_time' => ['required'],
+            // 'start_date_time' => ['required', 'date_format:Y-m-d\TH:i', 'before:end_date_time'],
+            // 'end_date_time' => ['required', 'date_format:Y-m-d\TH:i', 'after:start_date_time'],
         ];
     }
 }

@@ -23,11 +23,12 @@
       ></form-errors>
     </div>
 
-    <form @submit.prevent="handleSubmit" class="form-inline">
+    <form @submit.prevent="handleSubmit" class="form-inline" enctype="multipart/form-data">
       <customers-dropdown-select
         :customer="customer"
         :editable="editable ? true : false"
         @setCustomer="setCustomer"
+        :type="type"
       />
       <div class="col-12 col-md-6 col-lg-4 mt-2">
         <label class="sr-only" for="users">Usuarios</label>
@@ -35,7 +36,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text d-none d-lg-block py-1">Usuarios</div>
             <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-user"></i>
+              <i class="fa fa-user"></i><span class="ml-2">Usuario</span>
             </div>
           </div>
           <select
@@ -63,7 +64,7 @@
               Departamento
             </div>
             <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-door-open"></i><span class="ml-2">Dep</span>
+              <i class="fa fa-door-open"></i><span class="ml-2">Depto</span>
             </div>
           </div>
           <select
@@ -88,7 +89,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text d-none d-lg-block py-1">Servicio</div>
             <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-couch"></i><span class="ml-2">Serv.</span>
+              <i class="fa fa-couch"></i><span class="ml-2">Servicio</span>
             </div>
           </div>
           <select
@@ -112,7 +113,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text d-none d-lg-block py-1">Garantia</div>
             <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
+              <i class="fa fa-hashtag"></i><span class="ml-2">Garantia</span>
             </div>
           </div>
           <select
@@ -138,7 +139,7 @@
               Facturable
             </div>
             <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
+              <i class="fa fa-hashtag"></i><span class="ml-2">Facturable</span>
             </div>
           </div>
           <select
@@ -156,6 +157,8 @@
           </select>
         </div>
       </div>
+
+      <!-- HORAS REGISTRADAS, SI EXISTEN -->
       <div
         class="d-flex flex-row justify-content-start mt-2 w-100"
         v-if="timeslots.length > 0"
@@ -183,23 +186,22 @@
               disabled="disabled"
             />
           </div>
-          <label class="sr-only" for="title">Hora Fin</label>
+          <label class="sr-only" for="title">Tiempo Trabajado</label>
           <div class="input-group mt-2">
             <div class="input-group-prepend">
               <div class="input-group-text d-none d-lg-block py-1">
-                Hora Fin
+                Tiempo Trabajado
               </div>
               <div class="input-group-text d-block d-lg-none py-1">
-                <i class="fa fa-heading"></i><span class="ml-2">Hora Fin</span>
+                <i class="fa fa-heading"></i><span class="ml-2">Tiempo Trabajado</span>
               </div>
             </div>
             <input
               class="form-control"
-              type="datetime-local"
-              v-model="date.end_date_time_picker"
+              v-model="date.work_time"
               disabled="disabled"
             />
-          </div>
+          </div> 
           <button
             type="button"
             class="btn btn-sm btn-danger btn-block"
@@ -225,7 +227,7 @@
             :disabled="!editable ? true : false"
           />
         </div>
-      </div>
+      </div>  
       <div class="col-12 mt-2">
         <label class="sr-only" for="ticket_id">Descripción</label>
         <div class="input-group">
@@ -263,7 +265,6 @@
         />
         <sub>(max. 25MB)</sub>
       </div>
-
       <div class="col-12 mt-3" v-if="editable">
         <button class="btn btn-sm btn-primary btn-block">
           {{ buttonText }}
@@ -297,6 +298,7 @@ export default {
     "type",
     "ticketType",
     "timeslots",
+    "customerSign",
   ],
   data() {
     return {
@@ -444,6 +446,10 @@ export default {
           `timeslots[${idx}][end_date_time]`,
           this.timeslots[idx].end_date_time_picker
         );
+        formData.append(
+         `timeslots[${idx}][work_time]`,
+          this.timeslots[idx].work_time
+        );
       });
 
       if (this.type == "new") {
@@ -459,14 +465,17 @@ export default {
           formData.append("ticket_status_id", this.ticket.ticket_status_id);
         if (this.ticket.warranty_id)
           formData.append("warranty_id", this.ticket.warranty_id);
-        if (this.ticket.title) formData.append("title", this.ticket.title);
+        if (this.ticket.title) 
+          formData.append("title", this.ticket.title);
         if (this.ticket.description)
           formData.append("description", this.ticket.description);
-
+        if(this.customerSign)
+          formData.append("signature", this.customerSign);
+          // console.log(formData);
         axios
           .post(`/api/ticket`, formData)
           .then((res) => {
-            // console.log(res.data);
+            //console.log(res.data);
             $("html, body").animate({ scrollTop: 0 }, "slow");
             this.success = {
               status: true,
@@ -493,6 +502,7 @@ export default {
         if(this.timeslots.length > 0) {
           this.ticket.timeslots = this.timeslots;
         }
+        this.ticket.signature = this.customerSign;
         axios
           .put(`/api/ticket/${this.ticket.id}`, this.ticket)
           .then((res) => {

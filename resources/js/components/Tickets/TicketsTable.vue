@@ -44,6 +44,7 @@
               <th scope="col">Titulo</th>
               <th scope="col">Tipo</th>
               <th scope="col" class="text-center">Fecha</th>
+              <th scope="col" class="text-center">Horas trabajadas</th>
               <th scope="col" class="text-center">Estado</th>
               <th scope="col" class="text-center">Acciones</th>
             </tr>
@@ -68,7 +69,13 @@
               <td>{{ ticket.title }}</td>
               <td>{{ ticket.ticket_type.name }}</td>
               <td class="text-center">
-                {{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }}
+                {{ ticket.created_at | moment("DD-MM-YYYY") }}
+              </td>
+              <td class="text-center">
+                <span v-for="timeslots in ticket.ticket_timeslots"
+                  :key="timeslots.id">
+                  {{ timeslots.work_time}}
+                </span>
               </td>
               <td>
                 <div class="d-flex flex-wrap justify-content-start">
@@ -90,10 +97,12 @@
                     <i class="text-secondary fas fa-comment-dots"></i
                     >
                   </span>
+                  <!--
                   <span class="btn btn-sm btn-link" v-if="ticket.priority_id !== null">
                     <i :class="'fas fa-exclamation text-' + checkColor(ticket) "></i>
                   </span>
-                  <span class="btn btn-sm btn-link" v-if="ticket.ticket_type.id === 2" :title="ticket.invoiceable_type ? ticket.invoiceable_type.name : ''">
+                  -->
+                  <span class="btn btn-sm btn-link" v-if="ticket.ticket_type.id !== null" :title="ticket.invoiceable_type ? ticket.invoiceable_type.name : ''">
                     <!-- NO FACTURAR -->
                     <i class="fab fa-creative-commons-nc-eu" v-if="ticket.invoiceable_type_id === 1" 
                       ></i> 
@@ -108,6 +117,14 @@
                 <div
                   class="d-flex flex-wrap justify-content-around align-items-center"
                 >
+                  <!-- MODAL EDITAR INCIDENCIA TicketConfirmEditModal.vue -->
+                  <ticket-confirm-edit-modal
+                    v-if="ticketConfirmEditModal && ticket.is_signed === 1"
+                    :ticket_id="ticket.id"
+                  />
+
+
+                  <!-- BOTON VER TICKET -->
                   <a
                     v-if="
                       permissions.find(
@@ -120,11 +137,14 @@
                   >
                     <i class="fa fa-eye"></i>
                   </a>
+
+                  <!-- BOTON EDITAR TICKET -->
                   <a
                     v-if="
                       permissions.find(
                         (permission) => permission.name == 'ticket.update'
                       )
+                      && ticket.is_signed === 0
                     "
                     class="btn btn-sm btn-info text-white"
                     title="Editar Ticket"
@@ -132,6 +152,20 @@
                   >
                     <i class="fa fa-edit"></i>
                   </a>
+
+                  <button
+                    v-if="ticket.is_signed === 1"
+                    type="button"
+                    class="btn btn-sm btn-info text-white"
+                    title="Editar Ticket Cerrado"
+                    data-toggle="modal"
+                    data-target="#ticketConfirmEditModal"
+                    @click="ticketConfirmEditModal = true"
+                  >
+                    <i class="fa fa-edit"></i>
+                  </button>
+
+                  <!-- BOTON ACTUALIZAR ESTADO DE TICKET -->
                   <button
                     v-if="
                       permissions.find(
@@ -201,7 +235,10 @@
 </template>
 
 <script>
+import TicketConfirmEditModal from '../TicketConfirmEditModal.vue'
+
 export default {
+  components: {TicketConfirmEditModal},
   props: ["tickets", "permissions", "userRole"],
   data() {
     return {
@@ -216,6 +253,7 @@ export default {
         status: false,
         msg: "",
       },
+      ticketConfirmEditModal: false,
     };
   },
   mounted() {

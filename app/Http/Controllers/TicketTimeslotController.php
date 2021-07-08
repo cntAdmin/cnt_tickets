@@ -42,7 +42,8 @@ class TicketTimeslotController extends Controller
 
         $updated = Ticket::find($validated['ticket_id'])->ticket_timeslots()->create([
             'start_date_time' => $validated['start_date_time'],
-            'end_date_time' => $validated['end_date_time'],
+            'end_date_time' => null,
+            'work_time' => $validated['work_time'],
         ]);
 
         return $updated

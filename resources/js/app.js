@@ -96,6 +96,10 @@ Vue.component('profile', require('./components/Profiles/Profile').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+// ? SIGNATURE PAD
+import VueSignaturePad from 'vue-signature-pad';
+Vue.use(VueSignaturePad)
+
 const app = new Vue({
     el: '#app',
 });
