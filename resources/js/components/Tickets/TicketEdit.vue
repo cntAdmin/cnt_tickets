@@ -29,7 +29,7 @@
             </button>
 
 
-            <!-- MODAL REGISTRO DE TRABAJO -->
+            <!-- MODAL REGISTRO DE HORAS TRABAJO -->
             <ticket-timeslots-modal
               v-if="ticketTimeslotModal && ticket.ticket_type.id === 2"
               :ticket_id="ticket.id"
@@ -84,6 +84,7 @@
           :customer="ticket.customer"
           :user-role="userRole"
           @deleted="deletedTimeslots"
+          @updated="ticketUpdated"
         />
       </div>
     </div>
@@ -151,6 +152,9 @@ export default {
     },
     redirectToTicket() {
       window.location = `/ticket/${this.ticket.id}`;
+    },
+    ticketUpdated() {
+      window.location = "/ticket";
     },
     pushSignature(data){ 
       this.ticketSignature = data;

@@ -499,7 +499,7 @@ export default {
           });
       } else {
         this.ticket.ticketType_id = this.ticketType.id;
-        if(this.timeslots.length > 0) {
+        if(this.timeslots.length = 0) {
           this.ticket.timeslots = this.timeslots;
         }
         this.ticket.signature = this.customerSign;
