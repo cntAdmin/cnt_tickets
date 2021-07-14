@@ -43,9 +43,9 @@
               <th scope="col">Cliente</th>
               <th scope="col">Titulo</th>
               <th scope="col">Tipo</th>
-              <th scope="col" class="text-center">Fecha</th>
-              <th scope="col" class="text-center">Horas trabajadas</th>
-              <th scope="col" class="text-center">Estado</th>
+              <th scope="col" class="text-center">Fecha creación</th>
+              <th scope="col" class="text-center">Tiempo trabajado</th>
+              <th scope="col" class="text-center">Estados</th>
               <th scope="col" class="text-center">Acciones</th>
             </tr>
           </thead>
@@ -72,10 +72,7 @@
                 {{ ticket.created_at | moment("DD-MM-YYYY") }}
               </td>
               <td class="text-center">
-                <span v-for="timeslots in ticket.ticket_timeslots"
-                  :key="timeslots.id">
-                  {{ timeslots.work_time}}
-                </span>
+                <span>{{ get_total_work_time(ticket.ticket_timeslots) }}</span>
               </td>
               <td>
                 <div class="d-flex flex-wrap justify-content-start">
@@ -97,11 +94,9 @@
                     <i class="text-secondary fas fa-comment-dots"></i
                     >
                   </span>
-                  <!--
                   <span class="btn btn-sm btn-link" v-if="ticket.priority_id !== null">
                     <i :class="'fas fa-exclamation text-' + checkColor(ticket) "></i>
                   </span>
-                  -->
                   <span class="btn btn-sm btn-link" v-if="ticket.ticket_type.id !== null" :title="ticket.invoiceable_type ? ticket.invoiceable_type.name : ''">
                     <!-- NO FACTURAR -->
                     <i class="fab fa-creative-commons-nc-eu" v-if="ticket.invoiceable_type_id === 1" 
@@ -313,6 +308,7 @@ export default {
       axios
         .get("/api/get_all_ticket_statuses")
         .then((res) => {
+          // console.log(res.data);
           this.ticket_statuses = res.data.ticket_statuses;
         })
         .catch((error) => console.log(error.response.data));
@@ -358,6 +354,37 @@ export default {
       this.showDelete = true;
       this.ticket = ticket;
     },
+    get_total_work_time(timeslots){
+      let cadena = [];
+      let totalminutes = 0;
+
+      for(var element=0; element<timeslots.length; element++){ 
+        cadena = timeslots[element].work_time.split(":");
+        totalminutes = totalminutes + (parseInt(cadena[0])*60) + (parseInt(cadena[1]));
+      }
+
+      return this.timeConvert(totalminutes);
+    },
+    timeConvert(timeInMinutes){
+      let num = timeInMinutes;
+      let hours = (num / 60);
+      let rhours = Math.floor(hours);
+      let minutes = (hours - rhours) * 60;
+      let rminutes = Math.round(minutes);
+
+      if(rhours > 0 && rminutes > 0){
+        return rhours + " hora(s) y " + rminutes+ " minutos";
+      }
+      if(rhours > 0 && rminutes === 0){
+        return rhours + " hora(s)";
+      }
+      if(rhours === 0 && rminutes > 0){
+        return rminutes+ " minutos";
+      }
+      if(rhours === 0 && rminutes === 0){
+        return "Sin definir";
+      }
+    }
   },
 };
 </script>

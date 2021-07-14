@@ -128,6 +128,7 @@ export default {
         start_date_time_picker: data.start_date_time,
         end_date_time_picker: null,
         work_time: data.work_time,
+        inserted: 0,
       });
     },
     deletedTimeslots(data) {

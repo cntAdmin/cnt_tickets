@@ -130,6 +130,7 @@ export default {
         start_date_time: null,
         end_date_time: null,
         work_time: null,
+        inserted: null,
       },
     };
   },
@@ -145,39 +146,9 @@ export default {
       };
     },
     addDates() {
-    if (!this.dates.start_date_time || !this.dates.work_time) return;
-      this.closeAll();
-      // if (this.type !== "new") {
-      //   axios
-      //     .post("/api/ticket-timeslot", this.dates)
-      //     .then((res) => {
-      //       this.success = {
-      //         status: true,
-      //         msg: res.data.msg,
-      //       };
-      //       setTimeout(() => {
-      //         $("#ticketTimeslotsModal").modal("hide");
-      //         this.success = {
-      //           status: false,
-      //           msg: null,
-      //         };
-      //         this.$emit("close", this.dates);
-      //       }, 2000);
-      //     })
-      //     .catch((err) => {
-      //       if (err.response.status !== 500) {
-      //         this.error = {
-      //           status: true,
-      //           errors: err.response.data.errors,
-      //         };
-      //       } else {
-      //         console.log(err.response.data);
-      //       }
-      //     });
-      // } else {
-      //   $("#ticketTimeslotsModal").modal("hide");
-      //   this.$emit("close", this.dates);
-      // }
+      if (!this.dates.start_date_time || !this.dates.work_time) return;
+
+      this.dates.inserted = 0;
       $("#ticketTimeslotsModal").modal("hide");
       this.$emit("close", this.dates);
     },

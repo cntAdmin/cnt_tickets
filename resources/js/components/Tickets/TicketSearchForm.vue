@@ -21,7 +21,35 @@
               />
             </div>
           </div>
-          <customers-dropdown-select :customer="null" :editable="true" />
+          <!--
+          <customers-dropdown-select :customer="null" :editable="true" @setCustomer="mostarCustomer"/>
+          -->
+          <div class="col-12 col-md-6 col-lg-4 mt-2">
+            <label class="sr-only" for="ticket_id">Cliente</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text d-none d-lg-block py-1">
+                  Cliente
+                </div>
+                <div class="input-group-text d-block d-lg-none py-1">
+                  <i class="fa fa-user-tie"></i>
+                </div>
+              </div>
+              <vue-select
+                class="col-10 col-lg-8 col-xl-9 px-0"
+                transition="vs__fade"
+                label="name"
+                itemid="id"
+                :options="customers"
+                @input="setCustomer"
+              >
+                <div slot="no-options">No hay opciones con esta búsqueda</div>
+                <template slot="option" slot-scope="option">
+                  {{ option.name }}
+                </template>
+              </vue-select>
+            </div>
+          </div>
           <div
             class="col-12 col-md-6 col-lg-4 mt-2"
             v-if="user.roles[0].id === 1"

@@ -437,6 +437,7 @@ export default {
         }
       }
 
+      // A cada timeslots le asigna valores.
       this.timeslots.forEach((timeslot, idx) => {
         formData.append(
           `timeslots[${idx}][start_date_time]`,
@@ -499,7 +500,19 @@ export default {
           });
       } else {
         this.ticket.ticketType_id = this.ticketType.id;
-        if(this.timeslots.length = 0) {
+
+        // En EDIT, si hay timeslots añadidos previamente, debemos validar primero si están insertados y si están quitarlos ya que sino los duplica en BD.
+        if(this.timeslots.length > 0){
+
+          for(var element=0; element<this.timeslots.length; element++){ 
+            // Si ya está insertado, lo eliminamos del array de fechas auxiliar.
+            if(this.timeslots[element].inserted === 1){ 
+              this.timeslots.splice(element, 1);
+              element--;
+            }
+          }
+
+          // Finalizada la comprobación, metemos el array de fechas auxiliar en this.ticket.timeslots para cargarlos en BD sólo los nuevos
           this.ticket.timeslots = this.timeslots;
         }
         this.ticket.signature = this.customerSign;
