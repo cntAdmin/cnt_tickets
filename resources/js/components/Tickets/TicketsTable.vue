@@ -360,16 +360,11 @@ export default {
       this.ticket = ticket;
     },
     get_total_work_time(timeslots){
-      console.log("TicketsTable.vue  -->  get_total_work_time()");
-      console.log("   timeslots: ",timeslots);
       let cadena = [];
       let totalminutes = 0;
 
-      console.log("   timeslots.length: ",timeslots.length);
       if(timeslots.length>0){
         for(var element=0; element<timeslots.length; element++){ 
-          console.log("     var element: ",element);
-          console.log("     timeslots[element].work_time: ",timeslots[element].work_time);
           cadena = timeslots[element].work_time.split(":");
           totalminutes = totalminutes + (parseInt(cadena[0])*60) + (parseInt(cadena[1]));
         }
@@ -385,7 +380,6 @@ export default {
       let rminutes = Math.round(minutes);
 
       if(rhours > 0 && rminutes > 0){
-        // return rhours + " hora(s) y " + rminutes+ " minutos";
         if(rhours < 10){
           return "0" + rhours + ":" + rminutes + ":00";
         }
@@ -394,7 +388,6 @@ export default {
         }
       }
       if(rhours > 0 && rminutes === 0){
-        // return rhours + " hora(s)";
         if(rhours < 10){
           return "0" + rhours + ":00:00";
         }
@@ -403,7 +396,6 @@ export default {
         }
       }
       if(rhours === 0 && rminutes > 0){
-        // return rminutes+ " minutos";
         return "00:" + rminutes + ":00";
       }
       if(rhours === 0 && rminutes === 0){
