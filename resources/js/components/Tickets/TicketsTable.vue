@@ -72,7 +72,12 @@
                 {{ ticket.created_at | moment("DD-MM-YYYY") }}
               </td>
               <td class="text-center">
-                <span>{{ get_total_work_time(ticket.ticket_timeslots) }}</span>
+                <div v-if="ticket.ticket_type_id === 2">
+                  <span>{{ get_total_work_time(ticket.ticket_timeslots) }}</span>
+                </div>
+                <div v-else>
+                  <span> - </span>
+                </div>
               </td>
               <td>
                 <div class="d-flex flex-wrap justify-content-start">
@@ -358,9 +363,11 @@ export default {
       let cadena = [];
       let totalminutes = 0;
 
-      for(var element=0; element<timeslots.length; element++){ 
-        cadena = timeslots[element].work_time.split(":");
-        totalminutes = totalminutes + (parseInt(cadena[0])*60) + (parseInt(cadena[1]));
+      if(timeslots.length>0){
+        for(var element=0; element<timeslots.length; element++){ 
+          cadena = timeslots[element].work_time.split(":");
+          totalminutes = totalminutes + (parseInt(cadena[0])*60) + (parseInt(cadena[1]));
+        }
       }
 
       return this.timeConvert(totalminutes);
@@ -373,16 +380,29 @@ export default {
       let rminutes = Math.round(minutes);
 
       if(rhours > 0 && rminutes > 0){
-        return rhours + " hora(s) y " + rminutes+ " minutos";
+        // return rhours + " hora(s) y " + rminutes+ " minutos";
+        if(rhours < 10){
+          return "0" + rhours + ":" + rminutes + ":00";
+        }
+        else{
+          return rhours + ":" + rminutes + ":00";
+        }
       }
       if(rhours > 0 && rminutes === 0){
-        return rhours + " hora(s)";
+        // return rhours + " hora(s)";
+        if(rhours < 10){
+          return "0" + rhours + ":00:00";
+        }
+        else{
+          return rhours + ":00:00";
+        }
       }
       if(rhours === 0 && rminutes > 0){
-        return rminutes+ " minutos";
+        // return rminutes+ " minutos";
+        return "00:" + rminutes + ":00";
       }
       if(rhours === 0 && rminutes === 0){
-        return "Sin definir";
+        return "00:00:00";
       }
     }
   },
