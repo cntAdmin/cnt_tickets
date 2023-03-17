@@ -165,7 +165,6 @@ return [
         'town' => 'localidad',
         'postcode' => 'código postal',
         'phone' => 'teléfono',
-        'fax' => 'fax',
         'is_active' => 'activo',
         'code' => 'Código',
         'title' => 'título',

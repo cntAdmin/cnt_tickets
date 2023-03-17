@@ -8,12 +8,11 @@
         icon="plus"
       />
     </div>
-    <a
-      href="/origin-type/crear"
-      class="btn btn-sm btn-block btn-secondary font-weight-bold mt-3"
-    >
-      <i class="fa fa-plus"></i><span class="ml-2">Crear Procedencia</span>
-    </a>
+    <div class="row d-flex justify-content-center mt-3">
+      <a class="btn btn-secondary text-white shadow-lg mt-1" href="/origin-type/crear">
+        <i class="fa fa-plus"></i><span class="ml-2">Nueva procedencia</span>
+      </a>
+    </div>
     <origin-types-search-form
       :page="page"
       :deleted="deleted"
@@ -23,11 +22,7 @@
     <transition name="fade" mode="out-in" v-if="is_searching">
       <spinner />
     </transition>
-    <transition
-      name="fade"
-      mode="out-in"
-      v-else-if="originTypes.data && Object.keys(originTypes.data).length > 0"
-    >
+    <transition name="fade" mode="out-in" v-else-if="originTypes.data && Object.keys(originTypes.data).length > 0">
       <origin-types-table
         class="d-none d-lg-block"
         :origin-types="originTypes"
@@ -37,10 +32,7 @@
       />
     </transition>
     <transition name="fade" mode="out-in" v-else>
-      <div
-        class="alert alert-warning fade show mt-3 mx-3 text-center"
-        role="alert"
-      >
+      <div class="alert alert-warning fade show mt-3 mx-3 text-center" role="alert" >
         <span class="font-weight-bold">
           No se han encontrado resultados, por favor, haga una nueva búsqueda
           <i class="fa fa-thumbs-up"></i>

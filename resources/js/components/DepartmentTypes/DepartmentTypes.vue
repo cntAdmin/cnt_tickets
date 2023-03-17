@@ -8,12 +8,11 @@
         icon="plus"
       />
     </div>
-    <a
-      href="/department-type/crear"
-      class="btn btn-sm btn-block btn-secondary font-weight-bold mt-3"
-    >
-      <i class="fa fa-plus"></i><span class="ml-2">Crear Servicio</span>
-    </a>
+    <div class="row d-flex justify-content-center mt-3">
+      <a class="btn btn-secondary text-white shadow-lg mt-1" href="/department-type/crear">
+        <i class="fa fa-plus"></i><span class="ml-2">Nuevo servicio</span>
+      </a>
+    </div>
     <department-type-search-form
       :page="page"
       :deleted="deleted"

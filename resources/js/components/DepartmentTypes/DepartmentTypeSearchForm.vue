@@ -15,7 +15,7 @@
                 </div>
               </div>
               <select v-model="search.department_id" class="form-control">
-                <option value="">-- TODOS --</option>
+                <option value="">Todos</option>
                 <option
                   :value="department.id"
                   v-for="department in departments"
@@ -26,6 +26,7 @@
               </select>
             </div>
           </div>
+
           <div class="col-12 col-md-6 col-lg-4 mt-2">
             <label class="sr-only" for="name">Nombre</label>
             <div class="input-group">
@@ -44,6 +45,7 @@
               />
             </div>
           </div>
+          
           <div class="col-12">
             <button type="submit" class="btn btn-sm btn-success btn-block mt-3">
               <i class="fa fa-search"></i><span class="ml-2">Buscar</span>

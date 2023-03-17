@@ -1,5 +1,5 @@
 <template>
-  <div class="card mx-3 shadow mt-3">
+  <div class="card mx-3 shadow mt-3 border-dark">
     <div class="card-body">
       <div
         class="alert alert-success alert-dismissible fade show"
@@ -35,55 +35,41 @@
       </div>
 
       <div class="table-responsive">
-        <table class="table table-hover table-striped shadow">
+        <table class="table table-striped text-center">
           <thead class="thead-dark">
             <tr>
-              <th scope="col" class="text-center"># ID</th>
               <th scope="col">Nombre</th>
-              <th scope="col">Alias</th>
               <th scope="col">Email</th>
-              <th scope="col" class="text-center">Teléfono</th>
-              <th scope="col" class="text-center">Estado</th>
-              <th scope="col" class="text-center">Acciones</th>
+              <th scope="col">Teléfono</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="customer in customers.data" :key="customer.id">
-              <th scope="row" class="text-center">{{ customer.id }}</th>
-              <td>{{ customer.name }}</td>
-              <td>{{ customer.alias }}</td>
+              <th class="text-uppercase">{{ customer.name }}</th>
               <td>{{ customer.email }}</td>
-              <td class="text-center">{{ customer.phone }}</td>
-              <td class="text-center">
-                <button
-                  class="btn btn-sm btn-success"
-                  v-if="customer.is_active"
-                  disabled
-                >
-                  <i class="fa fa-check-circle"></i>
-                </button>
-                <button class="btn btn-sm btn-danger" v-else disabled>
-                  <i class="fa fa-times-circle"></i>
-                </button>
+              <td>{{ customer.phone }}</td>
+              <td>
+                <span class="btn btn-sm disabled" title="Activo" v-if="customer.is_active">
+                  <i class="fas fa-check-square text-success"></i>
+                </span>
+                <span class="btn btn-sm disabled" title="Inactivo" v-else>
+                  <i class="fas fa-window-close text-danger"></i>
+                </span>
               </td>
               <td>
-                <div class="d-flex flex-wrap justify-content-around">
-                  <a
-                    class="btn btn-sm btn-success"
-                    v-if="permissions.find((permission) => permission.name == 'ticket.create')"
-                    :href="`/customer/${customer.id}/ticket/crear`"
-                    >
+                <div class="d-flex flex-wrap justify-content-center" style="gap: 0.5rem">
+                  <a class="btn btn-sm btn-success" href="/ticket-type/1/ticket/crear" title="Nuevo ticket">
                     <i class="fa fa-ticket"></i>
                     <i class="fa fa-plus"></i>
                   </a>
-                  <a
-                    v-if="permissions.find((permission) => permission.name == 'customer.update')"
-                    class="btn btn-sm btn-info text-white"
+                  <a v-if="permissions.find((permission) => permission.name == 'customer.update')"
+                    class="btn btn-sm btn-info text-white" title="Editar"
                     :href="`/customer/${customer.id}/editar`"
                     ><i class="fa fa-edit"></i
                   ></a>
                 </div>
-                <!-- BOTONES DE ACCIONES -->
               </td>
             </tr>
           </tbody>

@@ -1,5 +1,5 @@
 <template>
-  <div class="card mx-3 shadow mt-3">
+  <div class="card mx-3 shadow mt-3 border-dark">
     <div class="card-body">
       <div
         class="alert alert-success alert-dismissible fade show"
@@ -17,11 +17,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div
-        class="alert alert-danger alert-dismissible fade show"
-        role="alert"
-        v-if="error.status"
-      >
+      <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="error.status"      >
         <span>{{ error.msg }}</span>
         <button
           type="button"
@@ -35,48 +31,29 @@
       </div>
 
       <div class="table-responsive">
-        <table class="table table-hover table-striped shadow">
+        <table class="table table-striped text-center">
           <thead class="thead-dark">
             <tr>
-              <th scope="col" class="text-center"># ID</th>
               <th scope="col">Departamento</th>
               <th scope="col">Servicio</th>
               <th scope="col">Tickets</th>
-              <th scope="col" class="text-center">Acciones</th>
+              <th scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="departmentType in paginated
-                ? departmentTypes.data
-                : departmentTypes"
-              :key="departmentType.id"
-            >
-              <th scope="row" class="text-center">{{ departmentType.id }}</th>
-              <td>{{ departmentType.department.name }}</td>
+            <tr v-for="departmentType in paginated ? departmentTypes.data : departmentTypes" :key="departmentType.id">
+              <th>{{ departmentType.department.name }}</th>
               <td>{{ departmentType.name }}</td>
               <td>{{ departmentType.tickets_count }}</td>
               <td>
-                <div class="d-flex flex-wrap justify-content-around">
-                  <a
-                    v-if="
-                      permissions.find(
-                        (permission) =>
-                          permission.name == 'department_type.update'
-                      )
-                    "
+                <div class="d-flex flex-wrap justify-content-center" style="gap: 0.5rem">
+                  <a v-if="permissions.find((permission) => permission.name == 'department_type.update')"
                     :href="`/department-type/${departmentType.id}/editar`"
                     class="btn btn-sm btn-info text-white"
                   >
                     <i class="fa fa-edit"></i>
                   </a>
-                  <button
-                    v-if="
-                      permissions.find(
-                        (permission) =>
-                          permission.name == 'department_type.destroy'
-                      )
-                    "
+                  <button v-if="permissions.find((permission) => permission.name == 'department_type.destroy')"
                     type="button"
                     class="btn btn-sm btn-danger"
                     title="Borrar Usuario"

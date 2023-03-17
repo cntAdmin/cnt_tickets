@@ -4,9 +4,7 @@
       <div class="card-header">
         <div class="d-flex justify-content-between flex-row align-items-center">
           <div class="mr-auto">
-            <span class="font-weight-bold text-uppercase"
-              >{{ ticket.custom_id }} - {{ ticket.ticket_type.name }}</span
-            >
+            <span class="font-weight-bold text-uppercase">{{ ticket.id }} - {{ ticket.ticket_type.name }}</span>
           </div>
           <div class="ml-auto">
 
@@ -28,7 +26,6 @@
               Firmar
             </button>
 
-
             <!-- MODAL REGISTRO DE HORAS TRABAJO -->
             <ticket-timeslots-modal
               v-if="ticketTimeslotModal && ticket.ticket_type.id === 2"
@@ -46,18 +43,10 @@
             >
               Registrar horas
             </button>
-
-
             <!-- VER INCIDENCIA -->
-            <a :href="`/ticket/${ticket.id}`" class="btn btn-sm btn-success"
-              >Ver Incidencia</a
-            >
-            
-
+            <a :href="`/ticket/${ticket.id}`" class="btn btn-sm btn-success">Ver Incidencia</a>
             <!-- VOLVER LISTADO DE INCIDENCIAS -->
-            <a :href="`/ticket`" class="btn btn-sm btn-info text-white"
-              >Volver al listado</a
-            >
+            <a :href="`/ticket`" class="btn btn-sm btn-info text-white">Volver al listado</a>
           </div>
         </div>
       </div>

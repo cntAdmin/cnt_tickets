@@ -1,5 +1,5 @@
 <template>
-  <div class="card mx-3 shadow mt-3">
+  <div class="card mx-3 shadow mt-3 border-dark">
     <div class="card-body">
       <div
         class="alert alert-success alert-dismissible fade show"
@@ -35,10 +35,9 @@
       </div>
 
       <div class="table-responsive">
-        <table class="table table-hover table-striped shadow">
+        <table class="table table-striped text-center">
           <thead class="thead-dark">
             <tr>
-              <th scope="col" class="text-center"># ID</th>
               <th scope="col">Nombre</th>
               <th scope="col">Tickets</th>
               <th scope="col" class="text-center">Acciones</th>
@@ -46,19 +45,16 @@
           </thead>
           <tbody>
             <tr v-for="originType in originTypes.data" :key="originType.id">
-              <th scope="row">{{ originType.id }}</th>
-              <td>{{ originType.name }}</td>
+              <th>{{ originType.name }}</th>
               <td>{{ originType.tickets_count }}</td>
               <td>
-                <div class="d-flex flex-wrap justify-content-around">
-                  <a
-                    v-if="permissions.find(permission => permission.name =='origin_type.update')"
+                <div class="d-flex flex-wrap justify-content-center" style="gap: 0.5rem">
+                  <a v-if="permissions.find(permission => permission.name =='origin_type.update')"
                     :href="`/origin-type/${originType.id}/editar`"
                     class="btn btn-sm btn-info text-white"
                     ><i class="fa fa-edit"></i>
                   </a>
-                  <button
-                    v-if="permissions.find(permission => permission.name =='origin_type.destroy')"
+                  <button v-if="permissions.find(permission => permission.name =='origin_type.destroy')"
                     type="button"
                     class="btn btn-sm btn-danger"
                     title="Borrar Usuario"

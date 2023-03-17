@@ -3,7 +3,49 @@
     <div class="card w-100 shadow border-dark">
       <div class="card-body">
         <form @submit.prevent="handleSubmit" class="form-inline">
-          <customers-dropdown-select :customer="null" :editable="true" />
+          <customers-dropdown-select
+            :customer="customers"
+            :editable="true"
+            @setCustomer="setCustomer"
+          />
+
+          <div class="col-12 col-md-6 col-lg-4 mt-2">
+            <label class="sr-only" for="name">Nombre</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text d-none d-lg-block">Nombre</div>
+                <div class="input-group-text d-block d-lg-none">
+                  <i class="fa fa-hashtag"></i>
+                </div>
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                placeholder="Nombre a buscar"
+                v-model="search.name"
+              />
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4 mt-2">
+            <label class="sr-only" for="email">Email</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text d-none d-lg-block">Email</div>
+                <div class="input-group-text d-block d-lg-none">
+                  <i class="fa fa-hashtag"></i>
+                </div>
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                id="email"
+                placeholder="Dirección de correo electrónico a buscar"
+                v-model="search.email"
+              />
+            </div>
+          </div>
 
           <div class="col-12 col-md-6 col-lg-4 mt-2">
             <label class="sr-only" for="ticket_id">Roles</label>
@@ -29,42 +71,7 @@
               </vue-select>
             </div>
           </div>
-          <div class="col-12 col-md-6 col-lg-4 mt-2">
-            <label class="sr-only" for="name">Nombre</label>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block">Nombre</div>
-                <div class="input-group-text d-block d-lg-none">
-                  <i class="fa fa-hashtag"></i>
-                </div>
-              </div>
-              <input
-                type="text"
-                class="form-control"
-                id="name"
-                placeholder="Nombre a buscar"
-                v-model="search.name"
-              />
-            </div>
-          </div>
-          <div class="col-12 col-md-6 col-lg-4 mt-2">
-            <label class="sr-only" for="email">Email</label>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block">Email</div>
-                <div class="input-group-text d-block d-lg-none">
-                  <i class="fa fa-hashtag"></i>
-                </div>
-              </div>
-              <input
-                type="text"
-                class="form-control"
-                id="email"
-                placeholder="Dirección de correo electrónico a buscar"
-                v-model="search.email"
-              />
-            </div>
-          </div>
+
           <div class="col-12 col-md-6 col-lg-4 mt-2">
             <label class="sr-only" for="is_active">Activo</label>
             <div class="input-group">
@@ -75,12 +82,13 @@
                 </div>
               </div>
               <select v-model="search.is_active" class="form-control">
-                <option value="">-- TODOS --</option>
+                <option value="">Todos</option>
                 <option value="1">Activos</option>
                 <option value="2">Inactivos</option>
               </select>
             </div>
           </div>
+
           <div class="col-12">
             <button type="submit" class="btn btn-sm btn-success btn-block mt-3">
               <i class="fa fa-search"></i><span class="ml-2">Buscar</span>

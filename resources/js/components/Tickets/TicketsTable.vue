@@ -1,11 +1,7 @@
 <template>
-  <div class="card mx-3 shadow mt-3">
+  <div class="card mx-3 shadow mt-3 border-dark">
     <div class="card-body">
-      <div
-        class="alert alert-success alert-dismissible fade show"
-        role="alert"
-        v-if="success.status"
-      >
+      <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="success.status">
         <span>{{ success.msg }}</span>
         <button
           type="button"
@@ -17,11 +13,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div
-        class="alert alert-danger alert-dismissible fade show"
-        role="alert"
-        v-if="error.status"
-      >
+      <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="error.status">
         <span>{{ error.msg }}</span>
         <button
           type="button"
@@ -35,43 +27,31 @@
       </div>
 
       <div class="table-responsive">
-        <table class="table table-hover table-striped shadow">
+        <table class="table table-striped text-center">
           <thead class="thead-dark">
             <tr>
-              <th scope="col" class="text-center"># ID</th>
+              <th scope="col"># ID</th>
               <th scope="col">Agente</th>
               <th scope="col">Cliente</th>
               <th scope="col">Titulo</th>
               <th scope="col">Tipo</th>
-              <th scope="col" class="text-center">Fecha creación</th>
-              <th scope="col" class="text-center">Tiempo trabajado</th>
-              <th scope="col" class="text-center">Estados</th>
-              <th scope="col" class="text-center">Acciones</th>
+              <th scope="col">Fecha creación</th>
+              <th scope="col">Tiempo trabajado</th>
+              <th scope="col">Info adicional</th>
+              <th scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="ticket in tickets.data"
-              :key="ticket.id"
-              :class="checkTicketRow(ticket)"
-            >
-              <th scope="row" class="text-center">
-                <a
-                  :href="`/ticket/${ticket.id}`"
-                  class="btn btn-sm btn-link text-dark font-weight-bold"
-                  >{{ ticket.custom_id }}</a
-                >
+            <tr v-for="ticket in tickets.data" :key="ticket.id">
+              <th scope="row">
+                <a :href="`/ticket/${ticket.id}`" class="btn btn-sm btn-link text-dark font-weight-bold">{{ ticket.id }}</a>
               </th>
-              <td>
-                {{ ticket.agent !== null ? ticket.agent.name : (ticket.created_by_user ? ticket.created_by_user.name : '')  }}
-              </td>
+              <td>{{ ticket.agent !== null ? ticket.agent.name : (ticket.created_by_user ? ticket.created_by_user.name : '')  }}</td>
               <td>{{ ticket.customer ? ticket.customer.name : "" }}</td>
               <td>{{ ticket.title }}</td>
               <td>{{ ticket.ticket_type.name }}</td>
-              <td class="text-center">
-                {{ ticket.created_at | moment("DD-MM-YYYY") }}
-              </td>
-              <td class="text-center">
+              <td>{{ ticket.created_at | moment("DD-MM-YYYY") }}</td>
+              <td>
                 <div v-if="ticket.ticket_type_id === 2">
                   <span>{{ get_total_work_time(ticket.ticket_timeslots) }}</span>
                 </div>
@@ -80,32 +60,23 @@
                 </div>
               </td>
               <td>
-                <div class="d-flex flex-wrap justify-content-start">
-                  <button
-                    :class="`btn btn-sm btn-${ticket.ticket_status.color} ${
-                      ticket.ticket_status.color == 'info' ? ' text-white' : ''
-                    }`"
-                    :title="ticket.ticket_status.name"
-                    disabled
-                  >
-                    <i :class="`fa fa-${ticket.ticket_status.icon}`"></i>
-                  </button>
-                  <span class="btn btn-sm btn-link" v-if="Object.keys(ticket.comment_attachments).length +
-                        Object.keys(ticket.attachments).length > 0">
-                    <i class="text-secondary fas fa-paperclip"></i
-                    >
+                <div class="d-flex justify-content-center">
+                  <span class="btn btn-sm btn-link" :title="ticket.ticket_status.name">
+                    <i :class="`fas fa-${ticket.ticket_status.icon} text-${ticket.ticket_status.color}`"></i>
                   </span>
-                  <span class="btn btn-sm btn-link" v-if="Object.keys(ticket.comments).length > 0">
-                    <i class="text-secondary fas fa-comment-dots"></i
-                    >
+                  <span class="btn btn-sm btn-link" title="Adjuntos" v-if="Object.keys(ticket.comment_attachments).length +
+                      Object.keys(ticket.attachments).length > 0">
+                    <i class="text-secondary fas fa-paperclip"></i>
                   </span>
-                  <span class="btn btn-sm btn-link" v-if="ticket.priority_id !== null">
+                  <span class="btn btn-sm btn-link" title="Comentarios" v-if="Object.keys(ticket.comments).length > 0">
+                    <i class="text-secondary fas fa-comment-dots"></i>
+                  </span>
+                  <span class="btn btn-sm btn-link" :title="ticket.priority.name" v-if="ticket.priority_id !== null">
                     <i :class="'fas fa-exclamation text-' + checkColor(ticket) "></i>
                   </span>
-                  <span class="btn btn-sm btn-link" v-if="ticket.ticket_type.id !== null" :title="ticket.invoiceable_type ? ticket.invoiceable_type.name : ''">
+                  <span class="btn btn-sm btn-link" v-if="ticket.invoiceable_type_id !== null" :title="ticket.invoiceable_type ? ticket.invoiceable_type.name : ''">
                     <!-- NO FACTURAR -->
-                    <i class="fab fa-creative-commons-nc-eu" v-if="ticket.invoiceable_type_id === 1" 
-                      ></i> 
+                    <i class="fab fa-creative-commons-nc-eu" v-if="ticket.invoiceable_type_id === 1"></i> 
                     <!-- A FACTURAR  -->
                     <i class="fas fa-coins" v-if="ticket.invoiceable_type_id === 2"></i>
                     <!-- FACTURADO  -->
@@ -114,23 +85,12 @@
                 </div>
               </td>
               <td>
-                <div
-                  class="d-flex flex-wrap justify-content-around align-items-center"
-                >
+                <div class="d-flex flex-wrap justify-content-center" style="gap: 0.5rem">
                   <!-- MODAL EDITAR INCIDENCIA TicketConfirmEditModal.vue -->
-                  <ticket-confirm-edit-modal
-                    v-if="ticketConfirmEditModal && ticket.is_signed === 1"
-                    :ticket_id="ticket.id"
-                  />
-
+                  <ticket-confirm-edit-modal v-if="ticketConfirmEditModal && ticket.is_signed === 1" :ticket_id="ticket.id"/>
 
                   <!-- BOTON VER TICKET -->
-                  <a
-                    v-if="
-                      permissions.find(
-                        (permission) => permission.name == 'ticket.show'
-                      )
-                    "
+                  <a v-if="permissions.find((permission) => permission.name == 'ticket.show')"
                     class="btn btn-sm btn-success"
                     :href="`/ticket/${ticket.id}`"
                     title="Ver Ticket"
@@ -139,13 +99,7 @@
                   </a>
 
                   <!-- BOTON EDITAR TICKET -->
-                  <a
-                    v-if="
-                      permissions.find(
-                        (permission) => permission.name == 'ticket.update'
-                      )
-                      && ticket.is_signed === 0
-                    "
+                  <a v-if="permissions.find((permission) => permission.name == 'ticket.update') && ticket.is_signed === 0"
                     class="btn btn-sm btn-info text-white"
                     title="Editar Ticket"
                     :href="`/ticket/${ticket.id}/editar`"
@@ -166,12 +120,7 @@
                   </button>
 
                   <!-- BOTON ACTUALIZAR ESTADO DE TICKET -->
-                  <button
-                    v-if="
-                      permissions.find(
-                        (permission) => permission.name == 'ticket.update'
-                      )
-                    "
+                  <button v-if="permissions.find((permission) => permission.name == 'ticket.update')"
                     type="button"
                     class="btn btn-sm btn-secondary text-white dropdown-toggle"
                     title="Editar Ticket"
@@ -191,12 +140,7 @@
                       {{ ticket_status.name }}
                     </button>
                   </div>
-                  <button
-                    v-if="
-                      permissions.find(
-                        (permission) => permission.name == 'ticket.destroy'
-                      )
-                    "
+                  <button v-if="permissions.find((permission) => permission.name == 'ticket.destroy')"
                     type="button"
                     class="btn btn-sm btn-danger"
                     title="Borrar Ticket"
@@ -277,25 +221,6 @@ export default {
           break;
       }
     },
-    checkTicketRow(ticket) {
-      if (ticket.ticket_status.id > 2) {
-        return "border-left border-success";
-      } else {
-        if (this.userRole < 3) {
-          if (ticket.read_by_admin) {
-            return "border-left border-success";
-          } else {
-            return "border-left border-danger text-danger font-weight-bold";
-          }
-        } else {
-          if (ticket.read_by_admin) {
-            return "border-left border-danger text-danger font-weight-bold";
-          } else {
-            return "border-left border-success";
-          }
-        }
-      }
-    },
     changeStatus(ticket_id, ticket_status_id) {
       axios
         .put(`/api/ticket/${ticket_id}/ticket-status/${ticket_status_id}`)
@@ -313,7 +238,6 @@ export default {
       axios
         .get("/api/get_all_ticket_statuses")
         .then((res) => {
-          // console.log(res.data);
           this.ticket_statuses = res.data.ticket_statuses;
         })
         .catch((error) => console.log(error.response.data));

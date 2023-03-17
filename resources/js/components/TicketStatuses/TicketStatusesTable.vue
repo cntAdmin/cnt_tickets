@@ -1,5 +1,5 @@
 <template>
-  <div class="card mx-3 shadow mt-3">
+  <div class="card mx-3 shadow mt-3 border-dark">
     <div class="card-body">
       <div
         class="alert alert-success alert-dismissible fade show"
@@ -35,56 +35,41 @@
       </div>
 
       <div class="table-responsive">
-        <table class="table table-hover table-striped shadow">
+        <table class="table table-striped text-center">
           <thead class="thead-dark">
             <tr>
-              <th scope="col" class="text-center"># ID</th>
               <th scope="col">Nombre</th>
               <th scope="col">Color</th>
               <th scope="col">Icono</th>
               <th scope="col">Fecha Creación</th>
-              <th scope="col" class="text-center">Acciones</th>
+              <th scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="ticketStatus in ticketStatuses.data"
-              :key="ticketStatus.id"
-            >
-              <th scope="row" class="text-center">{{ ticketStatus.id }}</th>
-              <td>{{ ticketStatus.name }}</td>
+            <tr v-for="ticketStatus in ticketStatuses.data" :key="ticketStatus.id">
+              <th>{{ ticketStatus.name }}</th>
               <td>
-                <button
-                  type="button"
-                  :class="`btn btn-sm btn-${ticketStatus.color}`"
-                ></button>
+                <button type="button" :class="`btn btn-sm btn-${ticketStatus.color}`"></button>
               </td>
               <td>
-                <button
-                  type="button"
-                  :class="`btn btn-sm btn-${ticketStatus.color} ${ticketStatus.color == 'info' ? 'text-white' : ''}`"
-                >
-                  <i :class="`fa fa-${ticketStatus.icon}`"></i>
-                </button>
+                <span class="btn btn-sm disable">
+                  <i :class="`fas fa-${ticketStatus.icon} text-${ticketStatus.color}`"></i>
+                </span>
               </td>
               <td>{{ ticketStatus.created_at | moment("DD-MM-YYYY") }}</td>
               <td>
-                <div
-                  class="d-flex flex-wrap justify-content-center"
-                  style="gap: 1rem"
-                >
-                  <a
-                    v-if="permissions.find((permission) => permission.name == 'ticket_status.update')"
+                <div class="d-flex flex-wrap justify-content-center" style="gap: 0.5rem">
+                  <a v-if="permissions.find((permission) => permission.name == 'ticket_status.update')"
                     :href="`/ticket-status/${ticketStatus.id}/editar`"
-                    class="btn btn-sm btn-info text-white"
+                    class="btn btn-sm btn-info text-white" title="editar"
                   >
                     <i class="fa fa-edit"></i>
                   </a>
-                  <button
+                  <button 
                     v-if="permissions.find((permission) => permission.name == 'ticket_status.destroy')"
                     type="button"
                     class="btn btn-sm btn-danger"
-                    title="Borrar Usuario"
+                    title="borrar"
                     data-toggle="modal"
                     data-target="#deleteModal"
                     @click="deleteModal(ticketStatus)"

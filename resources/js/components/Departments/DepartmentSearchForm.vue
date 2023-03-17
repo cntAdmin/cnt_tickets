@@ -21,33 +21,6 @@
               />
             </div>
           </div>
-          <div class="col-12 col-md-6 col-lg-4 mt-2">
-            <label class="sr-only" for="name">Usuario</label>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block py-1">
-                  Usuario
-                </div>
-                <div class="input-group-text d-block d-lg-none">
-                  <i class="fa fa-hashtag"></i>
-                </div>
-              </div>
-              <vue-select
-                class="col-10 col-lg-8 col-xl-9 px-0"
-                transition="vs__fade"
-                label="name"
-                itemid="id"
-                :options="agents"
-                @input="setAgent"
-              >
-                <div slot="no-options">No hay opciones con esta búsqueda</div>
-                <template slot="option" slot-scope="option">
-                  {{ option.id }} -
-                  {{ option.name }}
-                </template>
-              </vue-select>
-            </div>
-          </div>
 
           <div class="col-12">
             <button type="submit" class="btn btn-sm btn-success btn-block mt-3">
@@ -68,27 +41,27 @@ export default {
       agents: [],
       search: {
         page: 1,
-        name: "",
-        agent_id: null,
+        name: '',
+        // agent_id: null,
       },
     };
   },
   mounted() {
     this.handleSubmit();
-    this.get_all_agents();
+    // this.get_all_agents();
   },
   methods: {
-    setAgent(value) {
-      this.search.agent_id = value ? value.id : null;
-    },
-    get_all_agents() {
-      axios
-        .get("/api/get_all_agents")
-        .then((res) => {
-          this.agents = res.data.agents;
-        })
-        .catch((err) => console.log(err.response.data));
-    },
+    // setAgent(value) {
+    //   this.search.agent_id = value ? value.id : null;
+    // },
+    // get_all_agents() {
+    //   axios
+    //     .get("/api/get_all_agents")
+    //     .then((res) => {
+    //       this.agents = res.data.agents;
+    //     })
+    //     .catch((err) => console.log(err.response.data));
+    // },
 
     handleSubmit(e) {
       this.$emit("searching", true);

@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DepartmentType extends Model
 {
@@ -16,21 +16,11 @@ class DepartmentType extends Model
         'department'
     ];
 
-    /**
-     * Get the department that owns the DepartmentType
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class, 'department_id', 'id');
     }
 
-    /**
-     * Get all of the tickets for the DepartmentType
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class, 'department_type_id', 'id');

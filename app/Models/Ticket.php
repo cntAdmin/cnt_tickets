@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use App\Scopes\ByRoleOnCustomerIDGlobalScope;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Scopes\ByRoleOnCustomerIDGlobalScope;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Str;
 
 class Ticket extends Model
@@ -22,7 +22,7 @@ class Ticket extends Model
     }
 
     protected $fillable = [
-        'title', 'description', 'deleted_at', 'read_by_admin', 'custom_id', 'signature', 'is_signed',
+        'title', 'description', 'deleted_at', 'read_by_admin', 'custom_id', 'signature', 'is_signed', '_token', 'expires_in',
         // ASSOCIATIONS
         'customer_id', 'user_id', 'deleted_by', 'department_type_id', 'origin_type_id', 'ticket_type_id', 'ticket_status_id', 'invoiceable_type_id'
     ];
@@ -43,151 +43,77 @@ class Ticket extends Model
         return $this->attributes['is_signed'];
     }
 
-    /**
-     * Get all of the comment_attachments for the Ticket
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
-     */
     public function comment_attachments(): HasManyThrough
     {
         return $this->hasManyThrough(Attachable::class, Comment::class, 'ticket_id', 'attachable_id', 'id', 'id')
             ->where('attachable_type', 'App\Models\Comment');
     }
 
-    /**
-     * Get the invoiceable_type that owns the Ticket
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function invoiceable_type(): BelongsTo
     {
         return $this->belongsTo(InvoiceableType::class, 'invoiceable_type_id', 'id');
     }
 
-    /**
-     * Get the ticket_timeslot that has many the Ticket
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function ticket_timeslots(): HasMany
     {
         return $this->hasMany(TicketTimeslot::class, 'ticket_id', 'id');
     }
-    /**
-     * Get the warranty that owns the Ticket
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
+
     public function warranty(): BelongsTo
     {
         return $this->belongsTo(Warranty::class, 'warranty_id', 'id');
     }
 
-    /**
-     * Get the created_by that owns the Ticket
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function created_by_user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by', 'id')->withTrashed();
     }
 
-    /**
-     * Get the agent that owns the Ticket
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function agent(): BelongsTo
     {
         return $this->belongsTo(User::class, 'agent_id', 'id');
     }
 
-    /**
-     * Get the customer that owns the Ticket
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class, 'customer_id', 'id');
     }
 
-    /**
-     * Get all of the tags for the post.
-     * 
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
     public function attachments():MorphToMany
     {
         return $this->morphToMany(Attachment::class, 'attachable');
     }
     
-    /**
-     * Get the user that owns the Ticket
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    /**
-     * Get the department_type that owns the Ticket
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function department_type(): BelongsTo
     {
         return $this->belongsTo(DepartmentType::class, 'department_type_id', 'id');
     }
 
-    /**
-     * Get the priority that owns the Ticket
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function priority(): BelongsTo
     {
         return $this->belongsTo(Priority::class, 'priority_id', 'id');
     }
 
-    /**
-     * Get the origin_type that owns the Ticket
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function origin_type(): BelongsTo
     {
         return $this->belongsTo(OriginType::class, 'origin_type_id', 'id');
     }
 
-    /**
-     * Get the ticket_type that owns the Ticket
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function ticket_type(): BelongsTo
     {
         return $this->belongsTo(TicketType::class, 'ticket_type_id', 'id');
     }
 
-    /**
-     * Get the deleted_by that owns the Ticket
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function deleted_by(): BelongsTo
     {
         return $this->belongsTo(User::class, 'deleted_by', 'id');
     }
 
-    /**
-     * Get the ticket_status that owns the Ticket
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function ticket_status(): BelongsTo
     {
         return $this->belongsTo(TicketStatus::class, 'ticket_status_id', 'id');
@@ -253,5 +179,4 @@ class Ticket extends Model
                 }
             });
     }
-
 }

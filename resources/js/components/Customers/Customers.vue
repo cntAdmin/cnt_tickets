@@ -7,9 +7,13 @@
       search="customers"
       :count="customer_count"
     />
-    <a href="/customer/crear" class="btn btn-sm btn-block btn-secondary font-weight-bold mt-3">
-      <i class="fa fa-building"></i><span class="ml-2">Nuevo Cliente</span>
-    </a>
+    
+    <div class="row d-flex justify-content-center mt-3">
+      <a class="btn btn-secondary text-white shadow-lg mt-1"
+        href="/customer/crear">
+        <i class="fa fa-plus"></i><span class="ml-2">Nuevo cliente</span>
+      </a>
+    </div>
 
     <customers-search-form
       :page="page"
@@ -20,11 +24,7 @@
     <transition name="fade" mode="out-in" v-if="is_searching">
       <spinner />
     </transition>
-    <transition
-      name="fade"
-      mode="out-in"
-      v-else-if="customers.data && Object.keys(customers.data).length > 0"
-    >
+    <transition name="fade" mode="out-in" v-else-if="customers.data && Object.keys(customers.data).length > 0">
     <customers-table 
         class="d-none d-lg-block"
         :customers="customers"
@@ -33,15 +33,8 @@
         @customerDelete="customerDelete = true"
       />
     </transition>
-    <transition
-      name="fade"
-      mode="out-in"
-      v-else-if="customers.data && Object.keys(customers.data).length == 0"
-    >
-      <div
-        class="alert alert-warning fade show mt-3 mx-3 text-center"
-        role="alert"
-      >
+    <transition name="fade" mode="out-in" v-else-if="customers.data && Object.keys(customers.data).length == 0">
+      <div class="alert alert-warning fade show mt-3 mx-3 text-center" role="alert">
         <span class="font-weight-bold">
           No se han encontrado resultados, por favor, haga una nueva búsqueda
           <i class="fa fa-thumbs-up"></i>

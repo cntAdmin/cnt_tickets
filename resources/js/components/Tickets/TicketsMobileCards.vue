@@ -17,38 +17,25 @@
       </button>
     </div>
 
-    <div
-      :class="
-        !ticket.read_by_admin
-          ? 'card mt-3 shadow border-left border-danger font-weight-bold'
-          : 'card mt-3 shadow'
-      "
+    <div :class="!ticket.read_by_admin? 'card mt-3 shadow border-left border-danger font-weight-bold' : 'card mt-3 shadow'"
       v-for="ticket in tickets"
       :key="ticket.id"
     >
       <div class="card-header">
         <h4 class="text-uppercase text-left font-weight-bold">
-          <a :href="`/ticket/${ticket.id}`">
-            {{ ticket.custom_id }}
-          </a>
+          <a :href="`/ticket/${ticket.id}`">{{ ticket.id }}</a>
         </h4>
         <span>{{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }}</span>
       </div>
       <div class="card-body">
-        <p class="text-truncate">
-          {{ ticket.title }}
-        </p>
+        <p class="text-truncate">{{ ticket.title }}</p>
       </div>
       <div class="card-footer">
         <div class="d-flex flex-row">
           <div class="col-8">
             <div class="row justify-content-center">
-              <span
-                :class="`disabled col-4 btn btn-sm btn-block btn-${
-                  ticket.ticket_status.color
-                } ${ticket.ticket_status.color == 'info' ? 'text-white' : ''}`"
-                type="button"
-                :title="ticket.ticket_status.name"
+              <span :class="`disabled col-4 btn btn-sm btn-block btn-${ticket.ticket_status.color} ${ticket.ticket_status.color == 'info' ? 'text-white' : ''}`"
+                type="button" :title="ticket.ticket_status.name"
               >
                 <i :class="`fas fa-${ticket.ticket_status.icon}`"></i>
               </span>
@@ -63,10 +50,7 @@
           <div class="col-4 px-2 py-0 m-0">
             <div class="row justify-content-between">
               <div class="col-6 px-2 py-0">
-                <a
-                  :href="`/ticket/${ticket.id}`"
-                  class="btn btn-sm btn-success btn-block"
-                >
+                <a :href="`/ticket/${ticket.id}`" class="btn btn-sm btn-success btn-block">
                   <i class="fa fa-eye"></i>
                 </a>
               </div>

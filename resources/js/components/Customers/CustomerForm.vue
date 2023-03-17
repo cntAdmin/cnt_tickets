@@ -41,6 +41,7 @@
           />
         </div>
       </div>
+
       <div class="col-12 col-md-6 col-lg-4 mt-2">
         <label class="sr-only" for="name">Nombre</label>
         <div class="input-group">
@@ -53,6 +54,7 @@
           <input type="text" v-model="customer.name" class="form-control" />
         </div>
       </div>
+
       <div class="col-12 col-md-6 col-lg-4 mt-2">
         <label class="sr-only" for="alias">Alias</label>
         <div class="input-group">
@@ -66,6 +68,7 @@
           <input type="text" v-model="customer.alias" class="form-control" />
         </div>
       </div>
+
       <div class="col-12 col-md-6 col-lg-4 mt-2">
         <label class="sr-only" for="email">Email</label>
         <div class="input-group">
@@ -78,6 +81,7 @@
           <input type="email" v-model="customer.email" class="form-control" />
         </div>
       </div>
+
       <div class="col-12 col-md-6 col-lg-4 mt-2">
         <label class="sr-only" for="address">Dirección</label>
         <div class="input-group">
@@ -90,6 +94,7 @@
           <input type="text" v-model="customer.address" class="form-control" />
         </div>
       </div>
+
       <div class="col-12 col-md-6 col-lg-4 mt-2">
         <label class="sr-only" for="town">Población</label>
         <div class="input-group">
@@ -102,6 +107,7 @@
           <input type="text" v-model="customer.town" class="form-control" />
         </div>
       </div>
+
       <div class="col-12 col-md-6 col-lg-4 mt-2">
         <label class="sr-only" for="postcode">Código Postal</label>
         <div class="input-group">
@@ -116,6 +122,7 @@
           <input type="text" v-model="customer.postcode" class="form-control" />
         </div>
       </div>
+
       <div class="col-12 col-md-6 col-lg-4 mt-2">
         <label class="sr-only" for="phone">Teléfono</label>
         <div class="input-group">
@@ -128,18 +135,7 @@
           <input type="text" v-model="customer.phone" class="form-control" />
         </div>
       </div>
-      <div class="col-12 col-md-6 col-lg-4 mt-2">
-        <label class="sr-only" for="fax">Fax</label>
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">Fax</div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-fax"></i>
-            </div>
-          </div>
-          <input type="text" v-model="customer.fax" class="form-control" />
-        </div>
-      </div>
+
       <div class="col-12 col-md-6 col-lg-4 mt-2">
         <label class="sr-only" for="is_active">Estado</label>
         <div class="input-group">
@@ -155,6 +151,7 @@
           </select>
         </div>
       </div>
+
       <div class="col-12 mt-3" v-if="editable">
         <button class="btn btn-sm btn-primary btn-block">
           {{ buttonText }}

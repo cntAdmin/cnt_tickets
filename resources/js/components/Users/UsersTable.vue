@@ -1,5 +1,5 @@
 <template>
-  <div class="card mx-3 shadow mt-3">
+  <div class="card mx-3 shadow mt-3 border-dark">
     <div class="card-body">
       <div
         class="alert alert-success alert-dismissible fade show"
@@ -35,54 +35,34 @@
       </div>
 
       <div class="table-responsive">
-        <table class="table table-hover table-striped shadow">
+        <table class="table text-center">
           <thead class="thead-dark">
             <tr>
-              <th scope="col" class="text-center"># ID</th>
               <th scope="col">Nombre</th>
               <th scope="col">Usuario</th>
               <th scope="col">Email</th>
-              <th scope="col" class="text-center">Estado</th>
-              <th scope="col" class="text-center">Acciones</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="user in users.data" :key="user.id">
-              <th scope="row" class="text-center">{{ user.id }}</th>
-              <td>{{ user.name }}</td>
+              <th class="text-uppercase">{{ user.name }}</th>
               <td>{{ user.username }}</td>
               <td>{{ user.email }}</td>
               <td>
-                <div
-                  class="d-flex flex-wrap justify-content-around align-items-center"
-                >
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-success"
-                    v-if="user.is_active"
-                    disabled
-                  >
-                    <i class="fa fa-check-circle"></i>
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-danger"
-                    v-else
-                    disabled
-                  >
-                    <i class="fa fa-times-circle"></i>
-                  </button>
-                </div>
+                <span class="btn btn-sm disabled" title="Activo" v-if="user.is_active">
+                  <i class="fas fa-check-square text-success"></i>
+                </span>
+                <span class="btn btn-sm disabled" title="Inactivo" v-else>
+                  <i class="fas fa-window-close text-danger"></i>
+                </span>
               </td>
               <td>
-                <div
-                  class="d-flex flex-wrap justify-content-around align-items-center"
-                >
-                  <a
-                    v-if="permissions.find((permission) => permission.name == 'user.update')"
-                    :href="`/user/${user.id}/editar`"
-                    class="btn btn-sm btn-info text-white"
-                    ><i class="fa fa-edit"></i>
+                <div class="d-flex flex-wrap justify-content-center" style="gap: 0.5rem">
+                  <a v-if="permissions.find((permission) => permission.name == 'user.update')"
+                    title="Editar" :href="`/user/${user.id}/editar`" class="btn btn-sm btn-info text-white">
+                    <i class="fa fa-edit"></i>
                   </a>
                   <button
                     v-if="permissions.find((permission) => permission.name == 'user.destroy')"

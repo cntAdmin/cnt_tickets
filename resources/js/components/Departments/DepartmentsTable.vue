@@ -1,5 +1,5 @@
 <template>
-  <div class="card mx-3 shadow mt-3">
+  <div class="card mx-3 shadow mt-3 border-dark">
     <div class="card-body">
       <div
         class="alert alert-success alert-dismissible fade show"
@@ -35,27 +35,22 @@
       </div>
 
       <div class="table-responsive">
-        <table class="table table-hover table-striped shadow">
+        <table class="table table-striped text-center">
           <thead class="thead-dark">
             <tr>
-              <th scope="col" class="text-center"># ID</th>
               <th scope="col">Nombre</th>
               <th scope="col">Código</th>
               <th scope="col">Usuarios</th>
-              <th scope="col" class="text-center">Acciones</th>
+              <th scope="col">Acciones</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="department in departments.data" :key="department.id">
-              <th scope="row" class="text-center">{{ department.id }}</th>
-              <td>{{ department.name }}</td>
+              <th>{{ department.name }}</th>
               <td>{{ department.code }}</td>
               <td>{{ department.agents_count }}</td>
               <td>
-                <div
-                  class="d-flex flex-wrap justify-content-center"
-                  style="gap: 1rem"
-                >
+                <div class="d-flex flex-wrap justify-content-center" style="gap: 0.5rem">
                   <a
                     v-if="permissions.find((permission) => permission.name == 'department.update')"
                     :href="`/department/${department.id}/editar`"

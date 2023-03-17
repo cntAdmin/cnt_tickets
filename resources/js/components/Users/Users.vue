@@ -8,12 +8,11 @@
         icon="users"
       />
     </div>
-    <a
-      href="/user/crear"
-      class="btn btn-sm btn-block btn-secondary font-weight-bold mt-3"
-    >
-      <i class="fa fa-plus"></i><span class="ml-2">Crear Usuario</span>
-    </a>
+    <div class="row d-flex justify-content-center mt-3">
+      <a class="btn btn-secondary text-white shadow-lg mt-1" href="/user/crear">
+        <i class="fa fa-plus"></i><span class="ml-2">Nuevo usuario</span>
+      </a>
+    </div>
     <user-search-form
       :page="page"
       :deleted="deleted"
@@ -23,11 +22,7 @@
     <transition name="fade" mode="out-in" v-if="is_searching">
       <spinner />
     </transition>
-    <transition
-      name="fade"
-      mode="out-in"
-      v-else-if="users.data && Object.keys(users.data).length > 0"
-    >
+    <transition name="fade" mode="out-in" v-else-if="users.data && Object.keys(users.data).length > 0">
       <users-table
         class="d-none d-lg-block"
         :users="users"
@@ -37,10 +32,7 @@
       />
     </transition>
     <transition name="fade" mode="out-in" v-else>
-      <div
-        class="alert alert-warning fade show mt-3 mx-3 text-center"
-        role="alert"
-      >
+      <div class="alert alert-warning fade show mt-3 mx-3 text-center" role="alert">
         <span class="font-weight-bold">
           No se han encontrado resultados, por favor, haga una nueva búsqueda
           <i class="fa fa-thumbs-up"></i>

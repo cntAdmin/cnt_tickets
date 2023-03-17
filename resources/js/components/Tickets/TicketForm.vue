@@ -22,7 +22,7 @@
         @close="error.status = false"
       ></form-errors>
     </div>
-
+    
     <form @submit.prevent="handleSubmit" class="form-inline">
       <customers-dropdown-select
         v-if="admins.includes(userRole)"
@@ -31,10 +31,7 @@
         @setCustomer="setCustomer"
       />
 
-      <div
-        class="col-12 col-md-6 col-lg-4 mt-2"
-        v-if="admins.includes(userRole)"
-      >
+      <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="admins.includes(userRole)">
         <label class="sr-only" for="users">Usuarios</label>
         <div class="input-group">
           <div class="input-group-prepend">
@@ -60,10 +57,8 @@
           </select>
         </div>
       </div>
-      <div
-        class="col-12 col-md-6 col-lg-4 mt-2"
-        v-if="admins.includes(userRole)"
-      >
+
+      <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="admins.includes(userRole)">
         <label class="sr-only" for="agent_id">Asignar a</label>
         <div class="input-group">
           <div class="input-group-prepend">
@@ -89,6 +84,7 @@
           </vue-select>
         </div>
       </div>
+
       <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="type !== 'new'">
         <label class="sr-only" for="ticket_id">ID</label>
         <div class="input-group">
@@ -108,6 +104,7 @@
           />
         </div>
       </div>
+
       <div class="col-12 col-md-6 col-lg-4 mt-2">
         <label class="sr-only" for="ticket_id">Departamento</label>
         <div class="input-group">
@@ -135,6 +132,7 @@
           </select>
         </div>
       </div>
+
       <div class="col-12 col-md-6 col-lg-4 mt-2">
         <label class="sr-only" for="ticket_id">Servicio</label>
         <div class="input-group">
@@ -159,6 +157,7 @@
           </select>
         </div>
       </div>
+
       <div class="col-12 col-md-6 col-lg-4 mt-2">
         <label class="sr-only" for="ticket_id">Prioridad</label>
         <div class="input-group">
@@ -183,7 +182,8 @@
           </select>
         </div>
       </div>
-      <div class="col-12 col-md-6 col-lg-4 mt-2">
+
+      <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="admins.includes(userRole)">
         <label class="sr-only" for="ticket_id">Originado De</label>
         <div class="input-group">
           <div class="input-group-prepend">
@@ -209,7 +209,8 @@
           </select>
         </div>
       </div>
-      <div class="col-12 col-md-6 col-lg-4 mt-2">
+
+      <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="admins.includes(userRole)">
         <label class="sr-only" for="ticket_id">Garantia</label>
         <div class="input-group">
           <div class="input-group-prepend">
@@ -233,6 +234,25 @@
           </select>
         </div>
       </div>
+
+      <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="admins.includes(userRole)">
+        <label class="sr-only" for="title">Email a cliente</label>
+        <div class="input-group">
+          <div class="input-group-prepend mr-2">
+            <div class="input-group-text d-none d-lg-block py-1">Email a cliente</div>
+            <div class="input-group-text d-block d-lg-none py-1">
+              <i class="fa fa-heading"></i><span class="ml-2">Email a cliente</span>
+            </div>
+          </div>
+          <input
+            class="form-check-input"
+            type="checkbox"
+            v-model="check_send_email"
+            :disabled="!editable ? true : false"
+          />
+        </div>
+      </div>
+
       <div class="col-12 mt-2">
         <label class="sr-only" for="title">Título</label>
         <div class="input-group">
@@ -250,6 +270,7 @@
           />
         </div>
       </div>
+
       <div class="col-12 mt-2">
         <label class="sr-only" for="ticket_id">Descripción</label>
         <div class="input-group">
@@ -277,6 +298,7 @@
           ></div>
         </div>
       </div>
+
       <div class="col-12 mt-3" v-if="editable">
         <input
           class="form-control w-100"
@@ -286,6 +308,7 @@
         />
         <sub>(max. 25MB)</sub>
       </div>
+
       <div class="col-12 mt-3" v-if="editable">
         <button
           class="btn btn-sm btn-primary btn-block"
@@ -337,6 +360,8 @@ export default {
       priorities: [],
       origins: [],
       sending: false,
+      check_send_email: false,
+      send_email: '',
       success: {
         status: false,
         msg: "",
@@ -461,6 +486,15 @@ export default {
       }
 
       if (this.type == "new") {
+
+        // Si es customer...
+        if(!this.admins.includes(this.userRole)) {
+          this.check_send_email = true;         // Enviar email a cliente
+          this.ticket.origin_type_id = 3;       // Web
+          this.ticket.warranty_id = 3;          // Sin garantía
+          this.ticket.agent_id = null;          // No asignamos agente
+        }
+
         if (this.ticket.customer_id)
           formData.append("customer_id", this.ticket.customer_id);
         if (this.ticket.agent_id)
@@ -483,10 +517,16 @@ export default {
           formData.append("title", this.ticket.title);
         if (this.ticket.description)
           formData.append("description", this.ticket.description);
+
+        this.check_send_email == true ? 
+              this.send_email = 'si' : 
+              this.send_email = 'no'
+
+        formData.append("send_email", this.send_email);
+
         axios
           .post(`/api/ticket`, formData)
           .then((res) => {
-            // console.log(res.data);
             this.sending = false;
             $("html, body").animate({ scrollTop: 0 }, "slow");
             this.success = {
@@ -515,7 +555,6 @@ export default {
         axios
           .put(`/api/ticket/${this.ticket.id}`, this.ticket)
           .then((res) => {
-            // console.log(res.data)
             $("html, body").animate({ scrollTop: 0 }, "slow");
             this.success = {
               status: true,
@@ -531,7 +570,6 @@ export default {
           })
           .catch((err) => {
             $("html, body").animate({ scrollTop: 0 }, "slow");
-            // console.log(err.response.data);
             this.error = {
               status: true,
               errors: err.response.data.errors,
@@ -544,7 +582,6 @@ export default {
       this.agentValue = value ? value.name : null;
     },
     setCustomer(value) {
-      this.ticket.customer.id = value ? value.id : null;
       this.ticket.customer_id = value ? value.id : null;
 
       if (value) {

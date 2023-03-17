@@ -16,9 +16,15 @@
         </a>
       </li>
       <li class="nav-item text-white align-items-center">
-        <a href="/ticket/crear" class="btn btn-link text-white">
+        <a href="/ticket-type/1/ticket/crear" class="btn btn-link text-white">
           <i class="far fa-plus fa-2x"></i>
-          <p class="text-decoration-none">Nuevo</p>
+          <p class="text-decoration-none">Ticket</p>
+        </a>
+      </li>
+      <li class="nav-item text-white align-items-center">
+        <a href="/ticket-type/2/ticket/crear" class="btn btn-link text-white">
+          <i class="far fa-plus fa-2x"></i>
+          <p class="text-decoration-none">Parte</p>
         </a>
       </li>
       <li class="nav-item text-white align-items-center">

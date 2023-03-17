@@ -10,26 +10,6 @@
         :icon="ticket_status.icon"
       ></counter>
     </div>
-    <div class="dropdown mt-3">
-      <button
-        class="btn btn-secondary dropdown-toggle btn-sm btn-block"
-        type="button"
-        id="dropdownMenuButton"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >
-        <i class="fa fa-plus"></i><span class="ml-2">Crear</span>
-      </button>
-      <div class="dropdown-menu w-100 text-center" aria-labelledby="dropdownMenuButton">
-        <a href="/ticket-type/1/ticket/crear" class="dropdown-item">
-          <i class="fa fa-ticket-alt"></i><span class="ml-2">Nuevo Ticket</span>
-        </a>
-        <a href="/ticket-type/2/ticket/crear" class="dropdown-item" v-if="[1, 2].includes(user.roles[0].id)">
-          <i class="fa fa-tools"></i><span class="ml-2">Nuevo Parte de Trabajo</span>
-        </a>
-      </div>
-    </div>
 
     <!-- PARTE MOBILE -->
     <div
@@ -88,8 +68,20 @@
         </div>
       </transition>
     </div>
+
     <!-- PARTE WEB -->
     <div v-else>
+      <div class="row d-flex justify-content-center mt-3">
+        <a class="btn btn-secondary text-white shadow-lg"
+          href="/ticket-type/1/ticket/crear">
+          <i class="fa fa-ticket-alt"></i><span class="ml-2">Nuevo ticket</span>
+        </a>
+
+        <a class="btn btn-primary text-white shadow-lg ml-2"
+          href="/ticket-type/2/ticket/crear" v-if="admins.includes(userRole)">
+          <i class="fa fa-tools"></i><span class="ml-2">Nuevo parte de trabajo</span>
+        </a>
+      </div>
       <ticket-search-form
         :page="page"
         :ticketDeleted="ticketDeleted"
@@ -149,7 +141,7 @@ export default {
     Spinner,
     TicketsMobileCards,
   },
-  props: ["statuses", "permissions", "user"],
+  props: ["statuses", "permissions", "user", "userRole"],
   data() {
     return {
       tickets: [],
@@ -157,6 +149,7 @@ export default {
       page: 1,
       is_searching: false,
       ticketDeleted: false,
+      admins: [1, 2],
     };
   },
   methods: {

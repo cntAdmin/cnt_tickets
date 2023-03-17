@@ -57,7 +57,7 @@
     <div class="card-body">
       <ticket-form
         v-if="ticketType.id === 1"
-        buttonText="Crear Incidencia"
+        buttonText="Crear Ticket"
         type="new"
         :customer="customer ? customer : null"
         :ticket="ticket"
@@ -113,11 +113,9 @@ export default {
     };
   },
   mounted() {
-    // console.log(this.ticketStatus);
   },
   methods: {
     pushTimeslots(data) {
-      // console.log('TicketCreate.pushTimeslots.');
       this.timeslots.push({
         id: Math.random().toString(36).substring(7),
         start_date_time_picker: data.start_date_time,

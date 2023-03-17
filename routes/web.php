@@ -29,6 +29,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('ticket/comment/{comment:_token}', 'TicketCommentController@getTicketThroughToken')->name('comment.token');
+Route::get('ticket/ticket/{ticket:_token}', 'TicketController@getTicketThroughToken')->name('ticket.token');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
