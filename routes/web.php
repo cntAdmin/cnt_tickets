@@ -32,6 +32,9 @@ Route::get('ticket/comment/{comment:_token}', 'TicketCommentController@getTicket
 Route::get('ticket/ticket/{ticket:_token}', 'TicketController@getTicketThroughToken')->name('ticket.token');
 
 Route::middleware(['auth'])->group(function () {
+
+    Route::get('/my_custom_tests', 'TestController@my_custom_tests');
+
     Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
     Route::get('/profile/{user}', 'UserController@profile')->name('profile');
     Route::resource('ticket', TicketController::class)->only(['index', 'show', 'edit']);
