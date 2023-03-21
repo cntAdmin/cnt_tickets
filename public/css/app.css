@@ -73,6 +73,7 @@ body {
   color: #212529;
   text-align: left;
   background-color: #f8fafc;
+  padding-bottom: 60px;
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
@@ -3408,7 +3409,7 @@ input[type=button].btn-block {
   z-index: 1000;
   display: none;
   float: left;
-  min-width: 10rem;
+  min-width: 1rem;
   padding: 0.5rem 0;
   margin: 0.125rem 0 0;
   font-size: 0.9rem;
@@ -3483,7 +3484,7 @@ input[type=button].btn-block {
   top: auto;
   bottom: 100%;
   margin-top: 0;
-  margin-bottom: 0.350rem;
+  margin-bottom: 0.450rem;
 }
 
 .dropup .dropdown-toggle::after {
