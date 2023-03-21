@@ -3375,7 +3375,7 @@ input[type=button].btn-block {
   }
 }
 
-.dropup,
+/* .dropup, */
 .dropright,
 .dropdown,
 .dropleft {
@@ -3483,7 +3483,7 @@ input[type=button].btn-block {
   top: auto;
   bottom: 100%;
   margin-top: 0;
-  margin-bottom: 0.125rem;
+  margin-bottom: 0.350rem;
 }
 
 .dropup .dropdown-toggle::after {
@@ -4558,7 +4558,7 @@ input[type=button].btn-block {
 }
 
 .navbar-nav .dropdown-menu {
-  position: static;
+  /* position: static; */
   float: none;
 }
 

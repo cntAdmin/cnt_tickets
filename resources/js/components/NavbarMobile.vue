@@ -1,9 +1,29 @@
 <template>
-  <nav
-    class="navbar navbar-dark bg-dark justify-content-center shadow-lg fixed-bottom"
-  >
+  <nav class="navbar navbar-dark bg-dark justify-content-center shadow-lg fixed-bottom">
     <ul class="navbar-nav d-flex flex-row justify-content-around w-100 pb-2">
-      <li class="nav-item text-white align-items-center">
+      <!-- <li class="nav-item text-white align-items-center"> -->
+        <div class="btn-group dropup">
+          <button 
+            type="button" 
+            class="btn btn-dark dropdown-toggle" 
+            data-toggle="dropdown" 
+            aria-haspopup="true" 
+            aria-expanded="false"
+          >
+            <i class="far fa-ticket-alt fa-2x"></i>
+            <p>Ticket</p>
+          </button>
+          <div class="dropdown-menu" style="background-color: #343a40 !important;">
+            <a href="/ticket" class="btn btn-dark text-white dropdown-item">
+              <p class="text-decoration-none">Todos</p>
+            </a>
+            <a href="/ticket?ticket-status=1" class="btn btn-dark text-white dropdown-item">
+              <p class="text-decoration-none">No leídos</p>
+            </a>
+          </div>
+        </div>
+      <!-- </li> -->
+      <!-- <li class="nav-item text-white align-items-center">
         <a href="/ticket" class="btn btn-link text-white">
           <i class="far fa-ticket-alt fa-2x"></i>
           <p class="text-decoration-none">Tickets</p>
@@ -14,8 +34,30 @@
           <i class="far fa-envelope-open fa-2x"></i>
           <p class="text-decoration-none">No Leídos</p>
         </a>
-      </li>
-      <li class="nav-item text-white align-items-center">
+      </li> -->
+      <!-- <li class="nav-item text-white align-items-center"> -->
+        <div class="btn-group dropup">
+          <button 
+            type="button" 
+            class="btn btn-dark dropdown-toggle" 
+            data-toggle="dropdown" 
+            aria-haspopup="true" 
+            aria-expanded="false"
+          >
+            <i class="far fa-plus fa-2x"></i>
+            <p>Nuevo</p>
+          </button>
+          <div class="dropdown-menu" style="background-color: #343a40 !important;">
+            <a href="/ticket-type/1/ticket/crear" class="btn btn-dark text-white dropdown-item">
+              <p class="text-decoration-none">Ticket</p>
+            </a>
+            <a href="/ticket-type/2/ticket/crear" class="btn btn-dark text-white dropdown-item">
+              <p class="text-decoration-none">Parte</p>
+            </a>
+          </div>
+        </div>
+      <!-- </li> -->
+      <!-- <li class="nav-item text-white align-items-center">
         <a href="/ticket-type/1/ticket/crear" class="btn btn-link text-white">
           <i class="far fa-plus fa-2x"></i>
           <p class="text-decoration-none">Ticket</p>
@@ -26,7 +68,7 @@
           <i class="far fa-plus fa-2x"></i>
           <p class="text-decoration-none">Parte</p>
         </a>
-      </li>
+      </li> -->
       <li class="nav-item text-white align-items-center">
         <a :href="`/profile/${user.id}`" class="btn btn-link text-white">
           <i class="far fa-user fa-2x"></i>
