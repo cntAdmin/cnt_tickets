@@ -80,7 +80,7 @@ class TicketController extends Controller
             'is_signed' => $is_signed,
             'department_type_id' => $validated['department_type_id'],
             'ticket_type_id' => $validated['ticket_type_id'],
-            'ticket_status_id' => 1,
+            'ticket_status_id' => $validated['ticket_status_id'],
             'created_by' => auth()->user()->id,
             '_token' => $this->createToken()
         ]);
@@ -132,7 +132,7 @@ class TicketController extends Controller
             'is_signed' => $is_signed,
             'department_type_id' => $validated['department_type_id'],
             'ticket_type_id' => $validated['ticket_type_id'],
-            'ticket_status_id' => 1
+            'ticket_status_id' => $validated['ticket_status_id'],
         ]);
 
         // asignamos datos al ticket
@@ -145,6 +145,7 @@ class TicketController extends Controller
         $ticket->priority()->associate($validated['priority_id'] ?? 1);
         $ticket->origin_type()->associate($validated['ticket_type_id'] === 1 ? $validated['origin_type_id'] : NULL );
         $ticket->warranty()->associate($validated['warranty_id'] ?? NULL);
+        $ticket->ticket_status()->associate($validated['ticket_status_id'] !== 1 ? $validated['ticket_status_id'] : 1);
         $ticket->save();
 
         // si tiene adjuntos
@@ -264,7 +265,7 @@ class TicketController extends Controller
             return view('tickets.show_annonymous')
                 ->with([
                     'ticket' => $ticket
-                                ->load(['comments', 'ticket_type', 'agent', 'department_type', 'priority', 'origin_type', 'warranty'])
+                                ->load(['comments', 'ticket_type', 'agent', 'department_type', 'priority', 'origin_type', 'warranty', 'ticket_status'])
                 ]);
         }
     }

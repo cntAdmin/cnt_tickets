@@ -235,6 +235,31 @@
         </div>
       </div>
 
+      <div class="col-12 col-md-6 col-lg-4 mt-2">
+        <label class="sr-only" for="ticket_id">Estado</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text d-none d-lg-block py-1">Estado</div>
+            <div class="input-group-text d-block d-lg-none py-1">
+              <i class="fa fa-couch"></i><span class="ml-2">Estado</span>
+            </div>
+          </div>
+          <select
+            v-model="ticket.ticket_status_id"
+            class="form-control"
+            :disabled="!editable ? true : false"
+          >
+            <option
+              :value="status.id"
+              v-for="status in statuses"
+              :key="status.id"
+            >
+              {{ status.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
       <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="admins.includes(userRole)">
         <label class="sr-only" for="title">Email a cliente</label>
         <div class="input-group">
@@ -349,6 +374,7 @@ export default {
   data() {
     return {
       warranties: [],
+      statuses: [],
       files: [],
       customers: [],
       users: [],
@@ -427,6 +453,7 @@ export default {
       this.priorities = [this.ticket.priority];
       this.origins = [this.ticket.origin_type];
       this.warranties = [this.ticket.warranty];
+      this.statuses = [this.ticket.ticket_status];
     } else {
       this.get_all_customers();
       this.get_all_agents();
@@ -435,6 +462,7 @@ export default {
       this.get_all_priorities();
       this.get_all_origins();
       this.get_all_waranties();
+      this.get_all_ticket_statuses();
       if (this.customer) {
         this.ticket.customer.alias = this.customer.alias;
         this.ticket.customer_id = this.customer.id;
@@ -443,14 +471,14 @@ export default {
     }
   },
   methods: {
-    get_all_waranties() {
-      axios
-        .get("/api/get_all_warranties")
-        .then((res) => {
-          this.warranties = res.data.warranties;
-        })
-        .catch((err) => console.log(err.response.data));
-    },
+    // get_all_waranties() {
+    //   axios
+    //     .get("/api/get_all_warranties")
+    //     .then((res) => {
+    //       this.warranties = res.data.warranties;
+    //     })
+    //     .catch((err) => console.log(err.response.data));
+    // },
     closeAll() {
       this.success.status = false;
       this.error.status = false;
@@ -493,6 +521,7 @@ export default {
           this.ticket.origin_type_id = 3;       // Web
           this.ticket.warranty_id = 3;          // Sin garantía
           this.ticket.agent_id = null;          // No asignamos agente
+          this.ticket.ticket_status_id = 1;     // Estado abierto
         }
 
         if (this.ticket.customer_id)
@@ -601,13 +630,9 @@ export default {
     get_all_department_types() {
       if (!this.ticket.department_type.department_id) return;
 
-      axios
-        .get(
-          `/api/department/${this.ticket.department_type.department_id}/department_types`
-        )
-        .then((res) => {
-          this.department_types = res.data.department_types;
-        });
+      axios.get(`/api/department/${this.ticket.department_type.department_id}/department_types`).then((res) => {
+        this.department_types = res.data.department_types;
+      });
     },
     get_all_departments() {
       axios.get("/api/get_all_departments").then((res) => {
@@ -629,6 +654,16 @@ export default {
         this.agents = res.data.agents;
       });
     },
+    get_all_ticket_statuses() {
+      axios.get(`/api/get_all_ticket_statuses`).then((res) => {
+        this.statuses = res.data.ticket_statuses;
+      });
+    },
+    get_all_waranties() {
+      axios.get("/api/get_all_warranties").then((res) => {
+        this.warranties = res.data.warranties;
+      });
+    }
   },
 };
 </script>
