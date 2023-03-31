@@ -24,14 +24,21 @@
     </div>
     
     <form @submit.prevent="handleSubmit" class="form-inline">
-      <customers-dropdown-select
+      <!-- <customers-dropdown-select
         v-if="admins.includes(userRole)"
+        :customer="ticket.customer"
+        :editable="editable"
+        @setCustomer="setCustomer"
+      /> -->
+      
+      <customers-dropdown-select
         :customer="ticket.customer"
         :editable="editable"
         @setCustomer="setCustomer"
       />
 
-      <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="admins.includes(userRole)">
+      <!-- <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="admins.includes(userRole)"> -->
+      <div class="col-12 col-md-6 col-lg-4 mt-2">
         <label class="sr-only" for="users">Usuarios</label>
         <div class="input-group">
           <div class="input-group-prepend">
@@ -58,7 +65,8 @@
         </div>
       </div>
 
-      <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="admins.includes(userRole)">
+      <!-- <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="admins.includes(userRole)"> -->
+      <div class="col-12 col-md-6 col-lg-4 mt-2">
         <label class="sr-only" for="agent_id">Asignar a</label>
         <div class="input-group">
           <div class="input-group-prepend">
