@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use App\Jobs\CustomerFromSiptize;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\CustomerRequest;
 
@@ -87,5 +88,10 @@ class CustomerController extends Controller
     public function get_all_customers()
     {
         return response()->json([ 'customers' => Customer::where('is_active', true)->get()->toArray() ]);
+    }
+
+    public function import_siptize_customer()
+    {
+        dispatch(new CustomerFromSiptize);
     }
 }

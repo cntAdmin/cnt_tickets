@@ -50,4 +50,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('ticket-type', TicketTypeController::class)->only(['index', 'show', 'create', 'edit']);
     Route::resource('ticket-status', TicketStatusController::class)->only(['index','show', 'create', 'edit']);
     Route::resource('user', UserController::class)->only(['index', 'show', 'create', 'edit']);
+
+    Route::get('/import_siptize_customer', 'CustomerController@import_siptize_customer');  
 });

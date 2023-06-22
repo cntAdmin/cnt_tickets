@@ -106,6 +106,13 @@ return [
             'level' => 'info',
             'days' => 15,
         ],
+
+        'importacion_clientes' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/tickets.log'),
+            'level' => 'info',
+            'days' => 15,
+        ],
     ],
 
 ];

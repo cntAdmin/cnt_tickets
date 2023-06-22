@@ -8,11 +8,37 @@
       :count="customer_count"
     />
     
+    <div
+      v-show="success.status"
+      class="alert alert-success alert-dismissible fade show text-center my-3 py-4"
+      role="alert"
+    >
+      {{ success.msg }}
+
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        @click="success.status = false"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
     <div class="row d-flex justify-content-center mt-3">
       <a class="btn btn-secondary text-white shadow-lg mt-1"
         href="/customer/crear">
         <i class="fa fa-plus"></i><span class="ml-2">Nuevo cliente</span>
       </a>
+      <button v-if="spinButton"
+        class="btn btn-primary text-white shadow-lg mt-1 ml-2" disabled
+      >
+          <spinner class="mx-auto my-0 p-0 text-white"></spinner>
+      </button>
+      <button v-else class="btn btn-primary text-white shadow-lg mt-1 ml-2"
+        @click="import_siptize_customer">
+        <i class="fa fa-tools"></i><span class="ml-2">Importar clientes Siptize</span>
+      </button>
     </div>
 
     <customers-search-form
@@ -58,6 +84,12 @@ export default {
       page: 1,
       is_searching: false,
       customerDeleted: false,
+      spinButton: false,
+      success: {
+          status: false,
+          waiting: false,
+          msg: "",
+      },
     };
   },
   methods: {
@@ -70,6 +102,19 @@ export default {
     searched(data) {
       this.customerDeleted = false;
       this.customers = data;
+    },
+    import_siptize_customer() {
+      this.spinButton = true;
+
+      axios.get("/import_siptize_customer").then((res) => {
+        setTimeout(() => {
+          this.spinButton = false;
+          this.success = {
+            status: true,
+            msg: 'Importación realizada correctamente.',
+          };
+        }, 3000);
+      });
     },
   },
 };
