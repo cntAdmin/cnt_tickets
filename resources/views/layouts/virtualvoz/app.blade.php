@@ -24,7 +24,7 @@
 <body>
     <div id="app" class="vh-100">
         <main class="d-flex flex-column justify-content-center align-items-center h-100 w-100">
-            {{-- <img class="position-absolute img-fluid h-100 w-100 d-none d-lg-block" src="{{ asset('bg-login3.jpeg') }}" /> --}}
+            <img class="bg-pattern-custom h-90" src="{{ asset('fondo_degradado.png') }}" />
             @yield('content')
         </main>
     </div>
