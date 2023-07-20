@@ -3,9 +3,12 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-8">
+            <div class="d-flex flex-wrap justify-content-center align-items-center">
+                <img src="{{ asset('virtualvoz_logo_horizontal.png') }}" height="100">
+            </div>
             <div class="card">
-                <div class="card-header">{{ __('Resetear contraseña') }}</div>
+                <div class="card-header">{{ __('Resetear Password') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -18,7 +21,7 @@
                         @csrf
 
                         <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Dirección de correo') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Dirección Email') }}</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
@@ -34,7 +37,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Solicitar reseteo') }}
+                                    {{ __('Enviar link de Reseteo de Password') }}
                                 </button>
                             </div>
                         </div>

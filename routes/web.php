@@ -26,6 +26,10 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+Route::get('/virtualvoz', function () {
+    return view('auth.virtualvoz.login');
+});
+
 Auth::routes();
 
 Route::get('ticket/comment/{comment:_token}', 'TicketCommentController@getTicketThroughToken')->name('comment.token');

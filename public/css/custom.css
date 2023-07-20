@@ -1,0 +1,43 @@
+@font-face {
+    font-family: 'Borna';
+    src: url('../fonts/borna-regular-webfont.ttf');
+}
+@font-face {
+    font-family: 'N27';
+    src: url('../fonts/n27-regular-webfont.ttf');
+}
+.borna{
+    font-family: "Borna";
+    font-size: 20px;
+}
+.n27{
+    font-family: "N27";
+}
+.btn-color-1{
+    color: #004691;
+    background-color: #50FF96;
+    border-color: #50FF96;
+}
+.btn-color-1:hover{
+    color: #fff;
+    background-color: #1FA555;
+    border-color: #1FA555;
+}
+.btn-color-2{
+    color: #fff;
+    background-color: #004691;
+    border-color: #004691;
+}
+.btn-color-2:hover{
+    color: #333;
+    background-color: #3E97F7;
+    border-color: #3E97F7;
+}
+.btn-custom-1{
+    font-weight: 500;
+    padding: 0.8rem 1.3rem;
+    font-size: 1.125rem;
+    line-height: 1.5;
+    border-radius: 10rem;
+}
+

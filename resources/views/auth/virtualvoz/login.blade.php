@@ -1,18 +1,18 @@
-@extends('layouts.app')
+@extends('layouts.virtualvoz.app')
 
 @section('content')
-<div class="container">
+<div class="container borna">
     <div class="d-flex justify-content-center align-items-center">
-        <div class="col-12 col-md-8 col-lg-6">
+        <div class="col-12 col-md-8 col-lg-8">
             <div class="d-flex flex-wrap justify-content-center align-items-center">
-                <img src="{{ asset('costanetworks_logo_cuadrado.png') }}" height="100">
+                <img src="{{ asset('virtualvoz_logo_horizontal.png') }}" height="100">
             </div>
-            <div class="card mt-5">
+            <div class="card mt-2">
                 <div class="card-header">
                     <div class="d-flex flex-wrap justify-content-between align-items-center">
                         <span class="text-uppercase font-weight-bold">{{ __('Acceso') }}</span>
                         <a href="{{ route('register') }}"
-                            class="btn btn-sm btn-success text-uppercase font-weight-bold">
+                            class="btn btn-lg btn-color-1 btn-custom-1">
                             {{ __('Crear ticket sin entrar') }}
                         </a>
                     </div>
@@ -23,7 +23,7 @@
                         @csrf
                         <div class="form-group row">
                             <label for="email"
-                                class="col-md-4 col-form-label text-md-right">{{ __('Dirección de correo') }}</label>
+                                class="col-md-4 col-form-label text-right">{{ __('Dirección de correo') }}</label>
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
                                     name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
@@ -69,15 +69,15 @@
                 </div>
                 <div class="card-footer">
                     <div class="d-flex flex-row justify-content-between">
-                        <button type="submit" class="btn btn-sm btn-primary text-uppercase font-weight-bold"
+                        <button type="submit" class="btn btn-lg btn-color-2 btn-custom-1"
                             form="loginForm">
                             {{ __('Entrar') }}
                         </button>
 
                         @if (Route::has('password.request'))
-                        <a class="btn btn-link" href="{{ route('password.request') }}">
-                            {{ __('¿Has olvidado tu contraseña?') }}
-                        </a>
+                            <a class="btn btn-link" href="{{ route('password.request') }}">
+                                {{ __('¿Has olvidado tu contraseña?') }}
+                            </a>
                         @endif
                     </div>
                 </div>
