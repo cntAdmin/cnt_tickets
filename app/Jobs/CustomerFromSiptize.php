@@ -51,8 +51,8 @@ class CustomerFromSiptize implements ShouldQueue
             Log::channel('importacion_clientes')->info('  Cliente => ' . $customer_name);
 
             // Fecha actualización en siptize.
-            $siptizeCustomer = Customer::where('cif', $cif)->first();
-            if(!$siptizeCustomer){      // (NO EXISTE EN CNT_TICKETS)
+            $cnt_tickets_customer = Customer::where('cif', $cif)->first();
+            if(!$cnt_tickets_customer){      // (NO EXISTE EN CNT_TICKETS)
                 
                 DB::beginTransaction();
                 try{
@@ -108,7 +108,7 @@ class CustomerFromSiptize implements ShouldQueue
             else{       // (EXISTE EN CNT_TICKETS)
                 $siptizeUpdate = str_replace('/', '-', $apiCustomer['hutanUpdated']);
                 $siptizeUpdate = Carbon::parse($siptizeUpdate);
-                $bdUpdate = Carbon::parse($siptizeCustomer->updated_at)->format('Y-m-d');
+                $bdUpdate = Carbon::parse($cnt_tickets_customer->updated_at)->format('Y-m-d');
                 
                 // Si la fecha de actualización de SIPTIZE no es igual a la fecha de actualización de BD actualizamos
                 if($siptizeUpdate->eq($bdUpdate)){
@@ -118,20 +118,20 @@ class CustomerFromSiptize implements ShouldQueue
                     DB::beginTransaction();
                     try{
                         // cnt_tickets_customers
-                        $siptizeCustomer->cif = $cif;
-                        $siptizeCustomer->name = $customer_name;
-                        $siptizeCustomer->alias = $customer_alias;
-                        $siptizeCustomer->email = $email;
-                        $siptizeCustomer->address = $apiCustomerDir['direccion'] ?? null;
-                        $siptizeCustomer->town = $apiCustomerDir['ciudad'] ?? null;
-                        $siptizeCustomer->postcode = $apiCustomerDir['codigoPostal'] ?? null;
-                        $siptizeCustomer->phone = $apiCustomer['telefono'] ?? null;
-                        $siptizeCustomer->is_active = $is_active;
-                        $siptizeCustomer->updated_at = $siptizeUpdate;
-                        $siptizeCustomer->update();
+                        $cnt_tickets_customer->cif = $cif;
+                        $cnt_tickets_customer->name = $customer_name;
+                        $cnt_tickets_customer->alias = $customer_alias;
+                        $cnt_tickets_customer->email = $email;
+                        $cnt_tickets_customer->address = $apiCustomerDir['direccion'] ?? null;
+                        $cnt_tickets_customer->town = $apiCustomerDir['ciudad'] ?? null;
+                        $cnt_tickets_customer->postcode = $apiCustomerDir['codigoPostal'] ?? null;
+                        $cnt_tickets_customer->phone = $apiCustomer['telefono'] ?? null;
+                        $cnt_tickets_customer->is_active = $is_active;
+                        $cnt_tickets_customer->updated_at = $siptizeUpdate;
+                        $cnt_tickets_customer->update();
 
                         // cnt_tickets_users
-                        $user = User::where('customer_id', $customer_id)->first();
+                        $user = User::where('customer_id', $cnt_tickets_customer->customer_id)->first();
                         if($user->email == 'estherramirezmoya@hotmail.com' && $email != 'estherramirezmoya@hotmail.com'){
                             $user->name = $customer_name;
                             $user->username = $email;
