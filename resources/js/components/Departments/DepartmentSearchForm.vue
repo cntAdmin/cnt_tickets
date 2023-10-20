@@ -8,15 +8,11 @@
             <div class="input-group">
               <div class="input-group-prepend">
                 <div class="input-group-text d-none d-lg-block">Nombre</div>
-                <div class="input-group-text d-block d-lg-none">
-                  <i class="fa fa-hashtag"></i>
-                </div>
               </div>
               <input
                 type="text"
                 class="form-control"
                 id="name"
-                placeholder="Nombre a buscar"
                 v-model="search.name"
               />
             </div>

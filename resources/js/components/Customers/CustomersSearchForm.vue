@@ -8,16 +8,15 @@
             <label class="sr-only" for="name">Nombre</label>
             <div class="input-group">
               <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block">Nombre</div>
-                <div class="input-group-text d-block d-lg-none">
+                <div class="input-group-text">Nombre</div>
+                <!-- <div class="input-group-text d-block d-lg-none">
                   <i class="fa fa-hashtag"></i>
-                </div>
+                </div> -->
               </div>
               <input
                 type="text"
                 class="form-control"
                 id="name"
-                placeholder="Nombre"
                 v-model="search.name"
               />
             </div>
@@ -27,16 +26,15 @@
             <label class="sr-only" for="email">Email</label>
             <div class="input-group">
               <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block">Email</div>
-                <div class="input-group-text d-block d-lg-none">
+                <div class="input-group-text">Email</div>
+                <!-- <div class="input-group-text d-block d-lg-none">
                   <i class="fa fa-hashtag"></i>
-                </div>
+                </div> -->
               </div>
               <input
                 type="text"
                 class="form-control"
                 id="email"
-                placeholder="Email"
                 v-model="search.email"
               />
             </div>
@@ -46,10 +44,10 @@
             <label class="sr-only" for="is_active">Estado</label>
             <div class="input-group">
               <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block">Estado</div>
-                <div class="input-group-text d-block d-lg-none">
+                <div class="input-group-text">Estado</div>
+                <!-- <div class="input-group-text d-block d-lg-none">
                   <i class="fa fa-hashtag"></i>
-                </div>
+                </div> -->
               </div>
               <select v-model="search.is_active" class="form-control">
                 <option value="" selected>Todos</option>

@@ -81,6 +81,7 @@ Vue.component('department-edit', require('./components/Departments/DepartmentEdi
 Vue.component('department-types', require('./components/DepartmentTypes/DepartmentTypes').default);
 Vue.component('department-type-create', require('./components/DepartmentTypes/DepartmentTypeCreate').default);
 Vue.component('department-type-edit', require('./components/DepartmentTypes/DepartmentTypeEdit').default);
+Vue.component('department-type-cards', require('./components/DepartmentTypes/DepartmentTypeCards').default);
 
 // ? ORIGIN TYPES
 Vue.component('origin-types', require('./components/OriginTypes/OriginTypes').default);

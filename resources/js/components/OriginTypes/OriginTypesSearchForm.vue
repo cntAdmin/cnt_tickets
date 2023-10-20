@@ -7,12 +7,7 @@
             <label class="sr-only" for="department">Departamento</label>
             <div class="input-group">
               <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block">
-                  Departamento
-                </div>
-                <div class="input-group-text d-block d-lg-none">
-                  <i class="fa fa-hashtag"></i>
-                </div>
+                <div class="input-group-text">Departamento</div>
               </div>
               <input type="text" v-model="search.name" class="form-control" />
             </div>

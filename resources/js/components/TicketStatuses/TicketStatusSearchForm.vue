@@ -7,16 +7,12 @@
             <label class="sr-only" for="name">Nombre</label>
             <div class="input-group">
               <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block">Nombre</div>
-                <div class="input-group-text d-block d-lg-none">
-                  <i class="fa fa-hashtag"></i>
-                </div>
+                <div class="input-group-text">Nombre</div>
               </div>
               <input
                 type="text"
                 class="form-control"
                 id="name"
-                placeholder="Nombre del estado"
                 v-model="search.name"
               />
             </div>

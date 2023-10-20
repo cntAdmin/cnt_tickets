@@ -1,6 +1,7 @@
 <template>
   <div class="d-flex flex-column justify-content-center w-100">
-    <div class="d-flex flex-wrap justify-content-around">
+    <!-- <div class="d-flex flex-wrap justify-content-around"> -->
+    <div class="row">
       <counter
         v-for="ticket_status in statuses"
         :key="ticket_status.id"
@@ -12,77 +13,11 @@
     </div>
 
     <!-- PARTE MOBILE -->
-    <div
-      class="d-flex d-lg-none flex-wrap mt-3"
-      v-if="this.$screen.breakpoint == 'xs'"
+    <div class="d-flex d-lg-none flex-wrap mt-3" 
+      v-if="this.$screen.breakpoint == 'xs' || this.$screen.breakpoint == 'sm' || this.$screen.breakpoint == 'md'"
     >
-      <button
-        class="btn btn-primary btn-block"
-        type="button"
-        data-toggle="collapse"
-        data-target="#searchform"
-        aria-expanded="false"
-        aria-controls="searchform"
-      >
-        Búsqueda
-      </button>
-      <div class="collapse col-12 w-100" id="searchform">
-        <ticket-search-form
-          :page="page"
-          :ticketDeleted="ticketDeleted"
-          :user="user"
-          @searched="searched"
-          @searching="searching"
-          @mobileSearch="mobileSearch"
-        />
-      </div>
-      <transition name="fade" mode="out-in" v-if="is_searching">
-        <spinner />
-      </transition>
-      <transition
-        name="fade"
-        mode="out-in"
-        v-else-if="Object.keys(tickets).length > 0"
-      >
-        <tickets-mobile-cards
-          class="col-12"
-          :tickets="tickets"
-          :formsearch="formsearch"
-          @page="setPage"
-          @ticketDeleted="ticketDeleted = true"
-        ></tickets-mobile-cards>
-      </transition>
-      <transition
-        name="fade"
-        mode="out-in"
-        v-else-if="tickets.data && Object.keys(tickets.data).length == 0"
-      >
-        <div
-          class="alert alert-warning fade show mt-3 mx-3 text-center"
-          role="alert"
-        >
-          <span class="font-weight-bold">
-            No se han encontrado resultados, por favor, haga una nueva búsqueda
-            <i class="fa fa-thumbs-up"></i>
-          </span>
-        </div>
-      </transition>
-    </div>
-
-    <!-- PARTE WEB -->
-    <div v-else>
-      <div class="row d-flex justify-content-center mt-3">
-        <a class="btn btn-secondary text-white shadow-lg"
-          href="/ticket-type/1/ticket/crear">
-          <i class="fa fa-ticket-alt"></i><span class="ml-2">Nuevo ticket</span>
-        </a>
-
-        <a class="btn btn-primary text-white shadow-lg ml-2"
-          href="/ticket-type/2/ticket/crear" v-if="admins.includes(userRole)">
-          <i class="fa fa-tools"></i><span class="ml-2">Nuevo parte de trabajo</span>
-        </a>
-      </div>
       <ticket-search-form
+        :esmovil=true
         :page="page"
         :ticketDeleted="ticketDeleted"
         :user="user"
@@ -92,13 +27,50 @@
       <transition name="fade" mode="out-in" v-if="is_searching">
         <spinner />
       </transition>
-      <transition
-        name="fade"
-        mode="out-in"
-        v-else-if="tickets.data && Object.keys(tickets.data).length > 0"
-      >
-        <tickets-table
-          v-if="tickets.data && Object.keys(tickets.data).length > 0"
+      <transition name="fade" mode="out-in" v-else-if="tickets.total > 0">
+        <tickets-mobile-cards
+          class="w-100"
+          :tickets="tickets"
+          :formsearch="formsearch"
+          @page="setPage"
+          @ticketDeleted="ticketDeleted = true"
+        ></tickets-mobile-cards>
+      </transition>
+      <transition name="fade" mode="out-in" v-else-if="tickets.total == 0">
+        <div class="w-100">
+          <div class="alert alert-info fade show mt-3 text-center" role="alert">
+              No se han encontrado resultados, por favor, haga una nueva búsqueda
+              <i class="fa fa-thumbs-up"></i>
+          </div>
+        </div>
+      </transition>
+    </div>
+
+    <!-- PARTE WEB -->
+    <div v-else>
+      <div class="row d-flex justify-content-center mt-4">
+        <a class="btn btn-secondary text-white shadow-lg" href="/ticket-type/1/ticket/crear">
+          <i class="fa fa-ticket-alt"></i><span class="ml-2">Nuevo ticket</span>
+        </a>
+
+        <a class="btn btn-primary text-white shadow-lg ml-2" href="/ticket-type/2/ticket/crear" v-if="admins.includes(userRole)">
+          <i class="fa fa-tools"></i><span class="ml-2">Nuevo parte de trabajo</span>
+        </a>
+      </div>
+      <ticket-search-form
+        :esmovil=false
+        :page="page"
+        :ticketDeleted="ticketDeleted"
+        :user="user"
+        @searched="searched"
+        @searching="searching"
+      />
+      <transition name="fade" mode="out-in" v-if="is_searching">
+        <spinner />
+      </transition>
+      <!-- <transition name="fade" mode="out-in" v-else-if="tickets.total > 0"> -->
+      <transition name="fade" mode="out-in" v-else-if="tickets.data && Object.keys(tickets.data).length > 0">
+        <tickets-table v-if="tickets.total > 0"
           class="d-none d-lg-block"
           :tickets="tickets"
           :permissions="permissions"
@@ -107,19 +79,10 @@
           @ticketDeleted="ticketDeleted = true"
         ></tickets-table>
       </transition>
-      <transition
-        name="fade"
-        mode="out-in"
-        v-else-if="tickets.data && Object.keys(tickets.data).length == 0"
-      >
-        <div
-          class="alert alert-warning fade show mt-3 mx-3 text-center"
-          role="alert"
-        >
-          <span class="font-weight-bold">
-            No se han encontrado resultados, por favor, haga una nueva búsqueda
-            <i class="fa fa-thumbs-up"></i>
-          </span>
+      <transition name="fade" mode="out-in" v-else>
+        <div class="alert alert-info fade show mt-3 mx-3 text-center" role="alert">
+          No se han encontrado resultados, por favor, haga una nueva búsqueda
+          <i class="fa fa-thumbs-up"></i>
         </div>
       </transition>
     </div>

@@ -17,10 +17,12 @@
       </button>
     </div>
 
-    <div :class="!ticket.read_by_admin? 'card mt-3 shadow border-left border-danger font-weight-bold' : 'card mt-3 shadow'"
+    <!-- <div :class="!ticket.read_by_admin? 'card mt-3 shadow border-left border-danger font-weight-bold' : 'card mt-3 shadow'"
       v-for="ticket in tickets"
       :key="ticket.id"
-    >
+    > -->
+    <div class="card mt-3 shadow" v-for="ticket in tickets.data" :key="ticket.id">
+      <!-- {{ ticket }} -->
       <div class="card-header">
         <h4 class="text-uppercase text-left font-weight-bold">
           <a :href="`/ticket/${ticket.id}`">{{ ticket.id }}</a>
@@ -54,7 +56,6 @@
                   <i class="fa fa-eye"></i>
                 </a>
               </div>
-              <!-- SI ESTADO ES ABIERTO -->
               <div class="col-6 px-2 py-0">
                 <div class="dropdown">
                   <button
@@ -96,7 +97,6 @@
           </div>
         </div>
       </div>
-      <!-- END OF CARD FOOTER -->
     </div>
   </div>
 </template>

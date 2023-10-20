@@ -1,42 +1,18 @@
 <template>
-  <div class="flex-row justify-content-center container-fluid mt-3">
-    <div class="card w-100 shadow border-dark">
+  <div :class="`row justify-content-center mt-3 ${esmovil != true ? 'mx-3' : ''}`">
+    <div :class="`card shadow border-dark ${esmovil == true ? 'mx-3' : ''}`">
       <div class="card-body">
         <form @submit.prevent="handleSubmit" class="form-inline">
-          <div class="col-12 col-md-6 col-lg-4 mt-2">
-            <label class="sr-only" for="ticket_id">ID</label>
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block">ID</div>
-                <div class="input-group-text d-block d-lg-none">
-                  <i class="fa fa-hashtag"></i>
-                </div>
-              </div>
-              <input
-                type="text"
-                class="form-control"
-                id="ticket_id"
-                placeholder="ID Ticket"
-                v-model="search.ticket_id"
-              />
-            </div>
-          </div>
-          <!--
-          <customers-dropdown-select :customer="null" :editable="true" @setCustomer="mostarCustomer"/>
-          -->
-          <div class="col-12 col-md-6 col-lg-4 mt-2">
+          <div class="col-12 col-md-12 col-lg-6 col-xl-6 mt-2">
             <label class="sr-only" for="ticket_id">Cliente</label>
-            <div class="input-group">
+            <div class="input-group input-group-sm">
               <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block py-1">
+                <div class="input-group-text py-1">
                   Cliente
-                </div>
-                <div class="input-group-text d-block d-lg-none py-1">
-                  <i class="fa fa-user-tie"></i>
                 </div>
               </div>
               <vue-select
-                class="col-10 col-lg-8 col-xl-9 px-0"
+                class="col-9 px-0"
                 transition="vs__fade"
                 label="name"
                 itemid="id"
@@ -50,22 +26,16 @@
               </vue-select>
             </div>
           </div>
-          <div
-            class="col-12 col-md-6 col-lg-4 mt-2"
-            v-if="user.roles[0].id === 1"
-          >
+          <div class="col-12 col-md-12 col-lg-6 col-xl-6 mt-2" v-if="user.roles[0].id === 1">
             <label class="sr-only" for="ticket_id">Agente</label>
-            <div class="input-group">
+            <div class="input-group input-group-sm">
               <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block py-1">
+                <div class="input-group-text py-1">
                   Agente
-                </div>
-                <div class="input-group-text d-block d-lg-none py-1">
-                  <i class="fa fa-user-tie"></i>
                 </div>
               </div>
               <vue-select
-                class="col-10 col-lg-8 col-xl-9 px-0"
+                class="col-9 px-0"
                 transition="vs__fade"
                 label="name"
                 itemid="id"
@@ -81,69 +51,59 @@
           </div>
           <div class="col-12 col-md-6 col-lg-4 mt-2">
             <label class="sr-only" for="text">Titulo / Descripción</label>
-            <div class="input-group">
+            <!-- <div class="input-group input-group-sm"> -->
+            <div :class="`input-group ${esmovil == true ? 'input-group-sm' : ''}`">
               <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block">
+                <div class="input-group-text py-1">
                   Titulo / Descripción
-                </div>
-                <div class="input-group-text d-block d-lg-none">
-                  <i class="fa fa-spell-check"></i>
                 </div>
               </div>
               <input
                 type="text"
                 class="form-control"
                 id="text"
-                placeholder="Buscar este texto..."
                 v-model="search.text"
               />
             </div>
           </div>
           <div class="col-12 col-md-6 col-lg-4 mt-2">
             <label class="sr-only" for="dateFrom">Desde</label>
-            <div class="input-group">
+            <div :class="`input-group ${esmovil == true ? 'input-group-sm' : ''}`">
               <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block">Desde</div>
-                <div class="input-group-text d-block d-lg-none">
-                  <i class="fa fa-greater-than"></i>
-                  <i class="fa fa-calendar-day"></i>
+                <div class="input-group-text py-1">
+                  Desde
                 </div>
               </div>
               <input
                 type="date"
                 class="form-control"
                 id="dateFrom"
-                placeholder="Buscar este texto..."
                 v-model="search.dateFrom"
               />
             </div>
           </div>
           <div class="col-12 col-md-6 col-lg-4 mt-2">
             <label class="sr-only" for="dateTo">Hasta</label>
-            <div class="input-group">
+            <div :class="`input-group ${esmovil == true ? 'input-group-sm' : ''}`">
               <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block">Hasta</div>
-                <div class="input-group-text d-block d-lg-none">
-                  <i class="fa fa-less-than"></i>
-                  <i class="fa fa-calendar-day"></i>
+                <div class="input-group-text py-1">
+                  Hasta
                 </div>
               </div>
               <input
                 type="date"
                 class="form-control"
                 id="dateTo"
-                placeholder="Buscar este texto..."
                 v-model="search.dateTo"
               />
             </div>
           </div>
           <div class="col-12 col-md-6 col-lg-4 mt-2">
             <label class="sr-only" for="dateTo">Prioridad</label>
-            <div class="input-group">
+            <div :class="`input-group ${esmovil == true ? 'input-group-sm' : ''}`">
               <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block">Prioridad</div>
-                <div class="input-group-text d-block d-lg-none">
-                  <i class="fa fa-exclamation"></i>
+                <div class="input-group-text py-1">
+                  Prioridad
                 </div>
               </div>
               <select v-model="search.priority_id" class="form-control">
@@ -160,15 +120,10 @@
           </div>
           <div class="col-12 col-md-6 col-lg-4 mt-2">
             <label class="sr-only" for="dateTo">Estado</label>
-            <div class="input-group">
+            <div :class="`input-group ${esmovil == true ? 'input-group-sm' : ''}`">
               <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block">Estado</div>
-                <div class="input-group-text d-block d-lg-none">
-                  <i
-                    :class="`fa fa-${ticket_status.icon}`"
-                    v-for="ticket_status in ticket_statuses"
-                    :key="ticket_status.id"
-                  ></i>
+                <div class="input-group-text py-1">
+                  Estado
                 </div>
               </div>
               <select v-model="search.ticket_status_id" class="form-control">
@@ -185,9 +140,11 @@
           </div>
           <div class="col-12 col-md-6 col-lg-4 mt-2">
             <label class="sr-only" for="dateTo">Tipo</label>
-            <div class="input-group">
+            <div :class="`input-group ${esmovil == true ? 'input-group-sm' : ''}`">
               <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block">Tipo</div>
+                <div class="input-group-text py-1">
+                  Tipo
+                </div>
               </div>
               <select v-model="search.ticket_type_id" class="form-control">
                 <option value="" selected>-- TODOS --</option>
@@ -203,17 +160,15 @@
           </div>
           <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="user.roles[0].id === 1">
             <label class="sr-only" for="dateTo">Asignado a</label>
-            <div class="input-group">
+            <div :class="`input-group ${esmovil == true ? 'input-group-sm' : ''}`">
               <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block">Asignado a</div>
+                <div class="input-group-text py-1">
+                  Asignado a
+                </div>
               </div>
               <select v-model="search.agent_id" class="form-control">
                 <option value="" selected>-- TODOS --</option>
-                <option
-                  :value="user_asignable.id"
-                  v-for="user_asignable in users_asignables"
-                  :key="user_asignable.id"
-                >
+                <option :value="user_asignable.id" v-for="user_asignable in users_asignables" :key="user_asignable.id">
                   {{ user_asignable.name }}
                 </option>
               </select>
@@ -235,7 +190,7 @@ import CustomersDropdownSelect from "../CustomersDropdownSelect.vue";
 
 export default {
   components: { CustomersDropdownSelect },
-  props: ["page", "ticketDeleted", "user"],
+  props: ["esmovil", "page", "ticketDeleted", "user"],
   data() {
     return {
       agents: [],
