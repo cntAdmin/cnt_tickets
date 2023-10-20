@@ -27,6 +27,7 @@
         <div class="container-fluid mt-3 mb-5">
             @yield('content')
         </div>
+        <div style="padding-bottom:60px !important;"></div>
         @include('layouts.footer')
     </div>
 </body>

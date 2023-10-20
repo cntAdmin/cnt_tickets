@@ -86,12 +86,12 @@
         </button>
         <div 
           class="dropdown-menu" 
-          style="background-color: #343a40 !important; position: absolute !important; padding: 0px !important;"
+          style="background-color: #343a40 !important; position: absolute !important;  margin-bottom: 7px;"
         >
-          <a href="/ticket" class="btn btn-dark text-white dropdown-item" style="padding: 0.25rem 1rem !important;">
+          <a href="/ticket" class="btn btn-dark text-white dropdown-item">
             <span class="text-decoration-none">Todos</span>
           </a>
-          <a href="/ticket?ticket-status=1" class="btn btn-dark text-white dropdown-item" style="padding: 0.25rem 1rem !important;">
+          <a href="/ticket?ticket-status=1" class="btn btn-dark text-white dropdown-item">
             <span class="text-decoration-none">No leídos</span>
           </a>
         </div>
@@ -110,12 +110,12 @@
         </button>
         <div 
           class="dropdown-menu" 
-          style="background-color: #343a40 !important; position: absolute !important; padding: 0px !important;"
+          style="background-color: #343a40 !important; position: absolute !important;  margin-bottom: 7px;"
         >
-          <a href="/ticket-type/1/ticket/crear" class="btn btn-dark text-white dropdown-item" style="padding: 0.25rem 1rem !important;">
+          <a href="/ticket-type/1/ticket/crear" class="btn btn-dark text-white dropdown-item">
             <span class="text-decoration-none">Ticket</span>
           </a>
-          <a href="/ticket-type/2/ticket/crear" class="btn btn-dark text-white dropdown-item" style="padding: 0.25rem 1rem !important;">
+          <a href="/ticket-type/2/ticket/crear" class="btn btn-dark text-white dropdown-item">
             <span class="text-decoration-none">Parte</span>
           </a>
         </div>

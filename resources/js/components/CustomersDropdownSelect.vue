@@ -3,13 +3,10 @@
     <label class="sr-only" for="ticket_id">Cliente</label>
     <div class="input-group">
       <div class="input-group-prepend">
-        <div class="input-group-text d-none d-lg-block py-1">Cliente</div>
-        <div class="input-group-text d-block d-lg-none py-1">
-          <i class="fa fa-building"></i>
-        </div>
+        <div class="input-group-text py-1">Cliente</div>
       </div>
       <vue-select
-        class="col-10 col-lg-9 px-0"
+        class="col-8 px-0"
         transition="vs__fade"
         label="name"
         itemid="id"

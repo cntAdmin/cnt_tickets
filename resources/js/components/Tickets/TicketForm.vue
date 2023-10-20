@@ -24,28 +24,18 @@
     </div>
     
     <form @submit.prevent="handleSubmit" class="form-inline">
-      <!-- <customers-dropdown-select
-        v-if="admins.includes(userRole)"
-        :customer="ticket.customer"
-        :editable="editable"
-        @setCustomer="setCustomer"
-      /> -->
-      
+     
       <customers-dropdown-select
         :customer="ticket.customer"
         :editable="editable"
         @setCustomer="setCustomer"
       />
 
-      <!-- <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="admins.includes(userRole)"> -->
       <div class="col-12 col-md-6 col-lg-4 mt-2">
         <label class="sr-only" for="users">Usuarios</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">Usuarios</div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-user"></i><span class="ml-2">Usuarios</span>
-            </div>
+            <div class="input-group-text py-1">Usuarios</div>
           </div>
           <select
             v-model="ticket.user_id"
@@ -65,18 +55,14 @@
         </div>
       </div>
 
-      <!-- <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="admins.includes(userRole)"> -->
-      <div class="col-12 col-md-6 col-lg-4 mt-2">
+      <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="admins.includes(userRole)">
         <label class="sr-only" for="agent_id">Asignar a</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">Asignar a</div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-user-tie"></i><span class="ml-2">Asignar a</span>
-            </div>
+            <div class="input-group-text py-1">Asignar a</div>
           </div>
           <vue-select
-            class="col-10 col-lg-8 col-xl-9 px-0"
+            class="col-8 px-0"
             transition="vs__fade"
             label="name"
             itemid="id"
@@ -97,10 +83,7 @@
         <label class="sr-only" for="ticket_id">ID</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">ID</div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
-            </div>
+            <div class="input-group-text py-1">ID</div>
           </div>
           <input
             type="text"
@@ -117,12 +100,7 @@
         <label class="sr-only" for="ticket_id">Departamento</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">
-              Departamento
-            </div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-door-open"></i><span class="ml-2">Depto</span>
-            </div>
+            <div class="input-group-text py-1">Departamento</div>
           </div>
           <select
             v-model="ticket.department_type.department_id"
@@ -145,10 +123,7 @@
         <label class="sr-only" for="ticket_id">Servicio</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">Servicio</div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-couch"></i><span class="ml-2">Sub. Dep.</span>
-            </div>
+            <div class="input-group-text py-1">Servicio</div>
           </div>
           <select
             v-model="ticket.department_type_id"
@@ -170,10 +145,7 @@
         <label class="sr-only" for="ticket_id">Prioridad</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">Prioridad</div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-exclamation-circle"></i><span class="ml-2">Prioridad</span>
-            </div>
+            <div class="input-group-text py-1">Prioridad</div>
           </div>
           <select
             v-model="ticket.priority_id"
@@ -195,12 +167,7 @@
         <label class="sr-only" for="ticket_id">Originado De</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">
-              Originado De
-            </div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-ticket-alt"></i>
-            </div>
+            <div class="input-group-text py-1">Originado De</div>
           </div>
           <select
             v-model="ticket.origin_type_id"
@@ -222,10 +189,7 @@
         <label class="sr-only" for="ticket_id">Garantia</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">Garantia</div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i><span class="ml-2">Garantia</span>
-            </div>
+            <div class="input-group-text py-1">Garantia</div>
           </div>
           <select
             v-model="ticket.warranty_id"
@@ -247,10 +211,7 @@
         <label class="sr-only" for="ticket_id">Estado</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">Estado</div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-couch"></i><span class="ml-2">Estado</span>
-            </div>
+            <div class="input-group-text py-1">Estado</div>
           </div>
           <select
             v-model="ticket.ticket_status_id"
@@ -272,10 +233,7 @@
         <label class="sr-only" for="title">Email a cliente</label>
         <div class="input-group">
           <div class="input-group-prepend mr-2">
-            <div class="input-group-text d-none d-lg-block py-1">Email a cliente</div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-heading"></i><span class="ml-2">Email a cliente</span>
-            </div>
+            <div class="input-group-text py-1">Email a cliente</div>
           </div>
           <input
             class="form-check-input"
@@ -285,15 +243,12 @@
           />
         </div>
       </div>
-
+      
       <div class="col-12 mt-2">
         <label class="sr-only" for="title">Título</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">Título</div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-heading"></i><span class="ml-2">Título</span>
-            </div>
+            <div class="input-group-text py-1">Título</div>
           </div>
           <input
             class="form-control"
@@ -308,13 +263,7 @@
         <label class="sr-only" for="ticket_id">Descripción</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">
-              Descripción
-            </div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-audio-description"></i
-              ><span class="ml-2">Desc.</span>
-            </div>
+            <div class="input-group-text py-1">Descripción</div>
           </div>
           <ejs-richtexteditor
             v-if="editable"
