@@ -70,26 +70,29 @@
       </li>
     </ul>
   </nav> -->
-  <nav class="navbar navbar-dark bg-dark justify-content-center fixed-bottom" style="margin-bottom: 2rem;">
+  <nav class="navbar navbar-dark bg-dark justify-content-center fixed-bottom">
     <ul class="navbar-nav d-flex flex-row justify-content-around w-100">
 
       <div class="btn-group dropup">
         <button 
           type="button" 
-          class="btn btn-dark dropdown-toggle" 
+          class="btn btn-dark" 
           data-toggle="dropdown" 
           aria-haspopup="true" 
           aria-expanded="false"
         >
-          <i class="far fa-ticket-alt fa-2x"></i>
-          <p>Ticket</p>
+          <i class="far fa-ticket-alt fa-2x"></i><br/>
+          <span>Ticket</span>
         </button>
-        <div class="dropdown-menu" style="background-color: #343a40 !important; position: absolute;">
-          <a href="/ticket" class="btn btn-dark text-white dropdown-item">
-            <p class="text-decoration-none">Todos</p>
+        <div 
+          class="dropdown-menu" 
+          style="background-color: #343a40 !important; position: absolute !important; padding: 0px !important;"
+        >
+          <a href="/ticket" class="btn btn-dark text-white dropdown-item" style="padding: 0.25rem 1rem !important;">
+            <span class="text-decoration-none">Todos</span>
           </a>
-          <a href="/ticket?ticket-status=1" class="btn btn-dark text-white dropdown-item">
-            <p class="text-decoration-none">No leídos</p>
+          <a href="/ticket?ticket-status=1" class="btn btn-dark text-white dropdown-item" style="padding: 0.25rem 1rem !important;">
+            <span class="text-decoration-none">No leídos</span>
           </a>
         </div>
       </div>
@@ -97,37 +100,40 @@
       <div class="btn-group dropup">
         <button 
           type="button" 
-          class="btn btn-dark dropdown-toggle" 
+          class="btn btn-dark" 
           data-toggle="dropdown" 
           aria-haspopup="true" 
           aria-expanded="false"
         >
-          <i class="far fa-plus fa-2x"></i>
-          <p>Nuevo</p>
+          <i class="far fa-plus fa-2x"></i><br/>
+          <span>Nuevo</span>
         </button>
-        <div class="dropdown-menu" style="background-color: #343a40 !important;  position: absolute;">
-          <a href="/ticket-type/1/ticket/crear" class="btn btn-dark text-white dropdown-item">
-            <p class="text-decoration-none">Ticket</p>
+        <div 
+          class="dropdown-menu" 
+          style="background-color: #343a40 !important; position: absolute !important; padding: 0px !important;"
+        >
+          <a href="/ticket-type/1/ticket/crear" class="btn btn-dark text-white dropdown-item" style="padding: 0.25rem 1rem !important;">
+            <span class="text-decoration-none">Ticket</span>
           </a>
-          <a href="/ticket-type/2/ticket/crear" class="btn btn-dark text-white dropdown-item">
-            <p class="text-decoration-none">Parte</p>
+          <a href="/ticket-type/2/ticket/crear" class="btn btn-dark text-white dropdown-item" style="padding: 0.25rem 1rem !important;">
+            <span class="text-decoration-none">Parte</span>
           </a>
         </div>
       </div>
 
       <li class="nav-item text-white align-items-center">
-        <a :href="`/profile/${user.id}`" class="btn btn-link text-white">
-          <i class="far fa-user fa-2x"></i>
-          <p class="text-decoration-none">Perfil</p>
+        <a :href="`/profile/${user.id}`" class="btn btn-dark text-white">
+          <i class="far fa-user fa-2x"></i><br/>
+          <span class="text-decoration-none">Perfil</span>
         </a>
       </li>
 
       <li class="nav-item text-white align-items-center">
-        <button type="button" class="btn btn-link text-white" 
+        <button type="button" class="btn btn-dark text-white" 
           onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();"
         >
-          <i class="far fa-sign-out-alt fa-2x"></i>
-          <p class="text-decoration-none">SALIR</p>
+          <i class="far fa-sign-out-alt fa-2x"></i><br/>
+          <span class="text-decoration-none">SALIR</span>
         </button>
         <form id="logout-form-mobile" action="/logout" method="POST" class="d-none">
           <input type="hidden" name="_token" :value="csrf" />
