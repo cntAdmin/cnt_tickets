@@ -51,7 +51,6 @@
           </div>
           <div class="col-12 col-md-6 col-lg-4 mt-2">
             <label class="sr-only" for="text">Titulo / Descripción</label>
-            <!-- <div class="input-group input-group-sm"> -->
             <div :class="`input-group ${esmovil == true ? 'input-group-sm' : ''}`">
               <div class="input-group-prepend">
                 <div class="input-group-text py-1">

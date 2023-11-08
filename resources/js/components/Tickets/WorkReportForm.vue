@@ -453,6 +453,8 @@ export default {
         );
       });
 
+      this.ticket.ticket_status_id = 1;
+      
       if (this.type == "new") {
         if (this.ticketType.id)
           formData.append("ticket_type_id", this.ticketType.id);
