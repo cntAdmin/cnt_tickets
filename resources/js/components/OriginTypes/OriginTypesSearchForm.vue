@@ -4,7 +4,6 @@
       <div class="card-body">
         <form @submit.prevent="handleSubmit" class="form-inline">
           <div class="col-12 col-md-6 col-lg-4 mt-2">
-            <label class="sr-only" for="department">Departamento</label>
             <div class="input-group">
               <div class="input-group-prepend">
                 <div class="input-group-text">Departamento</div>

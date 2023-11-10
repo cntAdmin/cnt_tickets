@@ -46,7 +46,7 @@
               <th scope="row">
                 <a :href="`/ticket/${ticket.id}`" class="btn btn-sm btn-link text-dark font-weight-bold">{{ ticket.id }}</a>
               </th>
-              <td>{{ ticket.agent !== null ? ticket.agent.name : (ticket.created_by_user ? ticket.created_by_user.name : '')  }}</td>
+              <td>{{ ticket.agent !== null ? ticket.agent.name : 'Parte no tiene agente'  }}</td>
               <td>{{ ticket.customer ? ticket.customer.name : "" }}</td>
               <td>{{ ticket.title }}</td>
               <td>{{ ticket.ticket_type.name }}</td>
@@ -222,25 +222,20 @@ export default {
       }
     },
     changeStatus(ticket_id, ticket_status_id) {
-      axios
-        .put(`/api/ticket/${ticket_id}/ticket-status/${ticket_status_id}`)
-        .then((res) => {
-          this.success = {
-            status: true,
-            msg: res.data.msg,
-          };
-          setTimeout(() => {
-            this.$emit("page");
-          }, 1500);
-        });
+      axios.put(`/api/ticket/${ticket_id}/ticket-status/${ticket_status_id}`).then((res) => {
+        this.success = {
+          status: true,
+          msg: res.data.msg,
+        };
+        setTimeout(() => {
+          this.$emit("page");
+        }, 1500);
+      });
     },
     get_all_ticket_status() {
-      axios
-        .get("/api/get_all_ticket_statuses")
-        .then((res) => {
-          this.ticket_statuses = res.data.ticket_statuses;
-        })
-        .catch((error) => console.log(error.response.data));
+      axios.get("/api/get_all_ticket_statuses").then((res) => {
+        this.ticket_statuses = res.data.ticket_statuses;
+      }).catch((error) => console.log(error));
     },
     emitPagination(page) {
       this.$emit("page", page);

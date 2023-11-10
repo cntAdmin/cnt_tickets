@@ -9,11 +9,25 @@
             </span>
           </div>
           <div class="ml-auto">
-            <a v-if="permissions.find((permission) => permission.name == 'ticket.update')"
+            <a v-if="permissions.find((permission) => permission.name == 'ticket.update') && ticket.is_signed === 0"
               :href="`/ticket/${ticket.id}/editar`"
               class="btn btn-sm btn-warning"
               >Editar</a
             >
+            <button
+              v-if="ticket.is_signed === 1"
+              type="button"
+              class="btn btn-sm btn-warning"
+              title="Editar Ticket Cerrado"
+              data-toggle="modal"
+              data-target="#ticketConfirmEditModal"
+              @click="ticketConfirmEditModal = true"
+            >
+              <i class="fa fa-edit"> Editar</i>
+            </button>
+            <ticket-confirm-edit-modal v-if="ticketConfirmEditModal && ticket.is_signed === 1" :ticket_id="ticket.id"/>
+
+            
             <a v-if="permissions.find((permission) => permission.name == 'ticket.show')"
               href="/ticket"
               class="btn btn-sm btn-info text-white"
@@ -61,14 +75,16 @@ import Attachments from "../Attachments/Attachments.vue";
 import TicketForm from "./TicketForm.vue";
 import WorkReportForm from './WorkReportForm.vue';
 import Spinner from '../Spinner.vue';
+import TicketConfirmEditModal from '../TicketConfirmEditModal.vue';
 
 export default {
-  components: { TicketForm, Attachments, Comments, NewComment, WorkReportForm, Spinner },
+  components: { TicketForm, Attachments, Comments, NewComment, WorkReportForm, Spinner, TicketConfirmEditModal },
   props: ["ticket", "permissions", "userRole", "type"],
   data() {
     return {
       comments: [],
       attachments: [],
+      ticketConfirmEditModal: false,
     };
   },
   beforeMount() {

@@ -8,6 +8,7 @@ use App\Models\Ticket;
 use App\Mail\TicketMail;
 use App\Models\Attachment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
@@ -67,24 +68,27 @@ class TicketObserver
             }
         }
 
-        $send_email = $this->request['send_email'];
-        if($send_email == 'si'){
-            if (!$ticket->customer) {
-                $sendTo = [$ticket->user->email];
-            } else {
-                if ($ticket->user->email !== $ticket->customer->email) {
-                    $sendTo = [$ticket->user->email, $ticket->customer->email];
-                } else {
+        if (!App::environment('local'))
+        {
+            $send_email = $this->request['send_email'];
+            if($send_email == 'si'){
+                if (!$ticket->customer) {
                     $sendTo = [$ticket->user->email];
+                } else {
+                    if ($ticket->user->email !== $ticket->customer->email) {
+                        $sendTo = [$ticket->user->email, $ticket->customer->email];
+                    } else {
+                        $sendTo = [$ticket->user->email];
+                    }
                 }
+                Mail::to($sendTo)
+                    ->bcc('soporte@costanetworks.es')
+                    ->send(new TicketMail($ticket));
             }
-            Mail::to($sendTo)
-                ->bcc('soporte@costanetworks.es')
-                ->send(new TicketMail($ticket));
-        }
-        else{
-            $sendTo = 'soporte@costanetworks.es';
-            Mail::to($sendTo)->send(new TicketMail($ticket));
+            else{
+                $sendTo = 'soporte@costanetworks.es';
+                Mail::to($sendTo)->send(new TicketMail($ticket));
+            }
         }
     }
 }

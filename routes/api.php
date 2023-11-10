@@ -56,5 +56,5 @@ Route::middleware(['auth:web'])->group(function () {
         'ticket-status' => TicketStatusController::class,
         'ticket-timeslot' => TicketTimeslotController::class,
         'user' => UserController::class
-        ]);
+    ]);
 });

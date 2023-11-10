@@ -25,61 +25,28 @@
 
     <form @submit.prevent="handleSubmit" class="form-inline">
       <div class="col-12 col-md-6 col-lg-4 mt-2">
-        <label class="sr-only" for="name">Nombre</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">Nombre</div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
-            </div>
+            <div class="input-group-text py-1">Nombre</div>
           </div>
-          <input
-            class="form-control"
-            type="text"
-            v-model="ticketStatus.name"
-            :disabled="!editable ? true : false"
-          />
+          <input class="form-control" type="text" v-model="ticketStatus.name" :disabled="!editable ? true : false"/>
         </div>
       </div>
       <div class="col-12 col-md-6 col-lg-4 mt-2">
-        <label class="sr-only" for="color">Color</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">Color</div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
-            </div>
+            <div class="input-group-text py-1">Color</div>
           </div>
-          <input
-            class="form-control"
-            type="text"
-            v-model="ticketStatus.color"
-            :disabled="!editable ? true : false"
-            placeholder="Elegir un tipo de color de Bootstrap (primary, secondary, success, etc...)"
-          />
+          <input class="form-control" type="text" v-model="ticketStatus.color" :disabled="!editable ? true : false" placeholder=" ...de Bootstrap"/>
         </div>
       </div>
       <div class="col-12 col-md-6 col-lg-4 mt-2">
-        <label class="sr-only" for="icon">Icono</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">Icono</div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
-            </div>
+            <div class="input-group-text py-1">Icono</div>
           </div>
-          <input
-            class="form-control"
-            type="text"
-            v-model="ticketStatus.icon"
-            :disabled="!editable ? true : false"
-            placeholder="Elegir un tipo de icono de fa-icons"
-          />
-          <a
-            href="https://fontawesome.com/icons?d=gallery&p=2&m=free"
-            class="btn btn-sm btn-link align-self-center"
-            target="_blank"
-          >
+          <input class="form-control" type="text" v-model="ticketStatus.icon" :disabled="!editable ? true : false" placeholder=" ...de fa-icons"/>
+          <a href="https://fontawesome.com/icons?d=gallery&p=2&m=free" class="btn btn-sm btn-link align-self-center" target="_blank">
             <i class="fa fa-link"></i>
           </a>
         </div>

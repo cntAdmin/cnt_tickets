@@ -4,18 +4,13 @@
       <div class="card-body">
         <form @submit.prevent="handleSubmit" class="form-inline">
           <div class="col-12 col-md-12 col-lg-6 col-xl-6 mt-2">
-            <label class="sr-only" for="department">Departamento</label>
             <div class="input-group">
               <div class="input-group-prepend">
                 <div class="input-group-text">Departamento</div>
               </div>
               <select v-model="search.department_id" class="form-control">
                 <option value="">Todos</option>
-                <option
-                  :value="department.id"
-                  v-for="department in departments"
-                  :key="department.id"
-                >
+                <option :value="department.id" v-for="department in departments" :key="department.id">
                   {{ department.name }} - {{ department.code }}
                 </option>
               </select>
@@ -23,17 +18,11 @@
           </div>
 
           <div class="col-12 col-md-12 col-lg-6 col-xl-6 mt-2">
-            <label class="sr-only" for="name">Nombre</label>
             <div class="input-group">
               <div class="input-group-prepend">
                 <div class="input-group-text">Nombre</div>
               </div>
-              <input
-                type="text"
-                class="form-control"
-                id="name"
-                v-model="search.name"
-              />
+              <input type="text" class="form-control" id="name" v-model="search.name"/>
             </div>
           </div>
           

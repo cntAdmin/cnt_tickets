@@ -9,11 +9,6 @@
           <div class="ml-auto">
 
             <!-- MODAL DE FIRMA -->
-            <signature-modal
-              v-if="signatureModal && ticket.ticket_type.id === 2"
-              :ticket_id="ticket.id"
-              @firmaEnviadaPorModal="pushSignature"
-            />
             <button
               v-if="ticket.ticket_type.id === 2"
               type="button"
@@ -25,13 +20,14 @@
             >
               Firmar
             </button>
+            <signature-modal
+              v-if="signatureModal && ticket.ticket_type.id === 2"
+              :ticket_id="ticket.id"
+              @firmaEnviadaPorModal="pushSignature"
+            />
+
 
             <!-- MODAL REGISTRO DE HORAS TRABAJO -->
-            <ticket-timeslots-modal
-              v-if="ticketTimeslotModal && ticket.ticket_type.id === 2"
-              :ticket_id="ticket.id"
-              @close="pushTimeslots"
-            />
             <button
               v-if="ticket.ticket_type.id === 2"
               type="button"
@@ -43,6 +39,12 @@
             >
               Registrar horas
             </button>
+            <ticket-timeslots-modal
+              v-if="ticketTimeslotModal && ticket.ticket_type.id === 2"
+              :ticket_id="ticket.id"
+              @close="pushTimeslots"
+            />
+
             <!-- VER INCIDENCIA -->
             <a :href="`/ticket/${ticket.id}`" class="btn btn-sm btn-success">Ver Incidencia</a>
             <!-- VOLVER LISTADO DE INCIDENCIAS -->
@@ -65,13 +67,12 @@
           v-if="ticket.ticket_type_id === 2"
           :buttonText="'Actualizar Parte de trabajo'"
           type="edit"
-          :editable="true"
           :ticket="ticket"
+          :editable="true"
+          :user-role="userRole"
           :ticketType="ticket.ticket_type"
           :timeslots="timeslots"
           :customerSign="ticketSignature"
-          :customer="ticket.customer"
-          :user-role="userRole"
           @deleted="deletedTimeslots"
           @updated="ticketUpdated"
         />

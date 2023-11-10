@@ -24,51 +24,31 @@
     </div>
 
     <form @submit.prevent="handleSubmit" class="form-inline">
+      
       <div class="col-12 col-md-6 col-lg-4 mt-2">
-        <label class="sr-only" for="name">Nombre</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">Nombre</div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
-            </div>
+            <div class="input-group-text py-1">Nombre</div>
           </div>
-          <input
-            type="text"
-            v-model="department.name"
-            class="form-control"
-            maxlength="100"
-          />
+          <input type="text" v-model="department.name" class="form-control" maxlength="100" />
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4 mt-2">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text py-1">Código</div>
+          </div>
+          <input type="text" v-model="department.code" class="form-control" maxlength="10"/>
         </div>
       </div>
       <div class="col-12 col-md-6 col-lg-4 mt-2">
-        <label class="sr-only" for="code">Código</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">Código</div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
-            </div>
-          </div>
-          <input
-            type="text"
-            v-model="department.code"
-            class="form-control"
-            maxlength="10"
-          />
-        </div>
-      </div>
-      <div class="col-12 col-md-6 col-lg-4 mt-2">
-        <label class="sr-only" for="code">Agentes</label>
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">Agentes</div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
-            </div>
+            <div class="input-group-text py-1">Agentes</div>
           </div>
           <vue-select
-            class="col-10 col-lg-8 col-xl-9 px-0"
+            class="col-8 px-0"
             transition="vs__fade"
             label="name"
             itemid="id"
@@ -148,8 +128,7 @@ export default {
     handleSubmit() {
       this.closeAll();
       if (this.type === "new") {
-        axios
-          .post("/api/department", this.department)
+        axios.post("/api/department", this.department)
           .then((res) => {
             this.success = {
               status: true,
@@ -163,10 +142,10 @@ export default {
           .catch((err) => {
             console.log(err.response.data.message)
             if(err.response.status == 500) {
-            this.error = {
-              status: true,
-              errors: err.response.data.message,
-            };
+              this.error = {
+                status: true,
+                errors: err.response.data.message,
+              };
             }
             this.error = {
               status: true,
@@ -174,8 +153,7 @@ export default {
             };
           });
       } else {
-        axios
-          .put(`/api/department/${this.department.id}`, this.department)
+        axios.put(`/api/department/${this.department.id}`, this.department)
           .then((res) => {
             //   console.log(res.data);
             this.success = {

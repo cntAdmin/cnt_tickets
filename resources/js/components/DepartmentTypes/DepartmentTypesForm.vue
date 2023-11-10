@@ -25,42 +25,23 @@
 
     <form @submit.prevent="handleSubmit" class="form-inline">
       <div class="col-12 col-md-6 col-lg-4 mt-2">
-        <label class="sr-only" for="department">Departamento</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">
-              Departamento
-            </div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
-            </div>
+            <div class="input-group-text py-1">Departamento</div>
           </div>
           <select v-model="departmentType.department_id" class="form-control">
-            <option
-              :value="department.id"
-              v-for="department in departments"
-              :key="department.id"
-            >
+            <option :value="department.id" v-for="department in departments" :key="department.id">
               {{ department.name }}
             </option>
           </select>
         </div>
       </div>
       <div class="col-12 col-md-6 col-lg-4 mt-2">
-        <label class="sr-only" for="name">Nombre</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">Nombre</div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
-            </div>
+            <div class="input-group-text py-1">Nombre</div>
           </div>
-          <input
-            type="text"
-            v-model="departmentType.name"
-            class="form-control"
-            maxlength="100"
-          />
+          <input type="text" v-model="departmentType.name" class="form-control" maxlength="100"/>
         </div>
       </div>
       <div class="col-12 mt-3">

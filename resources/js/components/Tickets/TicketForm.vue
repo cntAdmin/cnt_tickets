@@ -24,7 +24,8 @@
     </div>
     
     <form @submit.prevent="handleSubmit" class="form-inline">
-     
+      <input type="hidden" name="_token" :value="csrf">
+      
       <customers-dropdown-select
         :customer="ticket.customer"
         :editable="editable"
@@ -85,14 +86,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text py-1">ID</div>
           </div>
-          <input
-            type="text"
-            class="form-control"
-            id="ticket_id"
-            placeholder="ID Ticket"
-            v-model="ticket.id"
-            disabled
-          />
+          <input type="text" class="form-control" id="ticket_id" placeholder="ID Ticket" v-model="ticket.id" disabled/>
         </div>
       </div>
 
@@ -235,12 +229,7 @@
           <div class="input-group-prepend mr-2">
             <div class="input-group-text py-1">Email a cliente</div>
           </div>
-          <input
-            class="form-check-input"
-            type="checkbox"
-            v-model="check_send_email"
-            :disabled="!editable ? true : false"
-          />
+          <input class="form-check-input" type="checkbox" v-model="check_send_email" :disabled="!editable ? true : false"/>
         </div>
       </div>
       
@@ -250,12 +239,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text py-1">Título</div>
           </div>
-          <input
-            class="form-control"
-            type="text"
-            v-model="ticket.title"
-            :disabled="!editable ? true : false"
-          />
+          <input class="form-control" type="text" v-model="ticket.title" :disabled="!editable ? true : false"/>
         </div>
       </div>
 
@@ -266,36 +250,22 @@
             <div class="input-group-text py-1">Descripción</div>
           </div>
           <ejs-richtexteditor
-            v-if="editable"
             ref="test"
             :height="400"
             :quickToolbarSettings="quickToolbarSettings"
             :toolbarSettings="toolbarSettings"
             v-model="ticket.description"
           ></ejs-richtexteditor>
-          <div
-            v-else
-            class="border w-100 p-3"
-            v-html="ticket.description"
-          ></div>
         </div>
       </div>
 
       <div class="col-12 mt-3" v-if="editable">
-        <input
-          class="form-control w-100"
-          type="file"
-          @change="uploadFile"
-          multiple
-        />
+        <input class="form-control w-100" type="file" @change="uploadFile" multiple/>
         <sub>(max. 25MB)</sub>
       </div>
 
       <div class="col-12 mt-3" v-if="editable">
-        <button
-          class="btn btn-sm btn-primary btn-block"
-          :disabled="sending ? true : false"
-        >
+        <button class="btn btn-sm btn-primary btn-block" :disabled="sending ? true : false" >
           {{ buttonText }}
         </button>
       </div>
@@ -330,6 +300,7 @@ export default {
   ],
   data() {
     return {
+      ticketEdit:{},  // fix csrf token missmatch...
       warranties: [],
       statuses: [],
       files: [],
@@ -403,6 +374,11 @@ export default {
       },
     };
   },
+  computed: {
+    csrf() {
+      return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    },
+  },
   mounted() {
     if (this.type === "annonymous") {
       this.department_types = [this.ticket.department_type];
@@ -428,14 +404,6 @@ export default {
     }
   },
   methods: {
-    // get_all_waranties() {
-    //   axios
-    //     .get("/api/get_all_warranties")
-    //     .then((res) => {
-    //       this.warranties = res.data.warranties;
-    //     })
-    //     .catch((err) => console.log(err.response.data));
-    // },
     closeAll() {
       this.success.status = false;
       this.error.status = false;
@@ -510,57 +478,94 @@ export default {
 
         formData.append("send_email", this.send_email);
 
-        axios
-          .post(`/api/ticket`, formData)
-          .then((res) => {
-            this.sending = false;
-            $("html, body").animate({ scrollTop: 0 }, "slow");
+        axios.post(`/api/ticket`, formData).then((res) => {
+          this.sending = false;
+          $("html, body").animate({ scrollTop: 0 }, "slow");
+          this.success = {
+            status: true,
+            msg: res.data.msg,
+          };
+          setTimeout(() => {
             this.success = {
-              status: true,
-              msg: res.data.msg,
+              status: false,
+              msg: "",
             };
-            setTimeout(() => {
-              this.success = {
-                status: false,
-                msg: "",
-              };
-              this.$emit("success");
-            }, 2000);
-          })
-          .catch((err) => {
-            this.sending = false;
-            $("html, body").animate({ scrollTop: 0 }, "slow");
-            console.log(err.response.data);
-            this.error = {
-              status: true,
-              errors: err.response.data.errors,
-            };
-          });
-      } else {
-        this.ticket.ticketType_id = this.ticketType.id;
-        axios
-          .put(`/api/ticket/${this.ticket.id}`, this.ticket)
-          .then((res) => {
-            $("html, body").animate({ scrollTop: 0 }, "slow");
+            this.$emit("success");
+          }, 2000);
+        })
+        .catch((err) => {
+          this.sending = false;
+          $("html, body").animate({ scrollTop: 0 }, "slow");
+          console.log(err.response.data);
+          this.error = {
+            status: true,
+            errors: err.response.data.errors,
+          };
+        });
+      } 
+      else {
+        // Por alguna razón, si enviamos this.ticket por POST tira un error de csrf token missmatch
+        // Por tanto asignamos cada campo de forma manual a this.ticketEdit y enviamos this.ticketEdit.
+        this.ticketEdit.ticket_type_id = this.ticketType.id;
+        this.ticketEdit.agent = this.ticket.agent;
+        this.ticketEdit.agent_id = this.ticket.agent_id;
+        this.ticketEdit.created_at = this.ticket.created_at;
+        this.ticketEdit.created_by = this.ticket.created_by;
+        this.ticketEdit.created_by_user = this.ticket.created_by_user;
+        this.ticketEdit.custom_id = this.ticket.custom_id;
+        this.ticketEdit.customer = this.ticket.customer;
+        this.ticketEdit.customer_id = this.ticket.customer_id;
+        this.ticketEdit.deleted_at = this.ticket.deleted_at;
+        this.ticketEdit.deleted_by = this.ticket.deleted_by;
+        this.ticketEdit.department_type = this.ticket.department_type;
+        this.ticketEdit.department_type_id = this.ticket.department_type_id;
+        this.ticketEdit.description = this.ticket.description;
+        this.ticketEdit.description_short = this.ticket.description_short;
+        this.ticketEdit.expires_in = this.ticket.expires_in;
+        this.ticketEdit.id = this.ticket.id;
+        this.ticketEdit.invoiceable_type = this.ticket.invoiceable_type;
+        this.ticketEdit.invoiceable_type_id = this.ticket.invoiceable_type_id;
+        this.ticketEdit.is_signed = this.ticket.is_signed;
+        this.ticketEdit.origin_type = this.ticket.origin_type;
+        this.ticketEdit.origin_type_id = this.ticket.origin_type_id;
+        this.ticketEdit.priority = this.ticket.priority;
+        this.ticketEdit.priority_id = this.ticket.priority_id;
+        this.ticketEdit.read_by_admin = this.ticket.read_by_admin;
+        this.ticketEdit.signature = this.ticket.signature;
+        this.ticketEdit.ticketType_id = this.ticket.ticketType_id;
+        this.ticketEdit.ticket_status = this.ticket.ticket_status;
+        this.ticketEdit.ticket_status_id = this.ticket.ticket_status_id;
+        this.ticketEdit.ticket_timeslots = this.ticket.ticket_timeslots;
+        this.ticketEdit.ticket_type = this.ticket.ticket_type;
+        this.ticketEdit.ticket_type_id = this.ticket.ticket_type_id;
+        this.ticketEdit.ticketType_id = this.ticket.ticketType_id;
+        this.ticketEdit.title = this.ticket.title;
+        this.ticketEdit.updated_at = this.ticket.updated_at;
+        this.ticketEdit.user = this.ticket.user;
+        this.ticketEdit.user_id = this.ticket.user_id;
+        this.ticketEdit.warranty_id = this.ticket.warranty_id;
+
+        axios.put(`/api/ticket/${this.ticketEdit.id}`, this.ticketEdit).then((res) => {
+          $("html, body").animate({ scrollTop: 0 }, "slow");
+          this.success = {
+            status: true,
+            msg: res.data.msg,
+          };
+          setTimeout(() => {
             this.success = {
-              status: true,
-              msg: res.data.msg,
+              status: false,
+              msg: "",
             };
-            setTimeout(() => {
-              this.success = {
-                status: false,
-                msg: "",
-              };
-              this.$emit("success");
-            }, 2000);
-          })
-          .catch((err) => {
-            $("html, body").animate({ scrollTop: 0 }, "slow");
-            this.error = {
-              status: true,
-              errors: err.response.data.errors,
-            };
-          });
+            this.$emit("success");
+          }, 2000);
+        })
+        .catch((err) => {
+          $("html, body").animate({ scrollTop: 0 }, "slow");
+          this.error = {
+            status: true,
+            errors: err.response.data.errors,
+          };
+        });
       }
     },
     setAgent(value) {

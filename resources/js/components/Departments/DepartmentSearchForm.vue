@@ -3,18 +3,13 @@
     <div class="card w-100 shadow border-dark">
       <div class="card-body">
         <form @submit.prevent="handleSubmit" class="form-inline">
+          
           <div class="col-12 col-md-6 col-lg-4 mt-2">
-            <label class="sr-only" for="name">Nombre</label>
             <div class="input-group">
               <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block">Nombre</div>
+                <div class="input-group-text">Nombre</div>
               </div>
-              <input
-                type="text"
-                class="form-control"
-                id="name"
-                v-model="search.name"
-              />
+              <input type="text" class="form-control" id="name" v-model="search.name"/>
             </div>
           </div>
 

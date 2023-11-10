@@ -10,54 +10,30 @@
           />
 
           <div class="col-12 col-md-6 col-lg-4 mt-2">
-            <label class="sr-only" for="name">Nombre</label>
             <div class="input-group">
               <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block">Nombre</div>
-                <div class="input-group-text d-block d-lg-none">
-                  <i class="fa fa-hashtag"></i>
-                </div>
+                <div class="input-group-text py-1">Nombre</div>
               </div>
-              <input
-                type="text"
-                class="form-control"
-                id="name"
-                placeholder="Nombre a buscar"
-                v-model="search.name"
-              />
+              <input type="text" class="form-control" id="name" v-model="search.name"/>
             </div>
           </div>
 
           <div class="col-12 col-md-6 col-lg-4 mt-2">
-            <label class="sr-only" for="email">Email</label>
             <div class="input-group">
               <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block">Email</div>
-                <div class="input-group-text d-block d-lg-none">
-                  <i class="fa fa-hashtag"></i>
-                </div>
+                <div class="input-group-text py-1">Email</div>
               </div>
-              <input
-                type="text"
-                class="form-control"
-                id="email"
-                placeholder="Dirección de correo electrónico a buscar"
-                v-model="search.email"
-              />
+              <input type="text" class="form-control" id="email" v-model="search.email"/>
             </div>
           </div>
 
           <div class="col-12 col-md-6 col-lg-4 mt-2">
-            <label class="sr-only" for="ticket_id">Roles</label>
             <div class="input-group">
               <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block py-1">Roles</div>
-                <div class="input-group-text d-block d-lg-none py-1">
-                  <i class="fa fa-hashtag"></i>
-                </div>
+                <div class="input-group-text py-1">Roles</div>
               </div>
               <vue-select
-                class="col-10 col-lg-8 col-xl-9 px-0"
+                class="col-8 px-0"
                 transition="vs__fade"
                 label="name"
                 itemid="id"
@@ -73,13 +49,9 @@
           </div>
 
           <div class="col-12 col-md-6 col-lg-4 mt-2">
-            <label class="sr-only" for="is_active">Activo</label>
             <div class="input-group">
               <div class="input-group-prepend">
-                <div class="input-group-text d-none d-lg-block">Activo</div>
-                <div class="input-group-text d-block d-lg-none">
-                  <i class="fa fa-hashtag"></i>
-                </div>
+                <div class="input-group-text py-1">Activo</div>
               </div>
               <select v-model="search.is_active" class="form-control">
                 <option value="">Todos</option>

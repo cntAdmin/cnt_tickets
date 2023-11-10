@@ -23,20 +23,13 @@
         @close="error.status = false"
       ></form-errors>
     </div>
-    <div
-      :class="cardTemplate ? 'col-12 mt-2' : 'col-12 col-md-6 col-lg-3 mt-2'"
-      v-if="userRole === 1"
-    >
-      <label class="sr-only" for="customer">Cliente</label>
+    <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="userRole === 1">
       <div class="input-group">
         <div class="input-group-prepend">
-          <div class="input-group-text d-none d-lg-block py-1">Cliente</div>
-          <div class="input-group-text d-block d-lg-none py-1">
-            <i class="fa fa-text"></i>
-          </div>
+          <div class="input-group-text py-1">Cliente</div>
         </div>
         <vue-select
-          class="col-10 col-lg-8 col-xl-9 px-0"
+          class="col-8 px-0"
           transition="vs__fade"
           label="name"
           itemid="id"
@@ -52,128 +45,68 @@
         </vue-select>
       </div>
     </div>
-    <div
-      :class="cardTemplate ? 'col-12 mt-2' : 'col-12 col-md-6 col-lg-3 mt-2'"
-      v-if="userRole === 1"
-    >
-      <label class="sr-only" for="name">Rol</label>
+
+    <div  class="col-12 col-md-6 col-lg-4 mt-2" v-if="userRole === 1">
       <div class="input-group">
         <div class="input-group-prepend">
-          <div class="input-group-text d-none d-lg-block py-1">Rol</div>
-          <div class="input-group-text d-block d-lg-none py-1">
-            <i class="fa fa-user"></i>
-          </div>
+          <div class="input-group-text py-1">Rol</div>
         </div>
-        <select
-          v-model="user.role_id"
-          class="form-control"
-          @change="type === 'new' ? user_role() : null"
-        >
+        <select v-model="user.role_id" class="form-control" @change="type === 'new' ? user_role() : null">
           <option :value="role.id" v-for="role in roles" :key="role.id">
             {{ role.name }}
           </option>
         </select>
       </div>
     </div>
-    <div
-      :class="cardTemplate ? 'col-12 mt-2' : 'col-12 col-md-6 col-lg-3 mt-2'"
-      v-if="Object.keys(user.roles).length > 0 && user.roles[0].id == 2"
-    >
-      <label class="sr-only" for="name">Departamento</label>
+
+    <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="Object.keys(user.roles).length > 0 && user.roles[0].id == 2">
       <div class="input-group">
         <div class="input-group-prepend">
-          <div class="input-group-text d-none d-lg-block py-1">
+          <div class="input-group-text py-1">
             Departamento
-          </div>
-          <div class="input-group-text d-block d-lg-none py-1">
-            <i class="fa fa-door-open"></i><span class="ml-2">Dep</span>
           </div>
         </div>
         <select v-model="user.department_id" class="form-control">
-          <option
-            v-for="department in departments"
-            :value="department.id"
-            :key="department.id"
-          >
+          <option v-for="department in departments" :value="department.id" :key="department.id">
             {{ department.name }} - {{ department.code }}
           </option>
         </select>
       </div>
     </div>
-    <div
-      :class="cardTemplate ? 'col-12 mt-2' : 'col-12 col-md-6 col-lg-3 mt-2'"
-    >
-      <label class="sr-only" for="name">Nombre</label>
+
+    <div class="col-12 col-md-6 col-lg-4 mt-2">
       <div class="input-group">
         <div class="input-group-prepend">
-          <div class="input-group-text d-none d-lg-block py-1">Nombre</div>
-          <div class="input-group-text d-block d-lg-none py-1">
-            <i class="fa fa-text"></i>
-          </div>
+          <div class="input-group-text py-1">Nombre</div>
         </div>
-        <input
-          type="text"
-          v-model="user.name"
-          class="form-control"
-          autocomplete="name"
-        />
+        <input type="text" v-model="user.name" class="form-control" autocomplete="name"/>
       </div>
     </div>
-    <div
-      :class="cardTemplate ? 'col-12 mt-2' : 'col-12 col-md-6 col-lg-3 mt-2'"
-    >
-      <label class="sr-only" for="name">Usuario</label>
+
+    <div class="col-12 col-md-6 col-lg-4 mt-2">
       <div class="input-group">
         <div class="input-group-prepend">
-          <div class="input-group-text d-none d-lg-block py-1">Usuario</div>
-          <div class="input-group-text d-block d-lg-none py-1">
-            <i class="fa fa-user"></i>
-          </div>
+          <div class="input-group-text py-1">Usuario</div>
         </div>
-        <input
-          type="text"
-          v-model="user.username"
-          class="form-control"
-          autocomplete="username"
-        />
+        <input type="text" v-model="user.username" class="form-control" autocomplete="username"/>
       </div>
     </div>
-    <div
-      :class="cardTemplate ? 'col-12 mt-2' : 'col-12 col-md-6 col-lg-3 mt-2'"
-    >
-      <label class="sr-only" for="name">Email</label>
+
+    <div class="col-12 col-md-6 col-lg-4 mt-2">
       <div class="input-group">
         <div class="input-group-prepend">
-          <div class="input-group-text d-none d-lg-block py-1">Email</div>
-          <div class="input-group-text d-block d-lg-none py-1">
-            <i class="fa fa-at"></i>
-          </div>
+          <div class="input-group-text py-1">Email</div>
         </div>
-        <input
-          type="email"
-          v-model="user.email"
-          class="form-control"
-          autocomplete="email"
-        />
+        <input type="email" v-model="user.email" class="form-control" autocomplete="email"/>
       </div>
     </div>
-    <div
-      :class="cardTemplate ? 'col-12 mt-2' : 'col-12 col-md-6 col-lg-3 mt-2'"
-    >
-      <label class="sr-only" for="name">Contraseña</label>
+
+    <div class="col-12 col-md-6 col-lg-4 mt-2">
       <div class="input-group">
         <div class="input-group-prepend">
-          <div class="input-group-text d-none d-lg-block py-1">Contraseña</div>
-          <div class="input-group-text d-block d-lg-none py-1">
-            <i class="fa fa-lock"></i>
-          </div>
+          <div class="input-group-text py-1">Contraseña</div>
         </div>
-        <input
-          :type="passwordType ? 'password' : 'text'"
-          v-model="user.password"
-          class="form-control"
-          autocomplete="new-password"
-        />
+        <input :type="passwordType ? 'password' : 'text'" v-model="user.password" class="form-control" autocomplete="new-password"/>
         <button
           type="button"
           class="btn btn-sm btn-link text-dark"
@@ -183,24 +116,13 @@
         </button>
       </div>
     </div>
-    <div
-      :class="cardTemplate ? 'col-12 mt-2' : 'col-12 col-md-6 col-lg-3 mt-2'"
-    >
-      <label class="sr-only" for="name">Confirmar</label>
+
+    <div  class="col-12 col-md-6 col-lg-4 mt-2">
       <div class="input-group">
         <div class="input-group-prepend">
-          <div class="input-group-text d-none d-lg-block py-1">Confirmar</div>
-          <div class="input-group-text d-block d-lg-none py-1">
-            <i class="fa fa-lock"></i>
-            <i class="fa fa-redo-alt"></i>
-          </div>
+          <div class="input-group-text py-1">Confirmar</div>
         </div>
-        <input
-          :type="passwordConfirmationType ? 'password' : 'text'"
-          v-model="user.password_confirmation"
-          class="form-control"
-          autocomplete="new-password"
-        />
+        <input :type="passwordConfirmationType ? 'password' : 'text'" v-model="user.password_confirmation" class="form-control" autocomplete="new-password"/>
         <button
           type="button"
           class="btn btn-sm btn-link text-dark"
@@ -210,16 +132,11 @@
         </button>
       </div>
     </div>
-    <div
-      :class="cardTemplate ? 'col-12 mt-2' : 'col-12 col-md-6 col-lg-3 mt-2'"
-    >
-      <label class="sr-only" for="name">Activo</label>
+
+    <div class="col-12 col-md-6 col-lg-4 mt-2">
       <div class="input-group">
         <div class="input-group-prepend">
-          <div class="input-group-text d-none d-lg-block py-1">Activo</div>
-          <div class="input-group-text d-block d-lg-none py-1">
-            <i class="fa fa-user"></i> - <i class="fa fa-user-slash"></i>
-          </div>
+          <div class="input-group-text py-1">Activo</div>
         </div>
         <select v-model="user.is_active" class="form-control">
           <option value="1">Activo</option>

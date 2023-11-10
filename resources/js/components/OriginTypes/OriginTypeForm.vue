@@ -25,13 +25,9 @@
 
     <form @submit.prevent="handleSubmit" class="form-inline">
       <div class="col-12 col-md-6 col-lg-4 mt-2">
-        <label class="sr-only" for="name">Nombre</label>
         <div class="input-group">
           <div class="input-group-prepend">
-            <div class="input-group-text d-none d-lg-block py-1">Nombre</div>
-            <div class="input-group-text d-block d-lg-none py-1">
-              <i class="fa fa-hashtag"></i>
-            </div>
+            <div class="input-group-text py-1">Nombre</div>
           </div>
           <input type="text" v-model="originType.name" class="form-control" />
         </div>
