@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TicketStatus extends Model
@@ -12,11 +12,6 @@ class TicketStatus extends Model
         'name', 'color', 'icon'
     ];
 
-    /**
-     * Get all of the tickets for the TicketStatus
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class, 'ticket_status_id', 'id');

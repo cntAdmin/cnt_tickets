@@ -11,11 +11,6 @@ class TicketType extends Model
         'name'
     ];
 
-    /**
-     * Get all of the tickets for the TicketType
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class, 'ticket_type_id', 'id');

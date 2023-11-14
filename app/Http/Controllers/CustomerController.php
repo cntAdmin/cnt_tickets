@@ -48,7 +48,6 @@ class CustomerController extends Controller
             'town' => $validated['town'],
             'postcode' => $validated['postcode'],
             'phone' => $validated['phone'],
-            // 'fax' => $validated['fax'],
             'is_active' => $validated['is_active'],
         ]);
 
@@ -78,7 +77,6 @@ class CustomerController extends Controller
             'town' => $validated['town'],
             'postcode' => $validated['postcode'],
             'phone' => $validated['phone'],
-            // 'fax' => $validated['fax'],
             'is_active' => $validated['is_active'],
         ]);
 

@@ -12,11 +12,6 @@ class OriginType extends Model
         'name'
     ];
     
-    /**
-     * Get all of the tickets for the OriginType
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class, 'origin_type_id', 'id');

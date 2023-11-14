@@ -24,15 +24,6 @@ class Department extends Model
 
     public function scopeFilterDepartments(Builder $builder): Builder
     {
-        // return $builder->when(request()->input('name'), function(Builder $q, $name) {
-        //         $q->where('name', 'LIKE', '%' . $name . '%');
-        //     })->when(request()->input('code'), function(Builder $q, $code) {
-        //         $q->where('code', 'LIKE', '%' . $code . '%');
-        //     })->when(request()->input('agent_id'), function(Builder $q, $agent_id) {
-        //         $q->whereHas('agents', function(Builder $q) use ($agent_id) {
-        //             $q->where('id', $agent_id);
-        //         });
-        //     });
         return $builder->when(request()->input('name'), function(Builder $q, $name) {
             $q->where('name', 'LIKE', '%' . $name . '%');
         });

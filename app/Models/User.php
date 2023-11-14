@@ -50,23 +50,6 @@ class User extends Authenticatable
 
     public function scopeFilterUsers(Builder $builder): Builder
     {
-        // return $builder->when(request()->input('customer_id'), function(Builder $q, $customer_id) {
-        //         $q->where('customer_id', $customer_id);
-        //     })->when(request()->input('department_id'), function(Builder $q, $department_id) {
-        //         $q->where('department_id', $department_id);
-        //     })->when(request()->input('name'), function(Builder $q, $name) {
-        //         $q->where('name', 'LIKE', '%' . $name . '%');
-        //     })->when(request()->input('username'), function(Builder $q, $username) {
-        //         $q->where('username', 'LIKE', '%' . $username . '%');
-        //     })->when(request()->input('email'), function(Builder $q, $email) {
-        //         $q->where('email', 'LIKE', '%' . $email . '%');
-        //     })->when(request()->input('is_active'), function(Builder $q, $is_active) {
-        //         $q->where('is_active', $is_active == 1 ? true : false);
-        //     })->when(request()->input('role_id'), function(Builder $q, $role_id) {
-        //         $q->whereHas('roles', function(Builder $q2) use ($role_id) {
-        //             $q2->where('roles.id', $role_id);
-        //         });
-        //     });
         return $builder->when(request()->input('customer_id'), function(Builder $q, $customer_id) {
                 $q->where('customer_id', $customer_id);
             })->when(request()->input('name'), function(Builder $q, $name) {

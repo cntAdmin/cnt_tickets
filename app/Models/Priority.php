@@ -11,11 +11,6 @@ class Priority extends Model
         'name'
     ];
     
-    /**
-     * Get all of the tickets for the Priority
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class, 'priority_id', 'id');

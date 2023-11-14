@@ -35,6 +35,7 @@ Route::middleware(['auth:web'])->group(function () {
     
     Route::get('/get_user', 'UserController@get_user')->name('get_user');
     Route::put('/ticket/{ticket}/ticket-status/{ticketStatus}', 'TicketStatusController@change_status')->name('change_status');
+    Route::put('/ticket/{ticket}/ticket-invoiceable-type/{ticketInvoiceableType}', 'InvoiceableTypeController@change_invoiceable_type')->name('change_invoiceable_type');
 
     
     Route::get('/customer/{customer}/user', 'UserController@get_customer_users')->name('get_customer_users');
@@ -57,4 +58,5 @@ Route::middleware(['auth:web'])->group(function () {
         'ticket-timeslot' => TicketTimeslotController::class,
         'user' => UserController::class
     ]);
+    Route::get('/descargar_parte_trabajo/{ticket}','TicketController@descargar_parte_trabajo');
 });

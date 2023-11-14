@@ -2,19 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Attachment;
 use App\Models\Ticket;
+use App\Models\Attachment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class AttachmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $req)
     {
         if(!$req->ajax()) {
@@ -27,22 +22,11 @@ class AttachmentController extends Controller
         ], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('attachments.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $req)
     {
         // Validating incoming data
@@ -74,12 +58,6 @@ class AttachmentController extends Controller
             : response()->json(['msg' => __('No se ha podido guardar el fichero correctamente.') ], 400);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Attachment  $attachment
-     * @return \Illuminate\Http\Response
-     */
     public function show(Attachment $attachment)
     {
         return response()->json([
@@ -87,12 +65,6 @@ class AttachmentController extends Controller
         ], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Attachment  $attachment
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Attachment $attachment)
     {
         return response()->json([
@@ -100,13 +72,6 @@ class AttachmentController extends Controller
         ], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Attachment  $attachment
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $req, Attachment $attachment)
     {
         // Validating incoming data
@@ -133,18 +98,10 @@ class AttachmentController extends Controller
             : response()->json(['msg' => __('No se ha podido guardar el fichero, por favor, contacte con el administrador.') ], 400);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Attachment  $attachment
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Attachment $attachment)
     {
-        // if(auth()->user()->can('destroy', Attachment::class)) {
-            Storage::delete($attachment->path);
-            $delete = $attachment->delete();
-        // }
+        Storage::delete($attachment->path);
+        $delete = $attachment->delete();
 
         return $delete
             ? response()->json(['msg' => 'Fichero eliminado correctamente.'], 200)

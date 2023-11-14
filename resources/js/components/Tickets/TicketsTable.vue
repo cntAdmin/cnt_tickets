@@ -30,7 +30,7 @@
         <table class="table table-striped text-center">
           <thead class="thead-dark">
             <tr>
-              <th scope="col"># ID</th>
+              <!-- <th scope="col"># ID</th> -->
               <th scope="col">Agente</th>
               <th scope="col">Cliente</th>
               <th scope="col">Titulo</th>
@@ -43,10 +43,10 @@
           </thead>
           <tbody>
             <tr v-for="ticket in tickets.data" :key="ticket.id">
-              <th scope="row">
+              <!-- <th scope="row">
                 <a :href="`/ticket/${ticket.id}`" class="btn btn-sm btn-link text-dark font-weight-bold">{{ ticket.id }}</a>
-              </th>
-              <td>{{ ticket.agent !== null ? ticket.agent.name : 'Parte no tiene agente'  }}</td>
+              </th> -->
+              <td>{{ ticket.agent !== null ? ticket.agent.name : 'Los partes no tienen agente'  }}</td>
               <td>{{ ticket.customer ? ticket.customer.name : "" }}</td>
               <td>{{ ticket.title }}</td>
               <td>{{ ticket.ticket_type.name }}</td>
@@ -82,6 +82,9 @@
                     <!-- FACTURADO  -->
                     <i class="fas fa-euro-sign" v-if="ticket.invoiceable_type_id === 3"></i>
                   </span>
+                  <span class="btn btn-sm btn-link" title="Descargar PDF" v-if="ticket.ticket_type_id == 2 && ticket.is_signed" @click="descargarParte(ticket)">
+                    <i class="text-danger fas fa-file-pdf"></i>
+                  </span>
                 </div>
               </td>
               <td>
@@ -99,16 +102,16 @@
                   </a>
 
                   <!-- BOTON EDITAR TICKET -->
-                  <a v-if="permissions.find((permission) => permission.name == 'ticket.update') && ticket.is_signed === 0"
+                  <a 
+                    v-if="permissions.find((permission) => permission.name == 'ticket.update') && ticket.is_signed === 0 && ticket.invoiceable_type_id !== 3"
                     class="btn btn-sm btn-info text-white"
                     title="Editar Ticket"
                     :href="`/ticket/${ticket.id}/editar`"
                   >
                     <i class="fa fa-edit"></i>
                   </a>
-
                   <button
-                    v-if="ticket.is_signed === 1"
+                    v-else-if="ticket.is_signed === 1 && ticket.invoiceable_type_id !== 3"
                     type="button"
                     class="btn btn-sm btn-info text-white"
                     title="Editar Ticket Cerrado"
@@ -118,12 +121,20 @@
                   >
                     <i class="fa fa-edit"></i>
                   </button>
-
+                  <button
+                    v-else-if="ticket.invoiceable_type_id === 3"
+                    type="button"
+                    class="btn btn-sm btn-info text-white"
+                    title="Ticket Facturado. No se puede editar"
+                    disabled
+                  >
+                    <i class="fa fa-edit"></i>
+                  </button>
                   <!-- BOTON ACTUALIZAR ESTADO DE TICKET -->
                   <button v-if="permissions.find((permission) => permission.name == 'ticket.update')"
                     type="button"
                     class="btn btn-sm btn-secondary text-white dropdown-toggle"
-                    title="Editar Ticket"
+                    title="Editar Estado"
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
@@ -131,13 +142,20 @@
                     <i class="fa fa-question-circle"></i>
                   </button>
                   <div class="dropdown-menu dropdown-menu-right">
-                    <button
+                    <button 
                       class="dropdown-item"
                       @click="changeStatus(ticket.id, ticket_status.id)"
                       v-for="ticket_status in ticket_statuses"
                       :key="ticket_status.id"
                     >
                       {{ ticket_status.name }}
+                    </button>
+                    <button
+                      v-if="ticket.invoiceable_type_id == 2"
+                      class="dropdown-item"
+                      @click="changeStatusFacturado(ticket.id, 3)"
+                    >
+                      Facturar ticket
                     </button>
                   </div>
                   <button v-if="permissions.find((permission) => permission.name == 'ticket.destroy')"
@@ -223,6 +241,17 @@ export default {
     },
     changeStatus(ticket_id, ticket_status_id) {
       axios.put(`/api/ticket/${ticket_id}/ticket-status/${ticket_status_id}`).then((res) => {
+        this.success = {
+          status: true,
+          msg: res.data.msg,
+        };
+        setTimeout(() => {
+          this.$emit("page");
+        }, 1500);
+      });
+    },
+    changeStatusFacturado(ticket_id, ticket_invoiceable_type_id) {
+      axios.put(`/api/ticket/${ticket_id}/ticket-invoiceable-type/${ticket_invoiceable_type_id}`).then((res) => {
         this.success = {
           status: true,
           msg: res.data.msg,
@@ -320,7 +349,22 @@ export default {
       if(rhours === 0 && rminutes === 0){
         return "00:00:00";
       }
-    }
+    },
+    descargarParte(ticket)
+    {
+      // console.log(ticket);
+      // axios.get("/api/descargar_parte_trabajo/" + ticket.id).then( res => {
+      axios.get("/api/descargar_parte_trabajo/" + ticket.id, {responseType: 'blob'}).then(res => {
+        window.open(URL.createObjectURL(res.data))
+      }).catch(err => {
+          console.log(err);
+      });
+      // axios.get("/descargar_parte_trabajo/" + ticket.id, {responseType: 'blob'}).then(res => {
+      //   window.open(URL.createObjectURL(res.data))
+      // }).catch((err) => {
+      //   console.log(err);
+      // });
+    },
   },
 };
 </script>

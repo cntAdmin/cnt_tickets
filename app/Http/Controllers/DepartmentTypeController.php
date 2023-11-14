@@ -11,11 +11,6 @@ use Illuminate\View\View;
 
 class DepartmentTypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $req)
     {
         if(!$req->ajax()) {
@@ -28,22 +23,11 @@ class DepartmentTypeController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('department_types.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(DepartmentTypeRequest $request): JsonResponse
     {
         $validated = $request->validated();
@@ -59,35 +43,11 @@ class DepartmentTypeController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\DepartmentType  $departmentType
-     * @return \Illuminate\Http\Response
-     */
-    public function show(DepartmentType $departmentType)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\DepartmentType  $departmentType
-     * @return \Illuminate\Http\Response
-     */
     public function edit(DepartmentType $departmentType): View
     {
         return view('department_types.edit')->with([ 'department_type' => $departmentType]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\DepartmentType  $departmentType
-     * @return \Illuminate\Http\Response
-     */
     public function update(DepartmentTypeRequest $request, DepartmentType $departmentType): JsonResponse
     {
         $validated = $request->validated();
@@ -102,17 +62,9 @@ class DepartmentTypeController extends Controller
         return response()->json([ "msg" => "Servicio actualizado correctamente"]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\DepartmentType  $departmentType
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(DepartmentType $departmentType): JsonResponse
     {
-        // if(auth()->user()->can('destroy', DepartmentType::class)){
-            $deleted = $departmentType->delete();
-        // }
+        $deleted = $departmentType->delete();
 
         return isset($deleted) && $deleted
             ? response()->json([ "msg" => "Servicio eliminado correctamente"], 200)

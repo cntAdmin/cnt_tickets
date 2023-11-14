@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use App\Models\User;
 use App\Models\Ticket;
 use App\Models\Priority;
@@ -267,6 +268,77 @@ class TicketController extends Controller
                     'ticket' => $ticket
                                 ->load(['comments', 'ticket_type', 'agent', 'department_type', 'priority', 'origin_type', 'warranty', 'ticket_status'])
                 ]);
+        }
+    }
+
+    // Utilizado en components/tickets/TicketsTable.vue
+    public function descargar_parte_trabajo(Ticket $ticket)
+    {
+        $cadena = [];
+        $totalminutes = 0;
+
+        if($ticket->ticket_timeslots()){
+            foreach ($ticket->ticket_timeslots as $timeslot){ 
+                $cadena = explode(":", $timeslot->work_time);
+                $totalminutes = $totalminutes + (intval($cadena[0])*60) + (intval($cadena[1]));
+            }
+        }
+
+        $tiempodetrabajo = $this->time_convert($totalminutes);
+        $filename = 'Parte de trabajo - ' . now()->format('Y-m-d H:i:s');
+
+        $pdf = PDF::loadView('exports.parteDeTrabajo', [
+                'ticket' => $ticket, 
+                'tiempodetrabajo' => $tiempodetrabajo,
+                'ticket_timeslots' => $ticket->ticket_timeslots
+            ])
+            ->setPaper('a4')
+            ->setOptions([
+                'defaultFont' => 'sans-serif',
+                'isRemoteEnabled' => true,
+                'isHtml5ParserEnabled' => true,
+                'isPhpEnabled' => true,
+        ])->save(storage_path() . '/app/public/exports/pdfs/' . $filename);
+
+        $headers = [
+            'Content-Type' => 'application/*',
+        ];
+
+        return $pdf->download($filename, $headers);
+    }
+
+    public function time_convert($timeInMinutes)
+    {
+        $num = $timeInMinutes;
+        $hours = ($num / 60);
+        $rhours = floor($hours);
+        $minutes = ($hours - $rhours) * 60;
+        $rminutes = round($minutes);
+
+        if($rhours > 0 && $rminutes > 0){
+            if($rhours < 10){
+                return "0" . $rhours . ":" . $rminutes;
+            }
+            else{
+                return $rhours . ":" . $rminutes;
+            }
+        }
+        
+        if($rhours > 0 && $rminutes === 0){
+            if($rhours < 10){
+                return "0" . $rhours . ":00";
+            }
+            else{
+                return $rhours . ":00";
+            }
+        }
+
+        if($rhours === 0 && $rminutes > 0){
+            return "00:" . $rminutes;
+        }
+        
+        if($rhours === 0 && $rminutes === 0){
+            return "00:00";
         }
     }
 }
