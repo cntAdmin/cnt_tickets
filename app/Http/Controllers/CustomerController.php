@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use App\Jobs\CustomerFromSiptize;
+// use App\Jobs\CustomerFromSiptize;
+use App\Jobs\CustomerFromDolibarr;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\CustomerRequest;
 
@@ -90,6 +91,7 @@ class CustomerController extends Controller
 
     public function import_siptize_customer()
     {
-        dispatch(new CustomerFromSiptize);
+        // dispatch(new CustomerFromSiptize);
+        dispatch(new CustomerFromDolibarr);
     }
 }

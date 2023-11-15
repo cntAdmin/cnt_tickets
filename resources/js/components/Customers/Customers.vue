@@ -37,7 +37,7 @@
       </button>
       <button v-else class="btn btn-primary text-white shadow-lg mt-1 ml-2"
         @click="import_siptize_customer">
-        <i class="fa fa-tools"></i><span class="ml-2">Importar clientes Siptize</span>
+        <i class="fa fa-tools"></i><span class="ml-2">Importar clientes Dolibarr</span>
       </button>
     </div>
 
