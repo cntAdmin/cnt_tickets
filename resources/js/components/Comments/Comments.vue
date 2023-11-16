@@ -51,7 +51,7 @@
             <span :class="'font-weight-bold order-' + dateOrder(comment)">
               {{ comment.created_at | moment("DD-MM-YYYY HH:mm:ss") }}
             </span>
-            <button
+            <!-- <button
               v-if="userRole && userRole < 3"
               data-toggle="modal"
               data-target="#deleteModal"
@@ -61,7 +61,7 @@
               @click="deleteModal(comment.id)"
             >
               <i class="fa fa-trash-alt"></i>
-            </button>
+            </button> -->
           </div>
         </div>
       </div>

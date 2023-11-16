@@ -63,8 +63,8 @@
     />
 
     <comments :comments="comments" @commentDeleted="getTicketComments" :user-role="userRole" />
-
     <new-comment :ticket="ticket" @submitted="getTicketComments" :user-role="userRole" />
+    <ticket-sign v-if="ticket.ticket_type.id === 2 && !ticket.is_signed" :ticket="ticket" @submitted="getTicketComments" :user-role="userRole"/>
   </div>
 </template>
 
@@ -76,9 +76,10 @@ import TicketForm from "./TicketForm.vue";
 import WorkReportForm from './WorkReportForm.vue';
 import Spinner from '../Spinner.vue';
 import TicketConfirmEditModal from '../TicketConfirmEditModal.vue';
+import TicketSign from './TicketSign.vue';
 
 export default {
-  components: { TicketForm, Attachments, Comments, NewComment, WorkReportForm, Spinner, TicketConfirmEditModal },
+  components: { TicketForm, Attachments, Comments, NewComment, WorkReportForm, Spinner, TicketConfirmEditModal, TicketSign },
   props: ["ticket", "permissions", "userRole", "type"],
   data() {
     return {

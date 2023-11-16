@@ -111,6 +111,16 @@
         </div>
       </div>
 
+      <div class="col-12 col-md-6 col-lg-4 mt-2">
+        <label class="sr-only" for="title">Email a cliente</label>
+        <div class="input-group">
+          <div class="input-group-prepend mr-2">
+            <div class="input-group-text py-1">Email a cliente</div>
+          </div>
+          <input class="form-check-input" type="checkbox" v-model="check_send_email" :disabled="!editable ? true : false"/>
+        </div>
+      </div>
+
       <div class="col-12 mt-2">
         <div class="input-group">
           <div class="input-group-prepend">
@@ -165,6 +175,7 @@
             :quickToolbarSettings="quickToolbarSettings"
             :toolbarSettings="toolbarSettings"
             v-model="ticket.description"
+            :disabled="!editable ? true : false"
           ></ejs-richtexteditor>
         </div>
       </div>
@@ -273,6 +284,8 @@ export default {
           "Redo",
         ],
       },
+      check_send_email: false,
+      send_email: '',
     };
   },
   computed: {
@@ -388,6 +401,12 @@ export default {
           formData.append("description", this.ticket.description);
         if(this.customerSign)
           formData.append("signature", this.customerSign);
+
+        this.check_send_email == true ? 
+            this.send_email = 'si' : 
+            this.send_email = 'no'
+
+        formData.append("send_email", this.send_email);
 
         axios.post(`/api/ticket`, formData).then((res) => {
           $("html, body").animate({ scrollTop: 0 }, "slow");

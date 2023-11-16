@@ -59,4 +59,6 @@ Route::middleware(['auth:web'])->group(function () {
         'user' => UserController::class
     ]);
     Route::get('/descargar_parte_trabajo/{ticket}','TicketController@descargar_parte_trabajo');
+    Route::post('/ticket/firmar_parte', 'TicketController@firmar_parte')->name('firmar_parte');
+
 });

@@ -18,6 +18,7 @@ use App\Http\Requests\TicketRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\TicketSignRequest;
 use App\Http\Requests\AnnonymousTicketRequest;
 
 class TicketController extends Controller
@@ -340,5 +341,27 @@ class TicketController extends Controller
         if($rhours === 0 && $rminutes === 0){
             return "00:00";
         }
+    }
+
+    public function firmar_parte(TicketSignRequest $req)
+    {
+        $image_64 = $req->signature;
+        $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];   // .jpg .png .pdf
+        $replace = substr($image_64, 0, strpos($image_64, ',')+1); 
+        $image = str_replace($replace, '', $image_64); 
+        $image = str_replace(' ', '+', $image); 
+        $imageName = Str::random(32).'.'.$extension;
+        $imageName = 'images/'.$imageName;
+
+        Storage::disk('public')->put($imageName, base64_decode($image));
+
+        $ticket = Ticket::where('id', $req->ticket_id)->first();
+        $ticket->signature = $imageName;
+        $ticket->is_signed = 1;
+        $ticket->update();
+
+        return response()->json([ 
+            'msg' => 'Parte firmado correctamente.',
+        ], 200);
     }
 }
