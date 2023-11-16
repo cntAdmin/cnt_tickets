@@ -39,14 +39,19 @@
             >
               Cancelar
             </button>
-            
-            <a
+            <form @submit.prevent="handleSubmit" class="form-inline" enctype="multipart/form-data">
+              <input type="hidden" name="_token" :value="csrf">
+              <!-- <a
                 class="btn btn-danger"
                 :href="`/ticket/${ticket_id}/editar`"
                 title="Editar"
-            >
-              Continuar
-            </a>
+              >
+                Continuar
+              </a> -->
+              <button class="btn btn-danger">
+                Editar
+              </button>
+            </form>
           </slot>
         </footer>
       </div>
@@ -67,8 +72,23 @@ export default{
       },
     };
   },
+  computed: {
+    csrf() {
+      return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    },
+  },
   mounted() {},
-  methods: {}
+  methods: {
+    handleSubmit() {
+        axios.post('/api/ticket/editar_parte/' + this.ticket_id)
+        .then((res) => {
+          setTimeout(() => {
+            window.location = "/ticket/" + this.ticket_id + '/editar';
+          }, 1000);
+        })
+        .catch((err) => console.log(err.response.data));
+    }
+  }
 };
 
 </script>

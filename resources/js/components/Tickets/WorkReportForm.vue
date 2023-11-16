@@ -159,9 +159,15 @@
       </div>
 
       <div class="col-12 mt-3" v-if="ticket.is_signed && !editable">
-        <h5>Firma</h5>
-        <img :src="`../../storage/${ticket.signature}`" alt="firma">
+        <h5>
+          Fecha firma: <span class="h6">{{ ticket.updated_at | moment('D MMMM YYYY, H:mm:ss') }}</span>
+        </h5>
+        <img :src="`../../storage/${ticket.signature}`" alt="firma" style="border: 1px solid #aaa;">
+        <h5>
+          Ip firma: <span class="h6">{{ ticket.ip_address }}</span>
+        </h5>
         <hr>
+
       </div>
 
       <div class="col-12 mt-2">

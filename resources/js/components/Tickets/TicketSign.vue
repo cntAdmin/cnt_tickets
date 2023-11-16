@@ -43,9 +43,6 @@
                     <slot name="body">
                         <form @submit.prevent="handleSubmit" id="signpicker" class="form-inline w-100">
                             <div class="col-12 mt-2">
-                                <!-- <div class="input-group">
-                                    <div class="input-group-text d-none d-lg-block py-1">Firma Digital</div>
-                                </div> -->
                                 <div class="w-100">
                                     <VueSignaturePad
                                         id="signature"
@@ -140,23 +137,14 @@
                             msg: "",
                         };
                         this.signature = '';
-                        if (this.userRole) {
-                            this.$emit("submitted");
-                        } else {
-                            window.location = `/ticket/comment/${this.ticket.comments[this.ticket.comments.length - 1]._token}`;
-                        }
-                    }, 2000);
+                        window.location = '/ticket';
+                    }, 2500);
                 })
                 .catch((err) => console.log(err.response.data));
-    },
-    // addSignature() {
-    //     // $("#signatureModal").modal("hide");
-    //     this.signature = this.$refs.signaturePad.saveSignature().data;
-    //     this.$emit("firmaEnviadaPorModal", this.signature);
-    // },
-    cleanSign() {
-        this.$refs.signaturePad.clearSignature();
-    },
+        },
+        cleanSign() {
+            this.$refs.signaturePad.clearSignature();
+        },
     },
   };
   </script>

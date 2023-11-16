@@ -352,18 +352,11 @@ export default {
     },
     descargarParte(ticket)
     {
-      // console.log(ticket);
-      // axios.get("/api/descargar_parte_trabajo/" + ticket.id).then( res => {
       axios.get("/api/descargar_parte_trabajo/" + ticket.id, {responseType: 'blob'}).then(res => {
         window.open(URL.createObjectURL(res.data))
       }).catch(err => {
           console.log(err);
       });
-      // axios.get("/descargar_parte_trabajo/" + ticket.id, {responseType: 'blob'}).then(res => {
-      //   window.open(URL.createObjectURL(res.data))
-      // }).catch((err) => {
-      //   console.log(err);
-      // });
     },
   },
 };

@@ -137,6 +137,9 @@ class TicketController extends Controller
             'ticket_status_id' => $validated['ticket_status_id'],
         ]);
 
+        $ticket->ip_address = $req->ip();
+        $ticket->update();
+        
         // asignamos datos al ticket
         $ticket->customer()->associate($validated['customer_id'] ?? NULL);
         $ticket->agent()->associate($validated['agent_id'] ?? NULL);
@@ -358,10 +361,25 @@ class TicketController extends Controller
         $ticket = Ticket::where('id', $req->ticket_id)->first();
         $ticket->signature = $imageName;
         $ticket->is_signed = 1;
+        $ticket->ip_address = $req->ip();
         $ticket->update();
 
         return response()->json([ 
             'msg' => 'Parte firmado correctamente.',
+        ], 200);
+    }
+
+    public function editar_parte(Ticket $ticket)
+    {
+        $ticket->signature = null;
+        $ticket->is_signed = 0;
+        $ticket->ip_address = null;
+        $ticket->update();
+
+        return response()->json([
+            'success' => true, 
+            'msg' => 'Firma eliminada correctamente.',
+            'ticket' => $ticket
         ], 200);
     }
 }
