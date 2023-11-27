@@ -12,6 +12,7 @@ use App\Models\TicketType;
 use Illuminate\Support\Str;
 use App\Models\TicketStatus;
 use Illuminate\Http\Request;
+use App\Models\InvoiceableType;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\TicketRequest;
@@ -357,11 +358,14 @@ class TicketController extends Controller
         $imageName = 'images/'.$imageName;
 
         Storage::disk('public')->put($imageName, base64_decode($image));
-
+        
         $ticket = Ticket::where('id', $req->ticket_id)->first();
+        $ticketInvoiceableType = InvoiceableType::where('id', 2)->first();
+
         $ticket->signature = $imageName;
         $ticket->is_signed = 1;
         $ticket->ip_address = $req->ip();
+        $ticket->invoiceable_type()->associate($ticketInvoiceableType);
         $ticket->update();
 
         return response()->json([ 

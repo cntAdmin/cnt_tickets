@@ -1,10 +1,6 @@
 <template>
-  <div class="flex-row justify-content-center mb-5 pb-5" id="cards-list">
-    <div
-      class="alert alert-success alert-dismissible fade show mt-3"
-      role="alert"
-      v-if="success.status"
-    >
+  <div class="flex-row justify-content-center">
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert" v-if="success.status">
       <span>{{ success.msg }}</span>
       <button
         type="button"
@@ -17,82 +13,132 @@
       </button>
     </div>
 
-    <!-- <div :class="!ticket.read_by_admin? 'card mt-3 shadow border-left border-danger font-weight-bold' : 'card mt-3 shadow'"
-      v-for="ticket in tickets"
-      :key="ticket.id"
-    > -->
     <div class="card mt-3 shadow" v-for="ticket in tickets.data" :key="ticket.id">
-      <!-- {{ ticket }} -->
       <div class="card-header">
-        <h4 class="text-uppercase text-left font-weight-bold">
-          <a :href="`/ticket/${ticket.id}`">{{ ticket.id }}</a>
-        </h4>
-        <span>{{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }}</span>
+        <span>Creado {{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }}</span>
+        <span :class="`float-right text-${ticket.ticket_status.color} ${ticket.ticket_status.color == 'info' ? 'text-white' : ''}`">
+          <i :class="`fas fa-${ticket.ticket_status.icon}`"></i> {{ ticket.ticket_status.name }}
+        </span>
       </div>
       <div class="card-body">
         <p class="text-truncate">{{ ticket.title }}</p>
       </div>
       <div class="card-footer">
-        <div class="d-flex flex-row">
-          <div class="col-8">
-            <div class="row justify-content-center">
-              <span :class="`disabled col-4 btn btn-sm btn-block btn-${ticket.ticket_status.color} ${ticket.ticket_status.color == 'info' ? 'text-white' : ''}`"
-                type="button" :title="ticket.ticket_status.name"
-              >
-                <i :class="`fas fa-${ticket.ticket_status.icon}`"></i>
-              </span>
-              <span class="col-4 btn btn-sm btn-link">
-                <i class="text-secondary fas fa-paperclip"></i
-                ><span class="badge badge-dark ml-2">
-                  {{ Object.keys(ticket.attachments).length }}
-                </span>
-              </span>
+        <div class="form-inline d-flex justify-content-center" v-if="ticket.ticket_type_id === 2">
+          <ticket-confirm-edit-modal v-if="ticketConfirmEditModal && ticket.is_signed === 1" :ticket_id="ticket.id"/>
+
+          <span class="btn btn-sm btn-link">
+            <i class="text-secondary fas fa-paperclip mr-2"></i
+            ><span class="badge badge-dark mr-2">
+              {{ Object.keys(ticket.attachments).length }}
+            </span>Adjuntos
+          </span>
+
+          <a v-if="permissions.find((permission) => permission.name == 'ticket.show')"
+            class="btn btn-sm btn-link" 
+            :href="`/ticket/${ticket.id}`"
+          >
+            <i class="text-success fa fa-eye mr-1"></i>Ver parte
+          </a>
+
+          <!-- Editar parte si no está firmado ni facturado -->
+          <a v-if="permissions.find((permission) => permission.name == 'ticket.update') 
+                  && ticket.is_signed === 0 && ticket.invoiceable_type_id !== 3"
+            class="btn btn-sm btn-link"
+            :href="`/ticket/${ticket.id}/editar`"
+          >
+            <i class="fa fa-edit"></i>Editar
+          </a>
+          <!-- Editar parte si está firmado y no facturado -->
+          <button v-else-if="ticket.is_signed === 1 && ticket.invoiceable_type_id !== 3"
+            type="button"
+            class="btn btn-sm btn-link"
+            data-toggle="modal"
+            data-target="#ticketConfirmEditModal"
+            @click="ticketConfirmEditModal = true"
+          >
+            <i class="fa fa-edit"></i>Editar
+          </button>
+          <!-- No permite editar si ya está facturadoi -->
+          <button v-else-if="ticket.invoiceable_type_id === 3"
+            type="button"
+            class="btn btn-sm btn-link"
+            title="Parte Facturado. No se puede editar"
+            disabled
+          >
+            <i class="fa fa-edit"></i>Editar (Ya facturado)
+          </button>
+
+          <!-- <span v-if="permissions.find((permission) => permission.name == 'ticket.destroy')"
+            class="btn btn-sm btn-link" 
+            data-toggle="modal" data-target=".custom-modal-lg" 
+            @click="openDeleteModal(ticket)"
+          >
+            <i class="text-danger fa fa-trash mr-1"></i>
+            Borrar
+          </span> -->
+
+          <div class="btn-group dropup" v-if="ticket.invoiceable_type_id != 3">
+            <button 
+              type="button" 
+              class="btn btn-sm btn-secondary dropdown-toggle" 
+              data-toggle="dropdown" 
+              aria-haspopup="true" 
+              aria-expanded="false"
+            >
+              Acciones ...
+            </button>
+            <div class="dropdown-menu">
+              <button v-if="ticket.invoiceable_type_id == 1" class="dropdown-item" @click="changeStatusFacturado(ticket.id, 2)">
+                Pasar a facturable
+              </button>
+              <button v-if="ticket.invoiceable_type_id == 2" class="dropdown-item" @click="changeStatusFacturado(ticket.id, 3)">
+                Marcar como facturado
+              </button>
             </div>
           </div>
-          <div class="col-4 px-2 py-0 m-0">
-            <div class="row justify-content-between">
-              <div class="col-6 px-2 py-0">
-                <a :href="`/ticket/${ticket.id}`" class="btn btn-sm btn-success btn-block">
-                  <i class="fa fa-eye"></i>
-                </a>
-              </div>
-              <div class="col-6 px-2 py-0">
-                <div class="dropdown">
-                  <button
-                    class="btn btn-sm btn-primary dropdown-toggle btn-block"
-                    type="button"
-                    id="statuses"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <i class="fa fa-exchange-alt"></i>
-                  </button>
-                  <div
-                    class="dropdown-menu dropdown-menu-right"
-                    aria-labelledby="statuses"
-                  >
-                    <div v-for="status in ticketStatuses" :key="status.id">
-                      <button
-                        type="button"
-                        class="dropdown-item"
-                        @click.prevent="setStatus(ticket, status.id)"
-                      >
-                        {{ status.name }}
-                      </button>
-                    </div>
-                    <button
-                      v-if="ticket.ticket_status.id == 1"
-                      type="button"
-                      title="Cambiar estado"
-                      class="dropdown-item"
-                      @click="openDeleteModal(ticket)"
-                    >
-                      Borrar Ticket
-                    </button>
-                  </div>
-                </div>
-              </div>
+        </div>
+
+        <div class="form-inline d-flex justify-content-center" v-else>
+
+          <span class="btn btn-sm btn-link">
+            <i class="text-secondary fas fa-paperclip mr-2"></i>
+            <span class="badge badge-dark mr-2">{{ Object.keys(ticket.attachments).length }}</span>Adjuntos
+          </span>
+
+          <a v-if="permissions.find((permission) => permission.name == 'ticket.show')" 
+            class="btn btn-sm btn-link" 
+            :href="`/ticket/${ticket.id}`"
+          >
+            <i class="text-success fa fa-eye mr-1"></i>Ver ticket
+          </a>
+
+          <a v-if="permissions.find((permission) => permission.name == 'ticket.update')"
+            class="btn btn-sm btn-link"
+            :href="`/ticket/${ticket.id}/editar`"
+          >
+            <i class="fa fa-edit"></i>Editar
+          </a>
+
+          <div class="btn-group dropup" v-if="ticket.invoiceable_type_id != 3">
+            <button 
+              type="button" 
+              class="btn btn-sm btn-secondary dropdown-toggle" 
+              data-toggle="dropdown" 
+              aria-haspopup="true" 
+              aria-expanded="false"
+            >
+              Acciones ...
+            </button>
+            <div class="dropdown-menu">
+              <button 
+                class="dropdown-item"
+                @click="changeStatus(ticket.id, ticket_status.id)"
+                v-for="ticket_status in ticketStatuses"
+                :key="ticket_status.id"
+              >
+                {{ ticket_status.name }}
+              </button>
             </div>
           </div>
         </div>
@@ -102,8 +148,11 @@
 </template>
 
 <script>
+import TicketConfirmEditModal from '../TicketConfirmEditModal.vue'
+
 export default {
-  props: ["tickets", "formsearch"],
+  components: {TicketConfirmEditModal},
+  props: ["tickets", "permissions", "formsearch"],
   data() {
     return {
       ticketStatuses: [],
@@ -113,6 +162,7 @@ export default {
         status: false,
         msg: "",
       },
+      ticketConfirmEditModal: false,
     };
   },
   mounted() {
@@ -149,8 +199,7 @@ export default {
         });
     },
     setStatus(ticket, status_id) {
-      axios
-        .put(`/api/ticket/${ticket.id}/ticket-status/${status_id}`)
+      axios.put(`/api/ticket/${ticket.id}/ticket-status/${status_id}`)
         .then((res) => {
           $("html, body").animate({ scrollTop: 0 }, "slow");
           this.success = {

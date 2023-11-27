@@ -1,5 +1,5 @@
 <template>
-  <div class="card mx-3 shadow mt-3 border-dark">
+  <div class="card shadow mt-3 border-dark">
     <div class="card-body">
       <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="success.status">
         <span>{{ success.msg }}</span>
@@ -30,7 +30,6 @@
         <table class="table table-striped text-center">
           <thead class="thead-dark">
             <tr>
-              <!-- <th scope="col"># ID</th> -->
               <th scope="col">Agente</th>
               <th scope="col">Cliente</th>
               <th scope="col">Titulo</th>
@@ -43,9 +42,6 @@
           </thead>
           <tbody>
             <tr v-for="ticket in tickets.data" :key="ticket.id">
-              <!-- <th scope="row">
-                <a :href="`/ticket/${ticket.id}`" class="btn btn-sm btn-link text-dark font-weight-bold">{{ ticket.id }}</a>
-              </th> -->
               <td>{{ ticket.agent !== null ? ticket.agent.name : 'Los partes no tienen agente'  }}</td>
               <td>{{ ticket.customer ? ticket.customer.name : "" }}</td>
               <td>{{ ticket.title }}</td>
@@ -88,11 +84,87 @@
                 </div>
               </td>
               <td>
-                <div class="d-flex flex-wrap justify-content-center" style="gap: 0.5rem">
-                  <!-- MODAL EDITAR INCIDENCIA TicketConfirmEditModal.vue -->
+                <div class="d-flex fkex-wrap justify-content-center" style="gap: 0.5rem" v-if="ticket.ticket_type_id === 2">
                   <ticket-confirm-edit-modal v-if="ticketConfirmEditModal && ticket.is_signed === 1" :ticket_id="ticket.id"/>
+                  
+                  <a v-if="permissions.find((permission) => permission.name == 'ticket.show')"
+                    class="btn btn-sm btn-success"
+                    :href="`/ticket/${ticket.id}`"
+                    title="Ver Parte"
+                  >
+                    <i class="fa fa-eye"></i>
+                  </a>
 
-                  <!-- BOTON VER TICKET -->
+                  <!-- Editar parte si no está firmado ni facturado -->
+                  <a v-if="permissions.find((permission) => permission.name == 'ticket.update') && ticket.is_signed === 0 && ticket.invoiceable_type_id !== 3"
+                    class="btn btn-sm btn-info text-white"
+                    title="Editar Parte"
+                    :href="`/ticket/${ticket.id}/editar`"
+                  >
+                    <i class="fa fa-edit"></i>
+                  </a>
+                  <!-- Editar parte si está firmado y no facturado -->
+                  <button v-else-if="ticket.is_signed === 1 && ticket.invoiceable_type_id !== 3"
+                    type="button"
+                    class="btn btn-sm btn-info text-white"
+                    title="Editar Parte Cerrado"
+                    data-toggle="modal"
+                    data-target="#ticketConfirmEditModal"
+                    @click="ticketConfirmEditModal = true"
+                  >
+                    <i class="fa fa-edit"></i>
+                  </button>
+                  <!-- No permite editar si ya está facturadoi -->
+                  <button v-else-if="ticket.invoiceable_type_id === 3"
+                    type="button"
+                    class="btn btn-sm btn-info text-white"
+                    title="Parte Facturado. No se puede editar"
+                    disabled
+                  >
+                    <i class="fa fa-edit"></i>
+                  </button>
+
+                  <button v-if="permissions.find((permission) => permission.name == 'ticket.destroy')"
+                    type="button"
+                    class="btn btn-sm btn-danger"
+                    title="Borrar Ticket"
+                    data-toggle="modal"
+                    data-target="#deleteModal"
+                    @click="deleteModal(ticket)"
+                  >
+                    <i class="fa fa-trash-alt"></i>
+                  </button>
+
+
+                  <button v-if="permissions.find((permission) => permission.name == 'ticket.update')"
+                    type="button"
+                    class="btn btn-sm btn-secondary text-white dropdown-toggle"
+                    title="Editar Estado"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <i class="fa fa-question-circle"></i>
+                  </button>
+                  <div class="dropdown-menu dropdown-menu-right">
+                    <button
+                      v-if="ticket.invoiceable_type_id == 1"
+                      class="dropdown-item"
+                      @click="changeStatusFacturado(ticket.id, 2)"
+                    >
+                      Marcar como facturable
+                    </button>
+                    <button
+                      v-if="ticket.invoiceable_type_id == 2"
+                      class="dropdown-item"
+                      @click="changeStatusFacturado(ticket.id, 3)"
+                    >
+                      Marcar como facturado
+                    </button>
+                  </div>
+                </div>
+
+                <div v-else class="d-flex flex-wrap justify-content-center" style="gap: 0.5rem">
                   <a v-if="permissions.find((permission) => permission.name == 'ticket.show')"
                     class="btn btn-sm btn-success"
                     :href="`/ticket/${ticket.id}`"
@@ -101,36 +173,25 @@
                     <i class="fa fa-eye"></i>
                   </a>
 
-                  <!-- BOTON EDITAR TICKET -->
-                  <a 
-                    v-if="permissions.find((permission) => permission.name == 'ticket.update') && ticket.is_signed === 0 && ticket.invoiceable_type_id !== 3"
+                  <a v-if="permissions.find((permission) => permission.name == 'ticket.update')"
                     class="btn btn-sm btn-info text-white"
                     title="Editar Ticket"
                     :href="`/ticket/${ticket.id}/editar`"
                   >
                     <i class="fa fa-edit"></i>
                   </a>
-                  <button
-                    v-else-if="ticket.is_signed === 1 && ticket.invoiceable_type_id !== 3"
+                  
+                  <button v-if="permissions.find((permission) => permission.name == 'ticket.destroy')"
                     type="button"
-                    class="btn btn-sm btn-info text-white"
-                    title="Editar Ticket Cerrado"
+                    class="btn btn-sm btn-danger"
+                    title="Borrar Ticket"
                     data-toggle="modal"
-                    data-target="#ticketConfirmEditModal"
-                    @click="ticketConfirmEditModal = true"
+                    data-target="#deleteModal"
+                    @click="deleteModal(ticket)"
                   >
-                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-trash-alt"></i>
                   </button>
-                  <button
-                    v-else-if="ticket.invoiceable_type_id === 3"
-                    type="button"
-                    class="btn btn-sm btn-info text-white"
-                    title="Ticket Facturado. No se puede editar"
-                    disabled
-                  >
-                    <i class="fa fa-edit"></i>
-                  </button>
-                  <!-- BOTON ACTUALIZAR ESTADO DE TICKET -->
+
                   <button v-if="permissions.find((permission) => permission.name == 'ticket.update')"
                     type="button"
                     class="btn btn-sm btn-secondary text-white dropdown-toggle"
@@ -150,24 +211,8 @@
                     >
                       {{ ticket_status.name }}
                     </button>
-                    <button
-                      v-if="ticket.invoiceable_type_id == 2"
-                      class="dropdown-item"
-                      @click="changeStatusFacturado(ticket.id, 3)"
-                    >
-                      Facturar ticket
-                    </button>
                   </div>
-                  <button v-if="permissions.find((permission) => permission.name == 'ticket.destroy')"
-                    type="button"
-                    class="btn btn-sm btn-danger"
-                    title="Borrar Ticket"
-                    data-toggle="modal"
-                    data-target="#deleteModal"
-                    @click="deleteModal(ticket)"
-                  >
-                    <i class="fa fa-trash-alt"></i>
-                  </button>
+                  
                 </div>
               </td>
             </tr>

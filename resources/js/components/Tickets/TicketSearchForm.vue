@@ -1,18 +1,14 @@
 <template>
-  <div :class="`row justify-content-center mt-3 ${esmovil != true ? 'mx-3' : ''}`">
-    <div :class="`card shadow border-dark ${esmovil == true ? 'mx-3' : ''}`">
+    <div class="card shadow border-dark mt-2">
       <div class="card-body">
         <form @submit.prevent="handleSubmit" class="form-inline">
           <div class="col-12 col-md-12 col-lg-6 col-xl-6 mt-2">
-            <label class="sr-only" for="ticket_id">Cliente</label>
-            <div class="input-group input-group-sm">
+            <div class="input-group">
               <div class="input-group-prepend">
-                <div class="input-group-text py-1">
-                  Cliente
-                </div>
+                <div class="input-group-text py-1">Cliente</div>
               </div>
               <vue-select
-                class="col-9 px-0"
+                class="col-8 px-0"
                 transition="vs__fade"
                 label="name"
                 itemid="id"
@@ -27,15 +23,12 @@
             </div>
           </div>
           <div class="col-12 col-md-12 col-lg-6 col-xl-6 mt-2" v-if="user.roles[0].id === 1">
-            <label class="sr-only" for="ticket_id">Agente</label>
-            <div class="input-group input-group-sm">
+            <div class="input-group">
               <div class="input-group-prepend">
-                <div class="input-group-text py-1">
-                  Agente
-                </div>
+                <div class="input-group-text py-1">Agente</div>
               </div>
               <vue-select
-                class="col-9 px-0"
+                class="col-8 px-0"
                 transition="vs__fade"
                 label="name"
                 itemid="id"
@@ -50,120 +43,72 @@
             </div>
           </div>
           <div class="col-12 col-md-6 col-lg-4 mt-2">
-            <label class="sr-only" for="text">Titulo / Descripción</label>
-            <div :class="`input-group ${esmovil == true ? 'input-group-sm' : ''}`">
+            <div class="input-group">
               <div class="input-group-prepend">
-                <div class="input-group-text py-1">
-                  Titulo / Descripción
-                </div>
+                <div class="input-group-text py-1">Titulo / Descripción</div>
               </div>
-              <input
-                type="text"
-                class="form-control"
-                id="text"
-                v-model="search.text"
-              />
+              <input type="text" class="form-control" id="text" v-model="search.text"/>
             </div>
           </div>
           <div class="col-12 col-md-6 col-lg-4 mt-2">
-            <label class="sr-only" for="dateFrom">Desde</label>
-            <div :class="`input-group ${esmovil == true ? 'input-group-sm' : ''}`">
+            <div class="input-group">
               <div class="input-group-prepend">
-                <div class="input-group-text py-1">
-                  Desde
-                </div>
+                <div class="input-group-text py-1">Desde</div>
               </div>
-              <input
-                type="date"
-                class="form-control"
-                id="dateFrom"
-                v-model="search.dateFrom"
-              />
+              <input type="date" class="form-control" id="dateFrom" v-model="search.dateFrom"/>
             </div>
           </div>
           <div class="col-12 col-md-6 col-lg-4 mt-2">
-            <label class="sr-only" for="dateTo">Hasta</label>
-            <div :class="`input-group ${esmovil == true ? 'input-group-sm' : ''}`">
+            <div class="input-group">
               <div class="input-group-prepend">
-                <div class="input-group-text py-1">
-                  Hasta
-                </div>
+                <div class="input-group-text py-1">Hasta</div>
               </div>
-              <input
-                type="date"
-                class="form-control"
-                id="dateTo"
-                v-model="search.dateTo"
-              />
+              <input type="date" class="form-control" id="dateTo" v-model="search.dateTo"/>
             </div>
           </div>
           <div class="col-12 col-md-6 col-lg-4 mt-2">
-            <label class="sr-only" for="dateTo">Prioridad</label>
-            <div :class="`input-group ${esmovil == true ? 'input-group-sm' : ''}`">
+            <div class="input-group">
               <div class="input-group-prepend">
-                <div class="input-group-text py-1">
-                  Prioridad
-                </div>
+                <div class="input-group-text py-1">Prioridad</div>
               </div>
               <select v-model="search.priority_id" class="form-control">
                 <option value="" selected>-- TODOS --</option>
-                <option
-                  :value="priority.id"
-                  v-for="priority in priorities"
-                  :key="priority.id"
-                >
+                <option :value="priority.id" v-for="priority in priorities" :key="priority.id">
                   {{ priority.name }}
                 </option>
               </select>
             </div>
           </div>
           <div class="col-12 col-md-6 col-lg-4 mt-2">
-            <label class="sr-only" for="dateTo">Estado</label>
-            <div :class="`input-group ${esmovil == true ? 'input-group-sm' : ''}`">
+            <div class="input-group">
               <div class="input-group-prepend">
-                <div class="input-group-text py-1">
-                  Estado
-                </div>
+                <div class="input-group-text py-1">Estado</div>
               </div>
               <select v-model="search.ticket_status_id" class="form-control">
                 <option value="" selected>-- TODOS --</option>
-                <option
-                  :value="ticket_status.id"
-                  v-for="ticket_status in ticket_statuses"
-                  :key="ticket_status.id"
-                >
+                <option :value="ticket_status.id" v-for="ticket_status in ticket_statuses" :key="ticket_status.id">
                   {{ ticket_status.name }}
                 </option>
               </select>
             </div>
           </div>
           <div class="col-12 col-md-6 col-lg-4 mt-2">
-            <label class="sr-only" for="dateTo">Tipo</label>
-            <div :class="`input-group ${esmovil == true ? 'input-group-sm' : ''}`">
+            <div class="input-group">
               <div class="input-group-prepend">
-                <div class="input-group-text py-1">
-                  Tipo
-                </div>
+                <div class="input-group-text py-1">Tipo</div>
               </div>
               <select v-model="search.ticket_type_id" class="form-control">
                 <option value="" selected>-- TODOS --</option>
-                <option
-                  :value="ticket_type.id"
-                  v-for="ticket_type in ticket_types"
-                  :key="ticket_type.id"
-                >
+                <option :value="ticket_type.id" v-for="ticket_type in ticket_types" :key="ticket_type.id">
                   {{ ticket_type.name }}
                 </option>
               </select>
             </div>
           </div>
           <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="user.roles[0].id === 1">
-            <label class="sr-only" for="dateTo">Asignado a</label>
-            <div :class="`input-group ${esmovil == true ? 'input-group-sm' : ''}`">
+            <div class="input-group">
               <div class="input-group-prepend">
-                <div class="input-group-text py-1">
-                  Asignado a
-                </div>
+                <div class="input-group-text py-1">Asignado a</div>
               </div>
               <select v-model="search.agent_id" class="form-control">
                 <option value="" selected>-- TODOS --</option>
@@ -181,7 +126,6 @@
         </form>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -189,7 +133,7 @@ import CustomersDropdownSelect from "../CustomersDropdownSelect.vue";
 
 export default {
   components: { CustomersDropdownSelect },
-  props: ["esmovil", "page", "ticketDeleted", "user"],
+  props: ["page", "ticketDeleted", "user"],
   data() {
     return {
       agents: [],
@@ -282,34 +226,23 @@ export default {
         }
         this.$emit("mobileSearch", this.search);
 
-        axios
-          .get("/api/ticket", {
-            params: {
-              type: this.$screen.breakpoint == "xs" ? "infinite" : "paginate",
-              page: this.search.page,
-              customer_id: this.search.customer_id,
-              ticket_status_id: this.search.ticket_status_id,
-              ticket_type_id: this.search.ticket_type_id,
-              priority_id: this.search.priority_id,
-              agent_id: this.search.agent_id,
-              ticket_id: this.search.ticket_id,
-              text: this.search.text,
-              dateFrom: this.search.dateFrom,
-              dateTo: this.search.dateTo,
-              offset: this.search.offset,
-            },
-          })
-          .then((res) => {
-            if (res.data.tickets.length == 0) {
-              return (this.stopLoading = true);
-            }
-            //   console.log(res.data);
-            if (this.$screen.breakpoint !== "xs") {
-              this.$emit("searching", false);
-            }
-            this.$emit("searched", res.data.tickets);
-          })
-          .catch((err) => console.log(err));
+        axios.get("/api/ticket", {params: {
+            page: this.search.page,
+            customer_id: this.search.customer_id,
+            ticket_status_id: this.search.ticket_status_id,
+            ticket_type_id: this.search.ticket_type_id,
+            priority_id: this.search.priority_id,
+            agent_id: this.search.agent_id,
+            ticket_id: this.search.ticket_id,
+            text: this.search.text,
+            dateFrom: this.search.dateFrom,
+            dateTo: this.search.dateTo,
+            offset: this.search.offset,
+          },
+        }).then((res) => {
+          this.stopLoading = true
+          this.$emit("searched", res.data.tickets);
+        }).catch((err) => console.log(err));
       }
     },
   },
