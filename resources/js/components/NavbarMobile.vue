@@ -44,7 +44,7 @@
           <a href="/ticket-type/1/ticket/crear" class="btn btn-dark text-white dropdown-item">
             <span class="text-decoration-none">Ticket</span>
           </a>
-          <a href="/ticket-type/2/ticket/crear" class="btn btn-dark text-white dropdown-item">
+          <a v-if="admins.includes(userRole)" href="/ticket-type/2/ticket/crear" class="btn btn-dark text-white dropdown-item">
             <span class="text-decoration-none">Parte</span>
           </a>
         </div>
@@ -77,6 +77,7 @@ export default {
   props: ["user"],
   data() {
     return {
+      admins: [1, 2],
       ticketStatuses: [],
       csrf: document
         .querySelector('meta[name="csrf-token"]')

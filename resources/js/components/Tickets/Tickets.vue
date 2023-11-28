@@ -12,6 +12,19 @@
       ></counter>
     </div>
 
+    <div class="d-none d-lg-block">
+      <div class="row d-flex justify-content-center mt-2 mb-2">
+        <a class="btn btn-secondary text-white mr-2" href="/ticket-type/1/ticket/crear">
+          <i class="fa fa-ticket-alt mr-2"></i>
+            <span>Nuevo ticket</span>
+        </a>
+        <a class="btn btn-primary text-white" href="/ticket-type/2/ticket/crear" v-if="admins.includes(userRole)">
+          <i class="fa fa-tools mr-2"></i>
+            <span>Nuevo parte de trabajo</span>
+        </a>
+      </div>
+    </div>
+
     <ticket-search-form
       :page="page"
       :ticketDeleted="ticketDeleted"

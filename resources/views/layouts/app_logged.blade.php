@@ -23,7 +23,11 @@
 <body>
     <div id="app">
         <navbar :user="{{ auth()->user() }}" :permissions="{{ auth()->user()->getPermissionsViaRoles() }}" class="d-none d-lg-flex"></navbar>
-        <navbar-mobile :user="{{ auth()->user() }}" class="d-flex d-lg-none"></navbar-mobile>
+        <navbar-mobile 
+            :user-role="{{ auth()->user()->roles[0]->id }}"
+            :user="{{ auth()->user() }}" 
+            class="d-flex d-lg-none"
+        ></navbar-mobile>
         <div class="container-fluid mt-3 mb-5">
             @yield('content')
         </div>
