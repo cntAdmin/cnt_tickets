@@ -240,7 +240,15 @@ export default {
             offset: this.search.offset,
           },
         }).then((res) => {
-          this.stopLoading = true
+          // this.stopLoading = true
+          // this.$emit("searched", res.data.tickets);
+          // if (res.data.tickets.length == 0) {
+          //   return (this.stopLoading = true);
+          // }
+          //   console.log(res.data);
+          // if (this.$screen.breakpoint !== "xs") {
+          //   this.$emit("searching", false);
+          // }
           this.$emit("searched", res.data.tickets);
         }).catch((err) => console.log(err));
       }

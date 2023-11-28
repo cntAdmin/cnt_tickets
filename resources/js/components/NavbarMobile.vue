@@ -74,7 +74,7 @@
 
 <script>
 export default {
-  props: ["user"],
+  props: ["user", "userRole"],
   data() {
     return {
       admins: [1, 2],

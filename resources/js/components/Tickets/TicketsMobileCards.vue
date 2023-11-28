@@ -144,6 +144,19 @@
         </div>
       </div>
     </div>
+
+    <pagination
+      class="mt-3"
+      size="small"
+      align="center"
+      :data="tickets"
+      :limit="3"
+      @pagination-change-page="emitPagination"
+    >
+      <span slot="prev-nav">&lt; Anterior</span>
+      <span slot="next-nav">Siguiente &gt;</span>
+    </pagination>
+
   </div>
 </template>
 
@@ -236,6 +249,9 @@ export default {
       axios.get("/api/get_all_ticket_statuses").then((res) => {
         this.ticketStatuses = res.data.ticket_statuses;
       });
+    },
+    emitPagination(page) {
+      this.$emit("page", page);
     },
   },
 };
