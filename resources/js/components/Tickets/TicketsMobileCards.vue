@@ -15,13 +15,14 @@
 
     <div class="card mt-3 shadow" v-for="ticket in tickets.data" :key="ticket.id">
       <div class="card-header">
-        <span>Creado {{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }}</span>
+        <span class="font-weight-bold h6">{{ ticket.custom_ticket_id }}</span> 
+        <span style="font-size: 0.75rem;">({{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }})</span>
         <span :class="`float-right text-${ticket.ticket_status.color} ${ticket.ticket_status.color == 'info' ? 'text-white' : ''}`">
           <i :class="`fas fa-${ticket.ticket_status.icon}`"></i> {{ ticket.ticket_status.name }}
         </span>
       </div>
       <div class="card-body">
-        <p class="text-truncate">{{ ticket.title }}</p>
+        <h6 class="text-truncate">{{ ticket.title }}</h6>
       </div>
       <div class="card-footer">
         <div class="form-inline d-flex justify-content-center" v-if="ticket.ticket_type_id === 2">

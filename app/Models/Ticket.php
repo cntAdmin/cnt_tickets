@@ -22,7 +22,7 @@ class Ticket extends Model
     }
 
     protected $fillable = [
-        'title', 'description', 'deleted_at', 'read_by_admin', 'custom_id', 'signature', 'is_signed', '_token', 'expires_in',
+        'title', 'description', 'deleted_at', 'read_by_admin', 'custom_id', 'custom_ticket_id', 'signature', 'is_signed', '_token', 'expires_in',
         // ASSOCIATIONS
         'customer_id', 'user_id', 'deleted_by', 'department_type_id', 'origin_type_id', 'ticket_type_id', 'ticket_status_id', 'invoiceable_type_id'
     ];
@@ -132,6 +132,10 @@ class Ticket extends Model
                 return $q->whereHas('user', function($q2) use ($user_id) {
                     $q2->where('id', $user_id);
                 });
+            })->when(request()->input('custom_ticket_id'), function(Builder $q, $custom_ticket_id) {
+                return $q->where('custom_ticket_id', 'LIKE', '%' . $custom_ticket_id . '%');
+            })->when(request()->input('invoiceable_type_id'), function(Builder $q, $invoiceable_type_id) {
+                return $q->where('invoiceable_type_id', $invoiceable_type_id);
             })->when(request()->input('customer_id'), function(Builder $q, $customer_id) {
                 return $q->where('customer_id', $customer_id);
             })->when(request()->input('agent_id'), function(Builder $q, $agent_id) {

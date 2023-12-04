@@ -39,12 +39,13 @@ class TicketController extends Controller
         }
 
         $tickets = Ticket::filterTickets()->with(['comments', 'comment_attachments'])->orderBy('updated_at', 'DESC');
-        if($req->type == "infinite") {
-            $tickets = $tickets->skip($req->offset)->take(10)->get();
-        } else {
-            $tickets = $tickets->paginate();
-        }
-
+        // if($req->type == "infinite") {
+        //     $tickets = $tickets->skip($req->offset)->take(10)->get();
+        // } else {
+        //     $tickets = $tickets->paginate();
+        // }
+        $tickets = $tickets->paginate();
+        
         return response()->json([
             'tickets' => $tickets,
             'req->offset' => $req->offset,

@@ -3,25 +3,13 @@
     <div class="card-body">
       <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="success.status">
         <span>{{ success.msg }}</span>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="alert"
-          aria-label="Close"
-          @click="success.status = false"
-        >
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="success.status = false">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="error.status">
         <span>{{ error.msg }}</span>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="alert"
-          aria-label="Close"
-          @click="error.status = false"
-        >
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="error.status = false">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -30,18 +18,20 @@
         <table class="table table-striped text-center">
           <thead class="thead-dark">
             <tr>
-              <th scope="col">Agente</th>
-              <th scope="col">Cliente</th>
-              <th scope="col">Titulo</th>
-              <th scope="col">Tipo</th>
-              <th scope="col">Fecha creación</th>
-              <th scope="col">Tiempo trabajado</th>
-              <th scope="col">Info adicional</th>
-              <th scope="col">Acciones</th>
+              <th>Referencia</th>
+              <th>Agente</th>
+              <th>Cliente</th>
+              <th>Titulo</th>
+              <th>Tipo</th>
+              <th>Fecha creación</th>
+              <th>Tiempo trabajado</th>
+              <th>Info adicional</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="ticket in tickets.data" :key="ticket.id">
+              <td>{{ ticket.custom_ticket_id }}</td>
               <td>{{ ticket.agent !== null ? ticket.agent.name : 'Los partes no tienen agente'  }}</td>
               <td>{{ ticket.customer ? ticket.customer.name : "" }}</td>
               <td>{{ ticket.title }}</td>
@@ -92,7 +82,7 @@
                     :href="`/ticket/${ticket.id}`"
                     title="Ver Parte"
                   >
-                    <i class="fa fa-eye"></i>
+                    <i class="fa fa-sm fa-eye"></i>
                   </a>
 
                   <!-- Editar parte si no está firmado ni facturado -->
@@ -101,7 +91,7 @@
                     title="Editar Parte"
                     :href="`/ticket/${ticket.id}/editar`"
                   >
-                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-sm fa-edit"></i>
                   </a>
                   <!-- Editar parte si está firmado y no facturado -->
                   <button v-else-if="ticket.is_signed === 1 && ticket.invoiceable_type_id !== 3"
@@ -112,7 +102,7 @@
                     data-target="#ticketConfirmEditModal"
                     @click="ticketConfirmEditModal = true"
                   >
-                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-sm fa-edit"></i>
                   </button>
                   <!-- No permite editar si ya está facturadoi -->
                   <button v-else-if="ticket.invoiceable_type_id === 3"
@@ -121,7 +111,7 @@
                     title="Parte Facturado. No se puede editar"
                     disabled
                   >
-                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-sm fa-edit"></i>
                   </button>
 
                   <button v-if="permissions.find((permission) => permission.name == 'ticket.destroy')"
@@ -132,11 +122,10 @@
                     data-target="#deleteModal"
                     @click="deleteModal(ticket)"
                   >
-                    <i class="fa fa-trash-alt"></i>
+                    <i class="fa fa-sm fa-trash-alt"></i>
                   </button>
 
-
-                  <button v-if="permissions.find((permission) => permission.name == 'ticket.update')"
+                  <button v-if="permissions.find((permission) => permission.name == 'ticket.update') && ticket.invoiceable_type_id !== 3"
                     type="button"
                     class="btn btn-sm btn-secondary text-white dropdown-toggle"
                     title="Editar Estado"
@@ -144,7 +133,7 @@
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    <i class="fa fa-question-circle"></i>
+                    <i class="fa fa-sm fa-question-circle"></i>
                   </button>
                   <div class="dropdown-menu dropdown-menu-right">
                     <button

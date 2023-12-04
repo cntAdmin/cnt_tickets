@@ -2,7 +2,7 @@
     <div class="card shadow border-dark mt-2">
       <div class="card-body">
         <form @submit.prevent="handleSubmit" class="form-inline">
-          <div class="col-12 col-md-12 col-lg-6 col-xl-6 mt-2">
+          <div class="col-12 col-md-12 col-lg-5 col-xl-5 mt-2">
             <div class="input-group">
               <div class="input-group-prepend">
                 <div class="input-group-text py-1">Cliente</div>
@@ -22,7 +22,7 @@
               </vue-select>
             </div>
           </div>
-          <div class="col-12 col-md-12 col-lg-6 col-xl-6 mt-2" v-if="user.roles[0].id === 1">
+          <!-- <div class="col-12 col-md-12 col-lg-5 col-xl-5 mt-2" v-if="user.roles[0].id === 1">
             <div class="input-group">
               <div class="input-group-prepend">
                 <div class="input-group-text py-1">Agente</div>
@@ -40,6 +40,15 @@
                   {{ option.name }}
                 </template>
               </vue-select>
+            </div>
+          </div> -->
+          <div class="col-12"></div>
+          <div class="col-12 col-md-6 col-lg-4 mt-2">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text py-1">Referencia Ticket</div>
+              </div>
+              <input type="text" class="form-control" placeholder="Ej: PRT2023-00001" id="text" v-model="search.custom_ticket_id"/>
             </div>
           </div>
           <div class="col-12 col-md-6 col-lg-4 mt-2">
@@ -118,6 +127,19 @@
               </select>
             </div>
           </div>
+          <div class="col-12 col-md-6 col-lg-4 mt-2">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <div class="input-group-text py-1">Estado factura</div>
+              </div>
+              <select v-model="search.invoiceable_type_id" class="form-control">
+                <option value="" selected>-- TODOS --</option>
+                <option :value="invoiceable_type.id" v-for="invoiceable_type in invoiceable_types" :key="invoiceable_type.id">
+                  {{ invoiceable_type.name }}
+                </option>
+              </select>
+            </div>
+          </div>
           <div class="col-12">
             <button type="submit" class="btn btn-sm btn-success btn-block mt-3">
               <i class="fa fa-search"></i><span class="ml-2">Buscar</span>
@@ -141,10 +163,13 @@ export default {
       priorities: [],
       ticket_statuses: [],
       ticket_types: [],
+      invoiceable_types: [],
       users_asignables: [],
       stopLoading: false,
       search: {
         page: 1,
+        custom_ticket_id: '',
+        invoiceable_type_id: null,
         ticket_id: null,
         customer_id: null,
         agent_id: null,
@@ -173,18 +198,23 @@ export default {
     this.get_all_priorities();
     this.get_all_ticket_statuses();
     this.get_all_ticket_types();
+    this.get_all_invoiceable_types();
     this.get_all_users_asignables();
   },
   methods: {
     get_all_users_asignables() {
-      axios.get('/api/get_all_users_asignables')
-        .then( res => {
+      axios.get('/api/get_all_users_asignables').then( res => {
         this.users_asignables = res.data.users_asignables;
-        }).catch( error => console.log(error.response.data))
+      }).catch( error => console.log(error.response.data))
     },
     get_all_ticket_types() {
       axios.get("/api/get_all_ticket_types").then((res) => {
         this.ticket_types = res.data.ticket_types;
+      });
+    },
+    get_all_invoiceable_types() {
+      axios.get("/api/get_all_invoiceable_types").then((res) => {
+        this.invoiceable_types = res.data.invoiceable_types;
       });
     },
     get_all_ticket_statuses() {
@@ -234,6 +264,8 @@ export default {
             priority_id: this.search.priority_id,
             agent_id: this.search.agent_id,
             ticket_id: this.search.ticket_id,
+            custom_ticket_id: this.search.custom_ticket_id,
+            invoiceable_type_id: this.search.invoiceable_type_id,
             text: this.search.text,
             dateFrom: this.search.dateFrom,
             dateTo: this.search.dateTo,
