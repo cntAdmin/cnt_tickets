@@ -166,7 +166,7 @@ import TicketConfirmEditModal from '../TicketConfirmEditModal.vue'
 
 export default {
   components: {TicketConfirmEditModal},
-  props: ["tickets", "permissions", "formsearch"],
+  props: ["tickets", "permissions", "searched"],
   data() {
     return {
       ticketStatuses: [],
@@ -181,78 +181,98 @@ export default {
   },
   mounted() {
     this.get_ticket_statuses();
-    window.onscroll = () => {
-      this.scroll();
-    };
-      this.formsearch.offset = 10;
+    // window.onscroll = () => {
+    //   this.scroll();
+    // };
+    //   this.formsearch.offset = 10;
   },
   methods: {
-    get_mobile_tickets() {
-      axios
-        .get("/api/ticket", {
-          params: {
-            type: "infinite",
-            customer_id: this.formsearch.customer_id,
-            ticket_status_id: this.formsearch.ticket_status_id,
-            priority_id: this.formsearch.priority_id,
-            agent_id: this.formsearch.agent_id,
-            ticket_id: this.formsearch.ticket_id,
-            text: this.formsearch.text,
-            dateFrom: this.formsearch.dateFrom,
-            dateTo: this.formsearch.dateTo,
-            offset: this.formsearch.offset,
-          },
-        })
-        .then((res) => {
-          if (res.data.tickets.length <= 10) {
-            return (this.stopLoading = true);
-          }
+    // get_mobile_tickets() {
+    //   axios.get("/api/ticket", {
+    //       params: {
+    //         type: "infinite",
+    //         customer_id: this.formsearch.customer_id,
+    //         ticket_status_id: this.formsearch.ticket_status_id,
+    //         priority_id: this.formsearch.priority_id,
+    //         agent_id: this.formsearch.agent_id,
+    //         ticket_id: this.formsearch.ticket_id,
+    //         text: this.formsearch.text,
+    //         dateFrom: this.formsearch.dateFrom,
+    //         dateTo: this.formsearch.dateTo,
+    //         offset: this.formsearch.offset,
+    //       },
+    //     })
+    //     .then((res) => {
+    //       if (res.data.tickets.length <= 10) {
+    //         return (this.stopLoading = true);
+    //       }
 
-          this.tickets.push(...res.data.tickets);
-          this.formsearch.offset += 10;
-        });
-    },
-    setStatus(ticket, status_id) {
-      axios.put(`/api/ticket/${ticket.id}/ticket-status/${status_id}`)
-        .then((res) => {
-          $("html, body").animate({ scrollTop: 0 }, "slow");
-          this.success = {
-            status: true,
-            msg: res.data.msg,
-          };
-          setTimeout(() => {
-            this.success = {
-              status: false,
-              msg: "",
-            };
-            window.location.reload();
-          }, 2000);
-        })
-        .catch((err) => console.log(err.response.data));
-    },
-    scroll() {
-      let bottomOfWindow =
-        Number(
-          (
-            Math.max(
-              window.pageYOffset,
-              document.documentElement.scrollTop,
-              document.body.scrollTop
-            ) + window.innerHeight
-          ).toFixed(0)
-        ) === document.documentElement.offsetHeight;
+    //       this.tickets.push(...res.data.tickets);
+    //       this.formsearch.offset += 10;
+    //     });
+    // },
+    // setStatus(ticket, status_id) {
+    //   axios.put(`/api/ticket/${ticket.id}/ticket-status/${status_id}`).then((res) => {
+    //     $("html, body").animate({ scrollTop: 0 }, "slow");
+    //     this.success = {
+    //       status: true,
+    //       msg: res.data.msg,
+    //     };
+    //     setTimeout(() => {
+    //       this.success = {
+    //         status: false,
+    //         msg: "",
+    //       };
+    //       window.location.reload();
+    //     }, 2000);
+    //   }).catch((err) => console.log(err.response.data));
+    // },
+    // scroll() {
+    //   let bottomOfWindow =
+    //     Number(
+    //       (
+    //         Math.max(
+    //           window.pageYOffset,
+    //           document.documentElement.scrollTop,
+    //           document.body.scrollTop
+    //         ) + window.innerHeight
+    //       ).toFixed(0)
+    //     ) === document.documentElement.offsetHeight;
 
-      if (bottomOfWindow) {
-        this.get_mobile_tickets(); // replace it with your code
-      }
-    },
+    //   if (bottomOfWindow) {
+    //     this.get_mobile_tickets(); // replace it with your code
+    //   }
+    // },
     get_ticket_statuses() {
       axios.get("/api/get_all_ticket_statuses").then((res) => {
         this.ticketStatuses = res.data.ticket_statuses;
       });
     },
+    changeStatus(ticket_id, ticket_status_id) {
+      axios.put(`/api/ticket/${ticket_id}/ticket-status/${ticket_status_id}`).then((res) => {
+        this.success = {
+          status: true,
+          msg: res.data.msg,
+        };
+        setTimeout(() => {
+          this.$emit("page");
+        }, 1500);
+      });
+    },
+    changeStatusFacturado(ticket_id, ticket_invoiceable_type_id) {
+      axios.put(`/api/ticket/${ticket_id}/ticket-invoiceable-type/${ticket_invoiceable_type_id}`).then((res) => {
+        this.success = {
+          status: true,
+          msg: res.data.msg,
+        };
+        setTimeout(() => {
+          this.$emit("page");
+        }, 1500);
+      });
+    },
     emitPagination(page) {
-      this.$emit("page", page);
+      this.searched.page = page;
+      this.$emit("page", this.searched);
     },
   },
 };

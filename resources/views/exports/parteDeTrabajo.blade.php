@@ -61,7 +61,7 @@
                 margin-left: 15px;
             }
             .cabecera-text{
-                width: 200px;
+                width: 400px;
                 height: auto;
                 margin-top: 20px;
                 margin-right: 15px;
@@ -170,7 +170,7 @@
                 <img src="{{ asset('costanetworks_logo_cuadrado.png') }}" class="cabecera-img"/>
             </div>
             <div class="float-right">
-                <h5 class="cabecera-text">Parte de trabajo</h5>
+                <h5 class="cabecera-text">Parte de trabajo - {{ $ticket->custom_ticket_id }}</h5>
             </div>
         </header> 
         

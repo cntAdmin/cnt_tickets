@@ -1,26 +1,13 @@
 <template>
   <div class="mb-5">
-    <div
-      class="alert alert-success alert-dismissible fade show"
-      role="alert"
-      v-if="success.status"
-    >
+    <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="success.status">
       <span>{{ success.msg }}</span>
-      <button
-        type="button"
-        class="close"
-        data-dismiss="alert"
-        aria-label="Close"
-        @click="success.status = false"
-      >
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="success.status = false">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div v-if="error.status">
-      <form-errors
-        :errors="error.errors"
-        @close="error.status = false"
-      ></form-errors>
+      <form-errors :errors="error.errors" @close="error.status = false"></form-errors>
     </div>
     
     <form @submit.prevent="handleSubmit" class="form-inline">

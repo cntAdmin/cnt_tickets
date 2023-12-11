@@ -75,15 +75,12 @@ export default {
       console.log(this.search);
       this.$emit("mobileSearch", this.search);
 
-      axios
-        .get("/api/department-type", {
-          params: this.search,
-        })
-        .then((res) => {
-          this.$emit("searching", false);
-          this.$emit("searched", res.data.department_types);
-        })
-        .catch((err) => console.log(err.response.data));
+      axios.get("/api/department-type", {
+        params: this.search,
+      }).then((res) => {
+        this.$emit("searching", false);
+        this.$emit("searched", res.data.department_types);
+      }).catch((err) => console.log(err.response.data));
     },
   },
   watch: {

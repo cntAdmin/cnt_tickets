@@ -155,7 +155,7 @@ import CustomersDropdownSelect from "../CustomersDropdownSelect.vue";
 
 export default {
   components: { CustomersDropdownSelect },
-  props: ["page", "ticketDeleted", "user"],
+  props: ["ticketDeleted", "user"],
   data() {
     return {
       agents: [],
@@ -243,53 +243,48 @@ export default {
         this.customers = res.data.customers;
       });
     },
-    handleSubmit(e) {
-      if (!this.stopLoading) {
-        if (this.$screen.breakpoint !== "xs") {
-          this.$emit("searching", true);
-        }
-        if (e == undefined) {
-          this.search.page = this.page;
-        } else {
-          this.search.page = 1;
-          this.search.offset = 0;
-        }
-        this.$emit("mobileSearch", this.search);
+    handleSubmit() {
+      this.search.page = 1;
+      this.$emit('submitted', this.search);
 
-        axios.get("/api/ticket", {params: {
-            page: this.search.page,
-            customer_id: this.search.customer_id,
-            ticket_status_id: this.search.ticket_status_id,
-            ticket_type_id: this.search.ticket_type_id,
-            priority_id: this.search.priority_id,
-            agent_id: this.search.agent_id,
-            ticket_id: this.search.ticket_id,
-            custom_ticket_id: this.search.custom_ticket_id,
-            invoiceable_type_id: this.search.invoiceable_type_id,
-            text: this.search.text,
-            dateFrom: this.search.dateFrom,
-            dateTo: this.search.dateTo,
-            offset: this.search.offset,
-          },
-        }).then((res) => {
-          // this.stopLoading = true
-          // this.$emit("searched", res.data.tickets);
-          // if (res.data.tickets.length == 0) {
-          //   return (this.stopLoading = true);
-          // }
-          //   console.log(res.data);
-          // if (this.$screen.breakpoint !== "xs") {
-          //   this.$emit("searching", false);
-          // }
-          this.$emit("searched", res.data.tickets);
-        }).catch((err) => console.log(err));
-      }
+      // if (!this.stopLoading) {
+      //   if (this.$screen.breakpoint !== "xs") {
+      //     this.$emit("searching", true);
+      //   }
+        // if (e == undefined) {
+          // this.search.page = this.page;
+        // } else {
+          // this.search.page = 1;
+          // this.search.offset = 0;
+        // }
+        // this.$emit("mobileSearch", this.search);
+        // this.$emit('submitted', this.search);
+
+        // axios.get("/api/ticket", {params: {
+        //     page: this.search.page,
+        //     customer_id: this.search.customer_id,
+        //     ticket_status_id: this.search.ticket_status_id,
+        //     ticket_type_id: this.search.ticket_type_id,
+        //     priority_id: this.search.priority_id,
+        //     agent_id: this.search.agent_id,
+        //     ticket_id: this.search.ticket_id,
+        //     custom_ticket_id: this.search.custom_ticket_id,
+        //     invoiceable_type_id: this.search.invoiceable_type_id,
+        //     text: this.search.text,
+        //     dateFrom: this.search.dateFrom,
+        //     dateTo: this.search.dateTo,
+        //     offset: this.search.offset,
+        //   },
+        // }).then((res) => {
+        //   this.$emit("searched", res.data.tickets);
+        // }).catch((err) => console.log(err));
+      // }
     },
   },
   watch: {
-    page(val) {
-      this.handleSubmit();
-    },
+    // page(val) {
+    //   this.handleSubmit();
+    // },
     ticketDeleted() {
       this.handleSubmit();
     },

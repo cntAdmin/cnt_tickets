@@ -61,5 +61,6 @@ Route::middleware(['auth:web'])->group(function () {
     Route::get('/descargar_parte_trabajo/{ticket}','TicketController@descargar_parte_trabajo');
     Route::post('/ticket/firmar_parte', 'TicketController@firmar_parte')->name('firmar_parte');
     Route::post('/ticket/editar_parte/{ticket}', 'TicketController@editar_parte')->name('editar_parte');
+    Route::get('/get_ticket_counters', 'TicketController@get_ticket_counters');
 
 });

@@ -32,24 +32,47 @@ class TicketController extends Controller
     public function index(Request $req)
     {
         if (!$req->ajax()) {
-            $ticket_statuses = TicketStatus::withCount('tickets')->get();
-            return view('tickets.index')->with([
-                'ticket_statuses' => $ticket_statuses
-            ]);
+            // $ticket_statuses = TicketStatus::withCount('tickets')->get();
+            // return view('tickets.index')->with([
+            //     'ticket_statuses' => $ticket_statuses
+            // ]);
+            return view('tickets.index');
         }
 
-        $tickets = Ticket::filterTickets()->with(['comments', 'comment_attachments'])->orderBy('updated_at', 'DESC');
+        $tickets = Ticket::filterTickets()->with(['comments', 'comment_attachments'])
+            ->orderBy('updated_at', 'DESC')
+            ->paginate();
         // if($req->type == "infinite") {
         //     $tickets = $tickets->skip($req->offset)->take(10)->get();
         // } else {
         //     $tickets = $tickets->paginate();
         // }
-        $tickets = $tickets->paginate();
+        // $tickets = $tickets->paginate();
         
         return response()->json([
             'tickets' => $tickets,
-            'req->offset' => $req->offset,
+            // 'req->offset' => $req->offset,
         ], 200);
+    }
+
+    public function get_ticket_counters()
+    {
+        $nuevo = 0;
+        $abierto = 0;
+        $resuelto = 0; 
+        $cancelado = 0;
+
+        $nuevo = Ticket::filterTickets()->where('ticket_status_id', 1)->count();
+        $abierto = Ticket::filterTickets()->where('ticket_status_id', 2)->count();
+        $resuelto = Ticket::filterTickets()->where('ticket_status_id', 3)->count();
+        $cancelado = Ticket::filterTickets()->where('ticket_status_id', 4)->count();
+
+        return response()->json([
+            'nuevo' => $nuevo,
+            'abierto' => $abierto,
+            'resuelto' => $resuelto,
+            'cancelado' => $cancelado,
+        ]);
     }
 
     public function create(TicketType $ticketType): View
@@ -282,15 +305,17 @@ class TicketController extends Controller
     {
         $cadena = [];
         $totalminutes = 0;
+        $tiempodetrabajo = 0;
 
-        if($ticket->ticket_timeslots()){
+        if(!$ticket->ticket_timeslots->isEmpty()){
             foreach ($ticket->ticket_timeslots as $timeslot){ 
                 $cadena = explode(":", $timeslot->work_time);
                 $totalminutes = $totalminutes + (intval($cadena[0])*60) + (intval($cadena[1]));
             }
+
+            $tiempodetrabajo = $this->time_convert($totalminutes);
         }
 
-        $tiempodetrabajo = $this->time_convert($totalminutes);
         $filename = 'Parte de trabajo - ' . now()->format('Y-m-d H:i:s');
 
         $pdf = PDF::loadView('exports.parteDeTrabajo', [

@@ -8,6 +8,15 @@
           }}</span>
         </div>
         <div class="ml-auto d-flex flex-wrap">
+          <a class="btn btn-sm btn-secondary text-white mr-2" href="/ticket-type/1/ticket/crear" v-if="ticketType.id === 2">
+            <i class="fa fa-ticket-alt mr-2"></i>
+              <span>Crear ticket</span>
+          </a>
+          <a class="btn btn-sm btn-secondary text-white mr-2" href="/ticket-type/2/ticket/crear" v-else>
+            <i class="fa fa-tools mr-2"></i>
+              <span>Crear parte de trabajo</span>
+          </a>
+
           <!-- MODAL DE FIRMA -->
           <signature-modal
             v-if="signatureModal && ticketType.id === 2"
@@ -18,7 +27,7 @@
           <button
             v-if="ticketType.id === 2"
             type="button"
-            class="btn btn-sm btn-info text-white"
+            class="btn btn-sm btn-info text-white mr-2"
             title="Firma Digital"
             data-toggle="modal"
             data-target="#signatureModal"
@@ -37,7 +46,7 @@
           <button
             v-if="ticketType.id === 2"
             type="button"
-            class="btn btn-sm btn-warning ml-1"
+            class="btn btn-sm btn-warning mr-2"
             title="Registrar horas"
             data-toggle="modal"
             data-target="#ticketTimeslotsModal"
@@ -47,8 +56,8 @@
           </button>
 
           <!-- VOLVER PAGINA PRINCIPAL -->
-          <a href="/ticket" class="btn btn-sm btn-info text-white ml-1">
-            Volver al listado
+          <a href="/ticket" class="btn btn-sm btn-primary text-white">
+            <i class="text-white fa fa-arrow-left mr-2"></i>Volver al listado
           </a>
         </div>
       </div>

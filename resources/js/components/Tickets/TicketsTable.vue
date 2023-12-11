@@ -235,7 +235,7 @@ import TicketConfirmEditModal from '../TicketConfirmEditModal.vue'
 
 export default {
   components: {TicketConfirmEditModal},
-  props: ["tickets", "permissions", "userRole"],
+  props: ["tickets", "permissions", "userRole", "searched"],
   data() {
     return {
       ticket: {},
@@ -301,7 +301,8 @@ export default {
       }).catch((error) => console.log(error));
     },
     emitPagination(page) {
-      this.$emit("page", page);
+      this.searched.page = page;
+      this.$emit("page", this.searched);
     },
     closeAll() {
       this.success = {
