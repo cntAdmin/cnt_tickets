@@ -26,6 +26,12 @@
     <form @submit.prevent="handleSubmit" class="form-inline" enctype="multipart/form-data">
       <input type="hidden" name="_token" :value="csrf">
 
+      <div class="col-12 mb-3" v-if="editable">
+        <button class="btn btn-sm btn-primary btn-block">
+          {{ buttonText }}
+        </button>
+      </div>
+
       <customers-dropdown-select
         :customer="ticket.customer"
         :editable="editable ? true : false"

@@ -8,14 +8,14 @@
           }}</span>
         </div>
         <div class="ml-auto d-flex flex-wrap">
-          <a class="btn btn-sm btn-secondary text-white mr-2" href="/ticket-type/1/ticket/crear" v-if="ticketType.id === 2">
+          <!-- <a class="btn btn-sm btn-secondary text-white mr-2" href="/ticket-type/1/ticket/crear" v-if="ticketType.id === 2">
             <i class="fa fa-ticket-alt mr-2"></i>
               <span>Crear ticket</span>
           </a>
           <a class="btn btn-sm btn-secondary text-white mr-2" href="/ticket-type/2/ticket/crear" v-else>
             <i class="fa fa-tools mr-2"></i>
               <span>Crear parte de trabajo</span>
-          </a>
+          </a> -->
 
           <!-- MODAL DE FIRMA -->
           <signature-modal
