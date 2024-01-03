@@ -1,4 +1,4 @@
-<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark px-5">
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="{{ route('dashboard') }}">
         <img src="{{ asset('cnt_logo.png') }}" width="150" height="48" alt="{{ env('APP_NAME') }}">
     </a>

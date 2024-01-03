@@ -31,12 +31,12 @@ class Ticket extends Model
         'created_by_user', 'attachments', 'ticket_timeslots', 'ticket_type', 'invoiceable_type'
     ];
     
-    protected $appends = ['description_short'];
+    // protected $appends = ['description_short'];
 
-    public function getDescriptionShortAttribute()
-    {
-        return Str::limit($this->attributes['description'], 100);
-    }
+    // public function getDescriptionShortAttribute()
+    // {
+    //     return Str::limit($this->attributes['description'], 100);
+    // }
     
     public function getIsSigned()
     {

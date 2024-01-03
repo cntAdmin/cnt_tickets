@@ -32,26 +32,15 @@ class TicketController extends Controller
     public function index(Request $req)
     {
         if (!$req->ajax()) {
-            // $ticket_statuses = TicketStatus::withCount('tickets')->get();
-            // return view('tickets.index')->with([
-            //     'ticket_statuses' => $ticket_statuses
-            // ]);
             return view('tickets.index');
         }
 
         $tickets = Ticket::filterTickets()->with(['comments', 'comment_attachments'])
             ->orderBy('updated_at', 'DESC')
             ->paginate();
-        // if($req->type == "infinite") {
-        //     $tickets = $tickets->skip($req->offset)->take(10)->get();
-        // } else {
-        //     $tickets = $tickets->paginate();
-        // }
-        // $tickets = $tickets->paginate();
         
         return response()->json([
             'tickets' => $tickets,
-            // 'req->offset' => $req->offset,
         ], 200);
     }
 

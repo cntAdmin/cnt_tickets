@@ -56,4 +56,5 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('user', UserController::class)->only(['index', 'show', 'create', 'edit']);
 
     Route::get('/import_siptize_customer', 'CustomerController@import_siptize_customer');  
+    Route::resource('dashboard', 'DashboardController');
 });

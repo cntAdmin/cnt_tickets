@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark px-5">
+  <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="/">
       <img src="/cnt_logo.png" width="150" height="48" />
     </a>
@@ -183,8 +183,8 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            <i class="fa faw fa-user-circle"></i>
-            <span class="text-lowercase ml-2">{{ user.name }}</span>
+            <i class="fa faw fa-user-circle mr-1"></i>
+            <span class="text-uppercase">{{ user.name }}</span>
           </a>
 
           <div

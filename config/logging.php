@@ -109,7 +109,7 @@ return [
 
         'importacion_clientes' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/tickets.log'),
+            'path' => storage_path('logs/importacion_clientes.log'),
             'level' => 'info',
             'days' => 15,
         ],

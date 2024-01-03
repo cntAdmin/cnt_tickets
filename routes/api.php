@@ -62,5 +62,7 @@ Route::middleware(['auth:web'])->group(function () {
     Route::post('/ticket/firmar_parte', 'TicketController@firmar_parte')->name('firmar_parte');
     Route::post('/ticket/editar_parte/{ticket}', 'TicketController@editar_parte')->name('editar_parte');
     Route::get('/get_ticket_counters', 'TicketController@get_ticket_counters');
-
+    Route::get('/get_admin_charts', 'CustomerController@get_admin_charts')->name('get_admin_charts');
+    Route::get('/get_customer_charts', 'CustomerController@get_customer_charts')->name('get_customer_charts');
+    
 });

@@ -2,14 +2,6 @@
   <div class="d-flex flex-column justify-content-center w-100">
     
     <div class="row">
-      <!-- <counter
-        v-for="ticket_status in statuses"
-        :key="ticket_status.id"
-        :color="ticket_status.color"
-        :count="ticket_status.tickets_count"
-        :title="ticket_status.name"
-        :icon="ticket_status.icon"
-      ></counter> -->
       <counter
         title="NUEVO"
         icon="newspaper"
@@ -38,24 +30,16 @@
 
     <div class="d-none d-lg-block">
       <div class="row d-flex justify-content-center mt-2 mb-2">
-        <a class="btn btn-secondary text-white mr-2" href="/ticket-type/1/ticket/crear">
+        <a class="btn btn-secondary btn-sm text-white mr-2" href="/ticket-type/1/ticket/crear">
           <i class="fa fa-ticket-alt mr-2"></i>
             <span>Nuevo ticket</span>
         </a>
-        <a class="btn btn-primary text-white" href="/ticket-type/2/ticket/crear" v-if="admins.includes(userRole)">
+        <a class="btn btn-primary btn-sm text-white" href="/ticket-type/2/ticket/crear" v-if="admins.includes(userRole)">
           <i class="fa fa-tools mr-2"></i>
             <span>Nuevo parte de trabajo</span>
         </a>
       </div>
     </div>
-
-    <!-- <ticket-search-form
-      :page="page"
-      :ticketDeleted="ticketDeleted"
-      :user="user"
-      @searched="searched"
-      @searching="searching"
-    ></ticket-search-form> -->
 
     <ticket-search-form
       :ticketDeleted="ticketDeleted"
@@ -115,9 +99,7 @@
     data() {
       return {
         tickets: [],
-        // formsearch: [],
         searched: [],
-        // page: 1,
         is_searching: false,
         ticketDeleted: false,
         admins: [1, 2],
@@ -128,20 +110,9 @@
       };
     },
     methods: {
-      // mobileSearch(data) {
-      //   this.formsearch = data;
-      // },
       searching(data) {
         this.is_searching = data;
       },
-      // setPage(data) {
-      //   let a = Math.random().toString(36).substring(7);
-      //   this.page = data ? data : a;
-      // },
-      // searched(data) {
-      //   this.ticketDeleted = false;
-      //   this.tickets = data;
-      // },
       get_tickets(data) {
 
         if (!data) return;
@@ -186,6 +157,7 @@
             offset: data.offset,
           },
         }).then((res) => {
+          // console.log(res.data);
           this.nuevo = res.data.nuevo;
           this.abierto = res.data.abierto;
           this.resuelto = res.data.resuelto;

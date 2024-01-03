@@ -51,6 +51,7 @@ Vue.component('spinner', require('./components/Spinner').default);
 Vue.component('navbar', require('./components/NavbarComponent').default);
 Vue.component('navbar-mobile', require('./components/NavbarMobile').default);
 Vue.component('register-form', require('./components/RegisterForm').default);
+Vue.component('dashboard', require('./components/Dashboard').default);
 
 // ? TICKETS
 Vue.component('tickets', require('./components/Tickets/Tickets').default);

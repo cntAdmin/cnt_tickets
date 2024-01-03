@@ -6,9 +6,11 @@ use App\Models\Customer;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 // use App\Jobs\CustomerFromSiptize;
-use App\Jobs\CustomerFromDolibarr;
 use Illuminate\Http\JsonResponse;
+use App\Jobs\CustomerFromDolibarr;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\CustomerRequest;
+use App\Models\Ticket;
 
 class CustomerController extends Controller
 {
@@ -91,7 +93,72 @@ class CustomerController extends Controller
 
     public function import_siptize_customer()
     {
-        // dispatch(new CustomerFromSiptize);
         dispatch(new CustomerFromDolibarr);
+    }
+
+    public function get_customer_charts()
+    {
+        // Total tickets por estados
+        $ticket_statuses = DB::table('tickets')
+        ->join('ticket_statuses','ticket_statuses.id', '=', 'tickets.ticket_status_id')
+        ->select([
+            DB::raw('count(tickets.ticket_status_id) as total'), 
+            DB::raw('ticket_statuses.name as estado')
+        ])->groupBy('estado')
+        ->where('tickets.customer_id', auth()->user()->customer_id)
+        ->where('tickets.created_at', '>=', now()->subMonth())
+        ->get();
+        
+        // Tickets de última semana por día
+        $last_week_tickets = DB::table('tickets')->select([
+            DB::raw('count(id) as total'), 
+            DB::raw('DATE(created_at) as dia')
+        ])->groupBy('dia')
+        ->where('customer_id', auth()->user()->customer_id)
+        ->where('created_at', '>=', now()->subWeeks(1))
+        ->get();
+
+        return response()->json([
+            'ticket_statuses' => $ticket_statuses,
+            'last_week_tickets' => $last_week_tickets,
+        ]);
+    }
+
+    public function get_admin_charts()
+    {
+        // Clientes activos/inactivos
+        $customers_active = Customer::select([
+            DB::raw('count(id) as total'), 
+        ])->groupBy('is_active')->get();
+
+        // Top clientes con más tickets
+        $top_customer_tickets = DB::table('tickets')
+        ->join('customers','customers.id', '=', 'tickets.customer_id')
+        ->select([
+            DB::raw('count(tickets.id) as total'), 
+            DB::raw('customers.name as nombre')
+        ])->groupBy('nombre')
+        ->orderBy('total', 'desc')->limit(6)->get();
+
+        // Total tickets por estados
+        $ticket_statuses = DB::table('tickets')
+        ->join('ticket_statuses','ticket_statuses.id', '=', 'tickets.ticket_status_id')
+        ->select([
+            DB::raw('count(tickets.ticket_status_id) as total'), 
+            DB::raw('ticket_statuses.name as estado')
+        ])->groupBy('estado')->where('tickets.created_at', '>=', now()->subMonth())->get();
+        
+        // Tickets de última semana por día
+        $last_week_tickets = DB::table('tickets')->select([
+            DB::raw('count(id) as total'), 
+            DB::raw('DATE(created_at) as dia')
+        ])->groupBy('dia')->where('created_at', '>=', now()->subWeeks(1))->get();
+
+        return response()->json([
+            'customers_active' => $customers_active,
+            'top_customer_tickets' => $top_customer_tickets,
+            'ticket_statuses' => $ticket_statuses,
+            'last_week_tickets' => $last_week_tickets,
+        ]);
     }
 }

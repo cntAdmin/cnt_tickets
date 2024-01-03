@@ -28,7 +28,7 @@ class TicketObserver
         $ticket->update([
             'custom_id' => Str::upper($ticket->department_type->department->code . now()->year . '-' . Str::padLeft($ticket->id, 5, '0')),
             'ip_address' => request()->ip(),
-            'custom_ticket_id' => ($ticket->ticket_type_id === 1) ? 
+            'custom_ticket_id' => $ticket->ticket_type_id == 1 ? 
                                     'TCK' . now()->year . '-' . Str::padLeft($ticket->id, 5, '0') : 
                                     'PRT' . now()->year . '-' . Str::padLeft($ticket->id, 5, '0'),
         ]);

@@ -47,11 +47,13 @@
       @searched="searched"
       @searching="searching"
     />
+    <!-- {{ customers.data }} <br>
+    {{ customers.total }} -->
     <transition name="fade" mode="out-in" v-if="is_searching">
-      <spinner />
+      <spinner></spinner>
     </transition>
-    <transition name="fade" mode="out-in" v-else-if="customers.data && Object.keys(customers.data).length > 0">
-    <customers-table 
+    <transition name="fade" mode="out-in" v-else-if="customers.data && customers.total > 0">
+      <customers-table 
         class="d-none d-lg-block"
         :customers="customers"
         :permissions="permissions"
@@ -59,7 +61,7 @@
         @customerDelete="customerDelete = true"
       />
     </transition>
-    <transition name="fade" mode="out-in" v-else-if="customers.data && Object.keys(customers.data).length == 0">
+    <transition name="fade" mode="out-in" v-else-if="customers.data && customers.total == 0">
       <div class="alert alert-warning fade show mt-3 mx-3 text-center" role="alert">
         <span class="font-weight-bold">
           No se han encontrado resultados, por favor, haga una nueva búsqueda
