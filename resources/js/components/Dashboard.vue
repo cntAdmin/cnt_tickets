@@ -216,8 +216,8 @@ export default {
                 this.ticketStatuses = res.data.ticket_statuses;
                 this.topCustomerTickets = res.data.top_customer_tickets;
                 this.activeCustomers = res.data.customers_active;
-                console.log('activeCustomers');
-                console.log(this.activeCustomers);
+                // console.log('activeCustomers');
+                // console.log(this.activeCustomers);
             }).finally( () =>{
 
                 // Top clientes con más tickets - BarChart
