@@ -12,11 +12,21 @@
     
     <form @submit.prevent="handleSubmit" class="form-inline">
       <input type="hidden" name="_token" :value="csrf">
-      
+    
+      <div class="col-12 d-flex mb-1">
+        <div class="ml-auto d-flex flex-wrap">
+          <button class="btn btn-sm btn-success text-uppercase mr-2 mt-2" :disabled="sending ? true : false" >
+            {{ buttonText }}
+          </button>
+
+          <a href="/ticket" class="btn btn-sm btn-primary text-white mt-2">
+            <i class="text-white fa fa-arrow-left mr-2"></i>Volver al listado
+          </a>
+        </div>
+      </div>
+
       <div class="col-12 mb-3" v-if="editable">
-        <button class="btn btn-sm btn-primary btn-block" :disabled="sending ? true : false" >
-          {{ buttonText }}
-        </button>
+        
       </div>
 
       <customers-dropdown-select
@@ -257,10 +267,21 @@
         <sub>(max. 25MB)</sub>
       </div>
 
-      <div class="col-12 mt-3" v-if="editable">
+      <!-- <div class="col-12 mt-3" v-if="editable">
         <button class="btn btn-sm btn-primary btn-block" :disabled="sending ? true : false" >
           {{ buttonText }}
         </button>
+      </div> -->
+      <div class="col-12 d-flex mb-1">
+        <div class="ml-auto d-flex flex-wrap">
+          <button class="btn btn-sm btn-success text-uppercase mr-2 mt-2" :disabled="sending ? true : false" >
+            {{ buttonText }}
+          </button>
+
+          <a href="/ticket" class="btn btn-sm btn-primary text-white mt-2">
+            <i class="text-white fa fa-arrow-left mr-2"></i>Volver al listado
+          </a>
+        </div>
       </div>
     </form>
   </div>

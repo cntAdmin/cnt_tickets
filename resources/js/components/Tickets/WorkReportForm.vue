@@ -24,19 +24,57 @@
     </div>
 
     <form @submit.prevent="handleSubmit" class="form-inline" enctype="multipart/form-data">
-      <input type="hidden" name="_token" :value="csrf">
 
-      <div class="col-12 mb-3" v-if="editable">
-        <button class="btn btn-sm btn-primary btn-block">
-          {{ buttonText }}
-        </button>
+      <div class="col-12 d-flex mb-4">
+        <div class="ml-auto d-flex flex-wrap">
+  
+          <button class="btn btn-sm btn-success text-uppercase mr-2 mt-2" v-if="editable">
+            {{ buttonText }}
+          </button>
+  
+          <signature-modal
+            v-if="signatureModal"
+            type="new"
+            :ticket_id="ticket.id"
+            @firmaEnviadaPorModal="pushSignature"
+          />
+          <button
+            type="button"
+            class="btn btn-sm btn-info text-white mr-2 mt-2"
+            title="Firma Digital"
+            data-toggle="modal"
+            data-target="#signatureModal"
+            @click="signatureModal = true"
+          >
+            Firmar
+          </button>
+  
+          <ticket-timeslots-modal
+            v-if="ticketTimeslotModal"
+            type="new"
+            :ticket_id="ticket.id"
+            @close="pushTimeslots"
+          />
+          <button
+            type="button"
+            class="btn btn-sm btn-warning mr-2 mt-2"
+            title="Registrar horas"
+            data-toggle="modal"
+            data-target="#ticketTimeslotsModal"
+            @click="ticketTimeslotModal = true"
+          >
+            Registrar horas
+          </button>
+  
+          <a href="/ticket" class="btn btn-sm btn-primary text-white mt-2">
+            <i class="text-white fa fa-arrow-left mr-2"></i>Volver al listado
+          </a>
+        </div>
       </div>
 
-      <customers-dropdown-select
-        :customer="ticket.customer"
-        :editable="editable ? true : false"
-        @setCustomer="setCustomer"
-      />
+      <input type="hidden" name="_token" :value="csrf">
+
+      <customers-dropdown-select :customer="ticket.customer" :editable="editable ? true : false" @setCustomer="setCustomer"/>
 
       <div class="col-12 col-md-6 col-lg-4 mt-2">
         <div class="input-group">
@@ -196,10 +234,57 @@
         <input class="form-control w-100" type="file" @change="uploadFile" multiple/>
         <sub>(max. 25MB)</sub>
       </div>
-      <div class="col-12 mt-3" v-if="editable">
+
+      <!-- <div class="col-12 mt-3" v-if="editable">
         <button class="btn btn-sm btn-primary btn-block">
           {{ buttonText }}
         </button>
+      </div> -->
+      <div class="col-12 d-flex">
+        <div class="ml-auto d-flex flex-wrap">
+  
+          <button class="btn btn-sm btn-success text-uppercase mr-2 mt-2" v-if="editable">
+            {{ buttonText }}
+          </button>
+  
+          <signature-modal
+            v-if="signatureModal"
+            type="new"
+            :ticket_id="ticket.id"
+            @firmaEnviadaPorModal="pushSignature"
+          />
+          <button
+            type="button"
+            class="btn btn-sm btn-info text-white mr-2 mt-2"
+            title="Firma Digital"
+            data-toggle="modal"
+            data-target="#signatureModal"
+            @click="signatureModal = true"
+          >
+            Firmar
+          </button>
+  
+          <ticket-timeslots-modal
+            v-if="ticketTimeslotModal"
+            type="new"
+            :ticket_id="ticket.id"
+            @close="pushTimeslots"
+          />
+          <button
+            type="button"
+            class="btn btn-sm btn-warning mr-2 mt-2"
+            title="Registrar horas"
+            data-toggle="modal"
+            data-target="#ticketTimeslotsModal"
+            @click="ticketTimeslotModal = true"
+          >
+            Registrar horas
+          </button>
+  
+          <a href="/ticket" class="btn btn-sm btn-primary text-white mt-2">
+            <i class="text-white fa fa-arrow-left mr-2"></i>Volver al listado
+          </a>
+        </div>
       </div>
     </form>
   </div>
