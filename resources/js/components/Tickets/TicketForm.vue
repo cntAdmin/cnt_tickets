@@ -25,9 +25,9 @@
         </div>
       </div>
 
-      <div class="col-12 mb-3" v-if="editable">
+      <!-- <div class="col-12 mb-3" v-if="editable">
         
-      </div>
+      </div> -->
 
       <customers-dropdown-select
         :customer="ticket.customer"
@@ -41,13 +41,13 @@
           <div class="input-group-prepend">
             <div class="input-group-text py-1">Usuarios</div>
           </div>
-          <select
-            v-model="ticket.user_id"
-            class="form-control"
+          <select 
+            v-model="ticket.user_id" 
+            class="form-control" 
             :disabled="!editable ? true : false"
           >
-            <option
-              :value="ticket.user_id"
+            <option 
+              :value="ticket.user_id" 
               v-if="Object.keys(users).length === 0"
             >
               {{ ticket.user ? ticket.user.name : "" }}
@@ -60,7 +60,6 @@
       </div>
 
       <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="admins.includes(userRole)">
-        <label class="sr-only" for="agent_id">Asignar a</label>
         <div class="input-group">
           <div class="input-group-prepend">
             <div class="input-group-text py-1">Asignar a</div>
@@ -84,7 +83,6 @@
       </div>
 
       <div class="col-12 col-md-6 col-lg-4 mt-2" v-if="type !== 'new'">
-        <label class="sr-only" for="ticket_id">ID</label>
         <div class="input-group">
           <div class="input-group-prepend">
             <div class="input-group-text py-1">ID</div>
@@ -94,7 +92,6 @@
       </div>
 
       <div class="col-12 col-md-6 col-lg-4 mt-2">
-        <label class="sr-only" for="ticket_id">Departamento</label>
         <div class="input-group">
           <div class="input-group-prepend">
             <div class="input-group-text py-1">Departamento</div>

@@ -293,6 +293,8 @@
 <script>
 import CustomersDropdownSelect from "../CustomersDropdownSelect.vue";
 import FormErrors from "../FormErrors.vue";
+import SignatureModal from "../SignatureModal.vue";
+
 import {
   Toolbar,
   Image,
@@ -305,7 +307,7 @@ export default {
   provide: {
     richtexteditor: [Toolbar, Image, Link, HtmlEditor, QuickToolbar],
   },
-  components: { CustomersDropdownSelect, FormErrors },
+  components: { CustomersDropdownSelect, FormErrors, SignatureModal },
   props: [
     "customer",
     "ticket",
@@ -382,6 +384,8 @@ export default {
         ],
       },
       check_send_email: false,
+      signatureModal: false,
+      ticketTimeslotModal: false,
       send_email: '',
     };
   },
@@ -432,6 +436,7 @@ export default {
     closeAll() {
       this.success.status = false;
       this.error.status = false;
+      this.ticketTimeslotModal = false;
     },
     uploadFile(e) {
       this.files = e.target.files;

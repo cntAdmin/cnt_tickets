@@ -8,8 +8,7 @@
           </div>
           <div class="ml-auto">
 
-            <!-- MODAL DE FIRMA -->
-            <button
+            <!-- <button
               v-if="ticket.ticket_type.id === 2"
               type="button"
               class="btn btn-sm btn-info text-white"
@@ -25,9 +24,6 @@
               :ticket_id="ticket.id"
               @firmaEnviadaPorModal="pushSignature"
             />
-
-
-            <!-- MODAL REGISTRO DE HORAS TRABAJO -->
             <button
               v-if="ticket.ticket_type.id === 2"
               type="button"
@@ -44,11 +40,8 @@
               :ticket_id="ticket.id"
               @close="pushTimeslots"
             />
-
-            <!-- VER INCIDENCIA -->
             <a :href="`/ticket/${ticket.id}`" class="btn btn-sm btn-success">Ver Incidencia</a>
-            <!-- VOLVER LISTADO DE INCIDENCIAS -->
-            <a :href="`/ticket`" class="btn btn-sm btn-info text-white">Volver al listado</a>
+            <a :href="`/ticket`" class="btn btn-sm btn-info text-white">Volver al listado</a> -->
           </div>
         </div>
       </div>
@@ -88,19 +81,20 @@
 <script>
 import Attachments from "../Attachments/Attachments.vue";
 import TicketForm from "./TicketForm.vue";
-import TicketTimeslotsModal from "./TicketTimeslotsModal.vue";
+// import TicketTimeslotsModal from "./TicketTimeslotsModal.vue";
 import WorkReportForm from "./WorkReportForm.vue";
-import SignatureModal from "../SignatureModal.vue";
+// import SignatureModal from "../SignatureModal.vue";
 
 export default {
-  components: { TicketForm, Attachments, TicketTimeslotsModal, WorkReportForm, SignatureModal },
+  // components: { TicketForm, Attachments, TicketTimeslotsModal, WorkReportForm, SignatureModal },
+  components: { TicketForm, Attachments, WorkReportForm },
   props: ["ticket", "userRole"],
   data() {
     return {
-      ticketTimeslotModal: false,
+      // ticketTimeslotModal: false,
       timeslots: [],
       attachments: [],
-      signatureModal: false,
+      // signatureModal: false,
       ticketSignature: null,
     };
   },
@@ -110,17 +104,17 @@ export default {
   },
   methods: {
     closeAll() {
-      this.ticketTimeslotModal = false;
+      // this.ticketTimeslotModal = false;
     },
-    pushTimeslots(data) {
-      this.closeAll();
-      this.timeslots.push({
-        start_date_time_picker: data.start_date_time,
-        end_date_time_picker: null,
-        work_time: data.work_time,
-        inserted: 0,
-      });
-    },
+    // pushTimeslots(data) {
+    //   this.closeAll();
+    //   this.timeslots.push({
+    //     start_date_time_picker: data.start_date_time,
+    //     end_date_time_picker: null,
+    //     work_time: data.work_time,
+    //     inserted: 0,
+    //   });
+    // },
     deletedTimeslots(data) {
       this.timeslots = this.timeslots.filter(
         (timeslot) => timeslot.id !== data.id
@@ -132,24 +126,21 @@ export default {
         (attachment) => attachment.id !== id
       );
     },
-    reloadTicket(data) {
-      this.closeAll();
-      axios
-        .get(`/api/ticket/${this.ticket}`)
-        .then((res) => {
-          this.ticket = res.data.ticket;
-        })
-        .catch((error) => console.log(error.response.data));
-    },
+    // reloadTicket(data) {
+    //   this.closeAll();
+    //   axios.get(`/api/ticket/${this.ticket}`).then((res) => {
+    //     this.ticket = res.data.ticket;
+    //   }).catch((error) => console.log(error.response.data));
+    // },
     redirectToTicket() {
       window.location = `/ticket/${this.ticket.id}`;
     },
     ticketUpdated() {
       window.location = "/ticket";
     },
-    pushSignature(data){ 
-      this.ticketSignature = data;
-    } 
+    // pushSignature(data){ 
+    //   this.ticketSignature = data;
+    // } 
   },
 };
 </script>

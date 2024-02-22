@@ -27,6 +27,17 @@
             <div class="col-12 align-items-center">
               <a
                 class="dropdown-item d-inline-flex"
+                href="/dashboard"
+              >
+                <div class="col-2 text-right">
+                  <i class="fa fa-info"></i>
+                </div>
+                <div class="col-10 text-left">Dashboard</div>
+              </a>
+            </div>
+            <div class="col-12 align-items-center">
+              <a
+                class="dropdown-item d-inline-flex"
                 href="/customer"
                 v-if="permissions.find((permission) => permission.name == 'customer.show')">
                 <div class="col-2 text-right">
