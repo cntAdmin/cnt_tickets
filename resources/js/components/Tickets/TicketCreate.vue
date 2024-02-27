@@ -63,7 +63,7 @@
         :userRole="userRole"
         @success="ticketCreated"
       />
-      <work-report-form
+      <!-- <work-report-form
         v-else-if="ticketType.id === 2"
         buttonText="Crear Parte de Trabajo"
         type="new"
@@ -77,6 +77,21 @@
         :userRole="userRole"
         @created="ticketCreated"
         @deleted="deleteTimeslots"
+      /> -->
+      <work-report-form
+        v-else-if="ticketType.id === 2"
+        buttonText="Crear Parte de Trabajo"
+        type="new"
+        :customer="customer ? customer : null"
+        :work-report="workReport"
+        :ticket="ticket"
+        :ticketType="ticketType"
+        :timeslots="timeslots"
+        :editable="true"
+        :userRole="userRole"
+        :customerSign="ticketSignature"
+        @created="ticketCreated"
+        @deleted="deleteTimeslots"
       />
     </div>
   </div>
@@ -84,17 +99,18 @@
 
 <script>
 import TicketForm from "./TicketForm.vue";
-import TicketTimeslotsModal from "./TicketTimeslotsModal.vue";
 import WorkReportForm from "./WorkReportForm.vue";
-import SignatureModal from "../SignatureModal.vue";
+// import SignatureModal from "../SignatureModal.vue";
+// import TicketTimeslotsModal from "./TicketTimeslotsModal.vue";
 
 export default {
-  components: { TicketForm, WorkReportForm, TicketTimeslotsModal, SignatureModal },
+  // components: { TicketForm, WorkReportForm, TicketTimeslotsModal, SignatureModal },
+  components: { TicketForm, WorkReportForm },
   props: ["customer", "ticketType", "userRole"],
   data() {
     return {
-      ticketTimeslotModal: false,
-      signatureModal: false,
+      // ticketTimeslotModal: false,
+      // signatureModal: false,
       timeslots: [],
       workReport: {
         customer: {},
@@ -112,15 +128,15 @@ export default {
   mounted() {
   },
   methods: {
-    pushTimeslots(data) {
-      this.timeslots.push({
-        id: Math.random().toString(36).substring(7),
-        start_date_time_picker: data.start_date_time,
-        end_date_time_picker: null,
-        work_time: data.work_time,
-        inserted: 0,
-      });
-    },
+    // pushTimeslots(data) {
+    //   this.timeslots.push({
+    //     id: Math.random().toString(36).substring(7),
+    //     start_date_time_picker: data.start_date_time,
+    //     end_date_time_picker: null,
+    //     work_time: data.work_time,
+    //     inserted: 0,
+    //   });
+    // },
     deleteTimeslots(data) {
       this.timeslots = this.timeslots.filter(
         (timeslot) => timeslot.id !== data.id

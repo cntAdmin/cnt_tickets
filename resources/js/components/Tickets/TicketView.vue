@@ -8,7 +8,7 @@
               <span class="font-weight-bold">{{ ticket.id }}</span><span class="ml-2">({{ ticket.created_at | moment("DD-MM-YYYY HH:mm:ss") }})</span>
             </span>
           </div>
-          <div class="ml-auto">
+          <!-- <div class="ml-auto">
             <a v-if="permissions.find((permission) => permission.name == 'ticket.update') && ticket.is_signed === 0"
               :href="`/ticket/${ticket.id}/editar`"
               class="btn btn-sm btn-warning"
@@ -33,7 +33,7 @@
               class="btn btn-sm btn-info text-white"
               >Volver al listado</a
             >
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="card-body">
@@ -99,20 +99,14 @@ export default {
   },
   methods: {
     getTicketAttachments() {
-      axios
-        .get(`/api/ticket/${this.ticket.id}/attachment`)
-        .then((res) => {
-          this.attachments = res.data.attachments;
-        })
-        .catch((err) => console.log(err.response.data));
+      axios.get(`/api/ticket/${this.ticket.id}/attachment`).then((res) => {
+        this.attachments = res.data.attachments;
+      }).catch((err) => console.log(err.response.data));
     },
     getTicketComments() {
-      axios
-        .get(`/api/ticket/${this.ticket.id}/comment`)
-        .then((res) => {
-          this.comments = res.data.comments;
-        })
-        .catch((err) => console.log(err.response.data));
+      axios.get(`/api/ticket/${this.ticket.id}/comment`).then((res) => {
+        this.comments = res.data.comments;
+      }).catch((err) => console.log(err.response.data));
     },
   },
 };

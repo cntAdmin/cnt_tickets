@@ -32,6 +32,7 @@
             {{ buttonText }}
           </button>
   
+          <!-- Modal de firma -->
           <signature-modal
             v-if="signatureModal"
             type="new"
@@ -49,6 +50,7 @@
             Firmar
           </button>
   
+          <!-- Modal de horas -->
           <ticket-timeslots-modal
             v-if="ticketTimeslotModal"
             type="new"
@@ -247,12 +249,12 @@
             {{ buttonText }}
           </button>
   
-          <signature-modal
+          <!-- <signature-modal
             v-if="signatureModal"
             type="new"
             :ticket_id="ticket.id"
             @firmaEnviadaPorModal="pushSignature"
-          />
+          /> -->
           <button
             type="button"
             class="btn btn-sm btn-info text-white mr-2 mt-2"
@@ -264,12 +266,12 @@
             Firmar
           </button>
   
-          <ticket-timeslots-modal
+          <!-- <ticket-timeslots-modal
             v-if="ticketTimeslotModal"
             type="new"
             :ticket_id="ticket.id"
             @close="pushTimeslots"
-          />
+          /> -->
           <button
             type="button"
             class="btn btn-sm btn-warning mr-2 mt-2"
@@ -294,6 +296,8 @@
 import CustomersDropdownSelect from "../CustomersDropdownSelect.vue";
 import FormErrors from "../FormErrors.vue";
 import SignatureModal from "../SignatureModal.vue";
+import TicketTimeslotsModal from "./TicketTimeslotsModal.vue";
+// import SignatureModal from "../SignatureModal.vue";
 
 import {
   Toolbar,
@@ -307,7 +311,7 @@ export default {
   provide: {
     richtexteditor: [Toolbar, Image, Link, HtmlEditor, QuickToolbar],
   },
-  components: { CustomersDropdownSelect, FormErrors, SignatureModal },
+  components: { CustomersDropdownSelect, FormErrors, TicketTimeslotsModal, SignatureModal },
   props: [
     "customer",
     "ticket",
@@ -316,7 +320,7 @@ export default {
     "type",
     "ticketType",
     "timeslots",
-    "customerSign",
+    // "customerSign",
   ],
   data() {
     return {
@@ -386,6 +390,7 @@ export default {
       check_send_email: false,
       signatureModal: false,
       ticketTimeslotModal: false,
+      ticketSignature: null ,
       send_email: '',
     };
   },
@@ -501,8 +506,10 @@ export default {
           formData.append("title", this.ticket.title);
         if (this.ticket.description)
           formData.append("description", this.ticket.description);
-        if(this.customerSign)
-          formData.append("signature", this.customerSign);
+        // if(this.customerSign)
+        //   formData.append("signature", this.customerSign);
+        if(this.ticketSignature)
+          formData.append("signature", this.ticketSignature);
 
         this.check_send_email == true ? 
             this.send_email = 'si' : 
@@ -510,6 +517,10 @@ export default {
 
         formData.append("send_email", this.send_email);
 
+        // console.log(this.ticket);
+        // console.log(this.ticketEdit);
+        // return;
+        
         axios.post(`/api/ticket`, formData).then((res) => {
           $("html, body").animate({ scrollTop: 0 }, "slow");
           this.success = {
@@ -546,7 +557,8 @@ export default {
           // Finalizada la comprobación, metemos el array de fechas auxiliar en this.ticket.timeslots para cargarlos en BD sólo los nuevos
           this.ticket.timeslots = this.timeslots;
         }
-        this.ticket.signature = this.customerSign;
+        // this.ticket.signature = this.customerSign;
+        this.ticket.signature = this.ticketSignature;
 
 
         // Por alguna razón, si enviamos this.ticket por POST tira un error de csrf token missmatch
@@ -592,9 +604,8 @@ export default {
         this.ticketEdit.user_id = this.ticket.user_id;
         this.ticketEdit.warranty_id = this.ticket.warranty_id;
 
-        console.log(this.ticket);
-        console.log(this.ticketEdit);
-
+        // console.log(this.ticket);
+        // console.log(this.ticketEdit);
         // return;
 
         // axios.patch(`/api/ticket/${this.ticket.id}`, this.ticket)
@@ -648,6 +659,18 @@ export default {
         this.users = res.data.users;
       });
     },
+    pushTimeslots(data) {
+      this.closeAll();
+      this.timeslots.push({
+        start_date_time_picker: data.start_date_time,
+        end_date_time_picker: null,
+        work_time: data.work_time,
+        inserted: 0,
+      });
+    },
+    pushSignature(data){ 
+      this.ticketSignature = data;
+    } 
   },
   watch: {
     timeslots() {

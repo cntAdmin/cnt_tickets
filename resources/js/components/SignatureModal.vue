@@ -31,31 +31,25 @@
         <!-- MODAL BODY -->
         <section class="modal-body">
           <slot name="body">
-            <form
-              @submit.prevent="addSignature"
-              id="signpicker"
-              class="form-inline w-100"
-            >
+            <form @submit.prevent="addSignature" id="signpicker" class="form-inline w-100">
               <div class="col-12 mt-2">
-                  <div class="input-group">
-                      <div class="input-group-text d-none d-lg-block py-1">Firma Digital</div>
-                  </div>
-                  <div class="w-100">
-                    <VueSignaturePad
-                      id="signature"
-                      ref="signaturePad"
-                      width="250px"
-                      height="250px"
-                      class="form-control p-0"
-                    />
-                  </div>
-                  <div>
-                      <button 
-                          class="btn btn-sm btn-primary"
-                          @click.prevent="cleanSign">Limpiar firma
-                      </button>
-                  </div>
-                  
+                <div class="input-group">
+                  <div class="input-group-text d-none d-lg-block py-1">Firma Digital</div>
+                </div>
+                <div class="w-100">
+                  <VueSignaturePad
+                    id="signature"
+                    ref="signaturePad"
+                    width="250px"
+                    height="250px"
+                    class="form-control p-0"
+                  />
+                </div>
+                <div>
+                  <button class="btn btn-sm btn-primary" @click.prevent="cleanSign">
+                    Limpiar firma
+                  </button>
+                </div>
               </div>
             </form>
           </slot>
